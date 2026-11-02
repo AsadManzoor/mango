@@ -35,30 +35,33 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 .num{font-variant-numeric:tabular-nums}
 
 /* ============ SPLASH ============ */
-#splash{position:fixed;inset:0;z-index:200;background:var(--night);display:grid;place-items:center;overflow:hidden;transition:opacity .5s var(--ease),transform .5s var(--ease)}
+#splash{position:fixed;inset:0;z-index:200;background:var(--night);display:grid;place-items:center;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0 38%,#000 62% 100%);mask-image:linear-gradient(180deg,transparent 0 38%,#000 62% 100%);
+  -webkit-mask-size:100% 300%;mask-size:100% 300%;-webkit-mask-position:0 100%;mask-position:0 100%}
 #splash:before{content:"";position:absolute;inset:0;background:var(--tone)}
-#splash.open{opacity:0;transform:scale(1.04);pointer-events:none}
+#splash.go{animation:wipe 1.25s .12s cubic-bezier(.65,0,.35,1) forwards;pointer-events:none}
 #splash.gone{display:none}
-.skip{position:absolute;right:16px;top:14px;z-index:6;background:transparent;border:2px solid var(--line);color:var(--mute);border-radius:99px;padding:6px 14px;font-size:14px}
-.ink{position:absolute;inset:0;z-index:5;background:var(--night);display:grid;place-items:center;animation:inkout .7s 1.9s var(--ease) forwards}
-.ink p{font:600 clamp(18px,3.4vw,30px)/1.4 var(--serif);color:var(--blood);margin:0;padding:0 24px;text-align:center;animation:flick 1.8s steps(1) forwards}
-@keyframes flick{0%{opacity:0}8%{opacity:1}14%{opacity:.1}20%{opacity:1}34%{opacity:.2}40%,80%{opacity:1}90%{opacity:.3}100%{opacity:1}}
-@keyframes inkout{to{opacity:0;visibility:hidden}}
-.s-inner{position:relative;z-index:2;text-align:center;padding:20px;display:grid;justify-items:center;gap:6px}
-.s-arch{position:relative;width:min(300px,62vw);aspect-ratio:3/4;border:3px solid var(--rose);border-radius:999px 999px 14px 14px;background:radial-gradient(circle at 50% 38%,#6a2850,#2a1424 70%);overflow:hidden;opacity:0;animation:rise .9s 2.2s var(--ease) forwards}
-.s-arch img{position:absolute;left:50%;bottom:-2px;height:92%;width:auto;transform:translateX(-50%);filter:drop-shadow(0 0 20px rgba(255,150,190,.5));animation:bob 3s 3.2s ease-in-out infinite}
-.s-moon{position:absolute;left:16%;top:18%;width:18%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7fa,#ffc2d8)}
-.s-title{font:800 clamp(40px,8.2vw,84px)/1 var(--serif);margin:14px 0 0;color:var(--rose);opacity:0;animation:stamp .6s 2.5s var(--ease) forwards}
+@keyframes wipe{to{-webkit-mask-position:0 0;mask-position:0 0}}
+.skip{position:absolute;right:16px;top:14px;z-index:6;background:transparent;border:2px solid var(--line);color:var(--mute);border-radius:99px;padding:6px 14px;font-size:14px;transition:border-color .16s var(--ease),transform .16s var(--ease)}
+.skip:active{transform:scale(.97)}
+.s-inner{position:relative;z-index:2;text-align:center;padding:20px;display:grid;justify-items:center;gap:10px;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+#splash.go .s-inner{opacity:0;transform:translateY(-18px)}
+.s-stage{position:relative;width:min(300px,64vw);aspect-ratio:572/900;max-height:56vh}
+.s-glow{position:absolute;left:50%;top:44%;width:120%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.3);border-radius:50%;background:radial-gradient(circle,rgba(255,150,190,.55),rgba(212,24,58,.18) 50%,transparent 70%);opacity:0;animation:glow 1s .15s var(--ease) forwards}
+@keyframes glow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.s-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:translateY(46px) scale(.45);filter:drop-shadow(0 0 22px rgba(255,150,190,.55));animation:pop .85s .25s cubic-bezier(.34,1.56,.64,1) forwards,bob3 2.6s 1.2s ease-in-out infinite}
+@keyframes pop{to{opacity:1;transform:none}}
+@keyframes bob3{50%{transform:translateY(-7px)}}
+.s-title{font:800 clamp(30px,6.4vw,62px)/1 var(--serif);margin:6px 0 0;color:var(--rose);opacity:0;animation:stamp .55s 1s var(--ease) forwards}
 .s-title .x{color:var(--blood);display:inline-block;margin:0 .1em}
 .s-title .w2{color:var(--blood)}
-.s-sub{margin:0;color:var(--mute);font-weight:500;opacity:0;animation:fade .5s 2.9s forwards}
-.s-btn{margin-top:12px;opacity:0;animation:fade .5s 3.1s forwards}
-@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
-@keyframes stamp{from{opacity:0;transform:scale(1.5) rotate(2deg)}to{opacity:1;transform:none}}
+.s-sub{margin:0;color:var(--mute);font-weight:500;opacity:0;animation:fade .5s 1.35s forwards}
+@keyframes stamp{from{opacity:0;transform:scale(1.4) rotate(2deg)}to{opacity:1;transform:none}}
 @keyframes fade{to{opacity:1}}
 @keyframes bob{50%{transform:translateX(-50%) translateY(-6px)}}
-.petal{position:absolute;top:-30px;width:14px;height:10px;border-radius:70% 0 70% 0;animation:fall linear infinite;opacity:.85;z-index:1}
-@keyframes fall{to{transform:translateY(112vh) rotate(420deg)}}
+#rain{position:fixed;inset:0;z-index:210;pointer-events:none;overflow:hidden}
+#rain i{position:absolute;top:-40px;border-radius:70% 0 70% 0;opacity:0;animation:rain linear forwards}
+@keyframes rain{0%{opacity:0;transform:translate3d(0,0,0) rotate(0)}10%{opacity:.95}100%{opacity:.95;transform:translate3d(var(--sx),112vh,0) rotate(var(--rot))}}
 
 /* ============ BUTTONS ============ */
 .btn{display:inline-block;font:700 17px/1 var(--sans);padding:15px 26px;text-decoration:none;border:2px solid var(--rose);border-radius:4px;transition:transform .16s var(--ease),background .16s var(--ease),color .16s var(--ease)}
@@ -168,7 +171,7 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .chip.on{background:var(--rose);color:var(--night)}
 .chip:active{transform:scale(.97)}
 @media(hover:hover) and (pointer:fine){.chip:hover{background:var(--plum2)}.chip.on:hover{background:var(--rose)}}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;align-items:center}.fsep{width:2px;height:22px;background:var(--line);margin:0 4px}
 
 /* arch cards: memories, posters, travel */
 .thumb{display:block;width:100%;height:auto;object-fit:cover;background:var(--plum2);opacity:0;filter:blur(5px);transition:opacity .35s var(--ease),filter .35s var(--ease)}
@@ -218,8 +221,10 @@ footer.foot{text-align:center;padding:70px 20px 40px;color:var(--mute);font-weig
 footer.foot button{background:none;border:0;color:var(--rose);text-decoration:underline}
 
 /* ============ SUB-PAGE ============ */
-#view-page{max-width:1000px;margin:0 auto;padding:26px 24px 120px}
+#view-page{max-width:1000px;margin:0 auto;padding:18px 24px 120px}
 #view-page[hidden],#view-main[hidden]{display:none}
+.backbar{position:sticky;top:calc(var(--hh,64px) + 8px);z-index:30;pointer-events:none;height:0;overflow:visible}
+.backbar .back{pointer-events:auto;background:var(--night);position:relative;top:0}
 .back{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--rose);color:var(--rose);background:transparent;padding:8px 18px;border-radius:99px;font-weight:700;text-decoration:none;transition:background .16s var(--ease),transform .16s var(--ease)}
 .back:active{transform:scale(.97)}
 @media(hover:hover) and (pointer:fine){.back:hover{background:var(--plum2)}}
@@ -244,6 +249,20 @@ h1.pg-title{font-size:clamp(36px,6.2vw,74px);line-height:1.04;color:var(--rose);
 .blocks hr{border:0;border-top:2px dashed var(--line);margin:34px 0}
 .blocks pre{background:var(--plum);border:2px solid var(--line);border-radius:6px;padding:14px;overflow:auto;font-size:14px}
 .blocks code{background:var(--plum2);padding:1px 6px;border-radius:4px;font-size:.92em}
+.mention{display:inline-flex;align-items:center;gap:6px;padding:0 9px;border:1.5px solid var(--line);border-radius:6px;background:var(--plum2);color:var(--paper);text-decoration:none;font-weight:700;font-size:.95em;line-height:1.55;transition:border-color .16s var(--ease),transform .16s var(--ease);overflow-wrap:anywhere}
+.blocks a.mention{color:var(--paper)}
+a.mention:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){a.mention:hover{border-color:var(--rose)}}
+.mention.page:before{content:"";flex:none;width:8px;height:11px;border:2px solid var(--rose);border-radius:6px 6px 1px 1px}
+.mention img{width:16px;height:16px;border-radius:3px;flex:none}
+.mention .pv{font-weight:500;color:var(--mute);font-size:.85em}
+.mention.date,.mention.user{border-style:dashed;font-weight:500}
+.dbr{display:flex;align-items:center;gap:16px;text-decoration:none;max-width:420px;border:2px dashed var(--rose);border-radius:14px;padding:12px 16px;background:var(--plum);transition:transform .2s var(--ease),border-color .2s var(--ease)}
+.dbr img{width:96px;height:auto;flex:none;animation:bob2 2.8s ease-in-out infinite}
+.dbr b{font:800 20px/1.2 var(--serif);color:var(--rose);display:block}
+.dbr small{color:var(--mute);font-size:14px}
+.dbr:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){.dbr:hover{border-style:solid;transform:translateY(-3px)}}
 .callout{display:flex;gap:12px;background:var(--plum);border:2px solid var(--line);border-radius:8px;padding:14px 16px;max-width:68ch}
 .callout .ic{flex:none;font-size:22px;line-height:1.3}
 .cols{display:grid;gap:14px;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));align-items:start}
@@ -290,7 +309,7 @@ dialog#lightbox::backdrop{background:rgba(10,4,8,.94)}
 /* ============ GAJA COMPANION ============ */
 #gaja{position:fixed;left:0;top:0;z-index:100;width:var(--gs,108px);pointer-events:none;opacity:0;transition:opacity .35s var(--ease);will-change:transform}
 body.ready #gaja.here{opacity:1}
-#gaja .body{pointer-events:auto;cursor:pointer;transform-origin:50% 90%;display:block;border:0;background:none;padding:0}
+#gaja .body{position:relative;z-index:1;pointer-events:auto;cursor:pointer;transform-origin:50% 90%;display:block;border:0;background:none;padding:0}
 #gaja img{width:100%;height:auto;display:block;filter:drop-shadow(0 0 14px rgba(255,150,190,.45));animation:bob2 2.8s ease-in-out infinite;user-select:none;-webkit-user-drag:none}
 @keyframes bob2{50%{transform:translateY(-6px) rotate(1deg)}}
 #gaja.hop .body{animation:hopin .7s var(--ease)}
@@ -302,11 +321,11 @@ body.ready #gaja.here{opacity:1}
 #bub:after{content:"";position:absolute;top:100%;left:50%;margin-left:-8px;border:8px solid transparent;border-top-color:var(--rose)}
 #bub.left{left:auto;right:30%;transform:translate(0,6px) scale(.92)}
 #bub.left.show{transform:none}
-#gaja.menu #bub{margin-bottom:60px}
-#menu{position:absolute;left:50%;bottom:62%;transform:translateX(-50%);display:flex;gap:8px;pointer-events:none}
-#menu button{pointer-events:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--rose);background:var(--night);color:var(--rose);display:grid;place-items:center;opacity:0;transform:translateY(16px) scale(.9);transition:transform .3s var(--ease),opacity .2s var(--ease),background .15s}
+#gaja.menu #bub{margin-bottom:58px}#bub{z-index:4}
+#menu{position:absolute;left:50%;bottom:100%;margin-bottom:4px;z-index:3;transform:translateX(-50%);display:flex;gap:8px;pointer-events:none}
+#menu button{pointer-events:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--rose);background:var(--night);color:var(--rose);display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(16px) scale(.9);transition:transform .3s var(--ease),opacity .2s var(--ease),background .15s,visibility 0s .3s}
 #menu svg{width:22px;height:22px}
-#gaja.menu #menu button{opacity:1;pointer-events:auto;transform:none}
+#gaja.menu #menu button{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:transform .3s var(--ease),opacity .2s var(--ease),background .15s,visibility 0s 0s}
 #gaja.menu #menu button:nth-child(2){transition-delay:.04s}#gaja.menu #menu button:nth-child(3){transition-delay:.08s}#gaja.menu #menu button:nth-child(4){transition-delay:.12s}
 @media(hover:hover) and (pointer:fine){#menu button:hover{background:var(--rose);color:var(--night)}}
 .fx{position:fixed;pointer-events:none;z-index:150;width:12px;height:8px;border-radius:70% 0 70% 0;animation:petalfx 1s var(--ease) forwards}
@@ -323,13 +342,10 @@ body.ready #gaja.here{opacity:1}
 <!-- SPLASH -->
 <div id="splash" role="dialog" aria-modal="true" aria-label="Welcome">
   <button class="skip" id="skip" type="button">Skip intro</button>
-  <div class="ink" aria-hidden="true"><p>…it was a quiet night in the house of horrors…</p></div>
-  <div class="petals" id="petals" aria-hidden="true"></div>
   <div class="s-inner">
-    <div class="s-arch"><span class="s-moon"></span><img src="assets/gaja.png" alt="Gaja" id="splashImg" width="572" height="900"></div>
+    <div class="s-stage"><span class="s-glow"></span><img src="assets/gaja.png" alt="Gaja" id="splashImg" width="572" height="900"></div>
     <p class="s-title" role="presentation">Mango Shake <span class="x">×</span> <span class="w2">Boy Wonder</span></p>
     <p class="s-sub">our plans, in chapters</p>
-    <button class="btn primary s-btn" id="open" type="button">Open the next chapter</button>
   </div>
 </div>
 
@@ -431,15 +447,17 @@ const idk=(s)=>String(s||'').replace(/-/g,'');
 const href=(i)=>`#/p/${idk(i.id)}`;
 function locate(id){id=idk(id);for(const k of LISTS){const f=((DATA&&DATA[k])||[]).find(x=>idk(x.id)===id);if(f)return{k,item:f}}return null}
 const tags=(a)=>(a||[]).map(t=>`<span class="tag ${esc(t)}">${esc(t)}</span>`).join('');
-const thumb=(i)=>i.cover?`<img class="thumb" src="${esc(i.cover)}" alt="" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-id="${esc(i.id)}">`:'';
+const extraCover={};let thumbsAt=0,thumbBusy=false;
+const coverOf=(i)=>i.cover||extraCover[idk(i.id)]||'';
+const thumb=(i)=>coverOf(i)?`<img class="thumb" src="${esc(coverOf(i))}" alt="" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-id="${esc(i.id)}">`:'';
 // fade photos in when they arrive; if a Notion-hosted link expired, try the freshest one once, then drop to the colour block
 document.addEventListener('load',e=>{const im=e.target;if(im instanceof HTMLImageElement&&im.classList.contains('thumb'))im.classList.add('ld')},true);
-document.addEventListener('error',e=>{const im=e.target;if(!(im instanceof HTMLImageElement)||!im.classList.contains('thumb'))return;
-  const f=locate(im.dataset.id);if(f&&f.item.cover&&f.item.cover!==im.getAttribute('src')&&!im.dataset.retried){im.dataset.retried='1';im.src=f.item.cover;return}
+document.addEventListener('error',e=>{const im=e.target;if(im instanceof HTMLImageElement&&im.classList.contains('mi')){im.remove();return}if(!(im instanceof HTMLImageElement)||!im.classList.contains('thumb'))return;
+  const f=locate(im.dataset.id);const fc=f&&coverOf(f.item);if(fc&&fc!==im.getAttribute('src')&&!im.dataset.retried){im.dataset.retried='1';im.src=fc;return}
   im.remove()},true);
 function settleThumbs(root){$$('img.thumb',root).forEach(im=>{if(im.complete&&im.naturalWidth)im.classList.add('ld')})}
 
-var DATA=null; let demo=false, lastSig='', calMonth=today0(), actFilter='All', selDay=null;
+var DATA=null; let demo=false, lastSig='', calMonth=today0(), actFilter='All', dbOnly=false, selDay=null;
 
 /* ============ RENDER ============ */
 function head(id,title,sub,meterHtml=''){return `<div class="ch-head reveal"><div><h2 id="h-${id}">${title}</h2>${sub?`<p class="sub">${sub}</p>`:''}</div>${meterHtml}</div>`}
@@ -480,19 +498,31 @@ function renderDates(){
     <div class="panel reveal"><div class="cal-head"><button type="button" data-m="-1" aria-label="Previous month">‹</button><b aria-live="polite">${esc(monthLabel)}</b><button type="button" data-m="1" aria-label="Next month">›</button></div><div class="cal">${cells}</div></div>
     <div class="panel reveal"><h3>${selDay?'That day <button type="button" class="chip" data-clear>Show upcoming</button>':'Coming up'}</h3>${li?`<ul class="upc">${li}</ul>`:'<div class="empty">Nothing planned yet… plot twist incoming?</div>'}</div></div>`;
 }
+function memPast(){return DATA.dates.filter(x=>x.date&&daysUntil(x.dateEnd||x.date)<0&&relTag(x)!=='Potential').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8)}
+async function loadThumbs(){
+  if(demo||!DATA)return;
+  const need=memPast().filter(e=>!e.cover).map(e=>idk(e.id));
+  if(!need.length)return;
+  if(thumbBusy||(Date.now()-thumbsAt<20*60*1000&&need.every(id=>id in extraCover)))return;
+  thumbBusy=true;thumbsAt=Date.now();
+  try{const r=await fetch('/api/thumbs?ids='+need.join(','));if(!r.ok)throw 0;const j=await r.json();
+    let changed=false;for(const [k,v] of Object.entries(j)){if(v&&extraCover[k]!==v){extraCover[k]=v;changed=true}else if(!(k in extraCover))extraCover[k]=''}
+    if(changed){renderMemories();observe();settleThumbs($('#memories'))}}catch(e){}
+  thumbBusy=false;
+}
 function renderMemories(){
-  const past=DATA.dates.filter(x=>x.date&&daysUntil(x.dateEnd||x.date)<0&&relTag(x)!=='Potential').sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);
+  const past=memPast();
   $('#memories').innerHTML=head('memories','Memory Lane','The dates we’ve already lived. Open one for the photos and the story.')+
    `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${past.map(e=>{const h=hue(e.name);return `<a class="arc mem reveal" href="${href(e)}" style="background-image:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}<div class="in"><div class="dt">${esc(rng(e))}</div><div class="t">${esc(e.name)}</div></div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
 }
 function renderActivities(){
   const A=DATA.activities, all=['All',...new Set(A.flatMap(a=>a.tags))];
-  const list=A.filter(a=>actFilter==='All'||a.tags.includes(actFilter));
+  const list=A.filter(a=>(actFilter==='All'||a.tags.includes(actFilter))&&(!dbOnly||a.hasDebrief));
   const groups=[['Must Do','st-must'],['Might Do','st-might'],['In progress','st-prog'],['Done','st-done']];
   const cols=groups.map(([g,cls])=>{const items=list.filter(a=>(a.status||'Must Do')===g);
     return `<div class="col"><h3 class="${cls}"><i></i><b style="color:var(--paper)">${g}</b> <span>${items.length}</span></h3>${items.map(a=>`<a class="card reveal" href="${href(a)}">${thumb(a)}<p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`).join('')||'<div class="empty">Nothing here</div>'}</div>`}).join('');
   const done=A.filter(a=>a.status==='Done').length;
-  $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`<div class="filters" role="group" aria-label="Filter activities">${all.map(f=>`<button type="button" class="chip${f===actFilter?' on':''}" aria-pressed="${f===actFilter}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}</div><div class="act-cols">${cols}</div>`;
+  $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`<div class="filters" role="group" aria-label="Filter activities">${all.map(f=>`<button type="button" class="chip${f===actFilter?' on':''}" aria-pressed="${f===actFilter}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}<span class="fsep" aria-hidden="true"></span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div><div class="act-cols">${cols}</div>`;
 }
 function renderTravel(){
   const T=DATA.travel;
@@ -523,7 +553,7 @@ function render(){
   renderTicket();renderDates();renderMemories();renderActivities();renderTravel();
   renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows);
   renderPosters('movies','The Screening Room','Movie nights, past and planned.',DATA.movies);
-  renderBooks();observe();settleThumbs(document);
+  renderBooks();observe();settleThumbs(document);loadThumbs();
 }
 
 /* ============ REVEAL + CHAPTER TRACKING ============ */
@@ -559,6 +589,7 @@ let firstRoute=false;
 async function load(){
   try{const r=await fetch('/api/notion',{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();if(j.error)throw 0;setData(j,false)}
   catch(e){if(!DATA)setData(DEMO,true)}
+  loadThumbs();
 }
 load();setInterval(load,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
@@ -569,6 +600,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.m){calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+Number(t.dataset.m),1);selDay=null;renderDates();observe();return}
   if(t.dataset.day){selDay=selDay===t.dataset.day?null:t.dataset.day;renderDates();observe();if(selDay)say('Tap a date to open its photos and notes.');return}
   if('clear' in t.dataset){selDay=null;renderDates();observe();return}
+  if('db' in t.dataset){dbOnly=!dbOnly;renderActivities();observe();settleThumbs($('#activities'));say(dbOnly?'Only the ones we wrote a debrief for.':'All activities again.');return}
   if(t.dataset.f){actFilter=t.dataset.f;renderActivities();observe();settleThumbs($('#activities'));say(actFilter==='All'?'Everything, everywhere.':`Just the “${actFilter}” ones.`);return}
 });
 
@@ -597,7 +629,7 @@ async function showPage(id){
   const my=++pageToken;
   vMain.hidden=true;vPage.hidden=false;window.scrollTo({top:0,behavior:'instant'});updateAway();
   const loc=locate(id), item=loc&&loc.item;
-  vPage.innerHTML=`<a class="back" href="#memories" data-back>‹ Back</a><div class="pg-head${item&&item.cover?'':' nocover'}" style="margin-top:28px">${item&&item.cover?`<div class="pg-cover"><img src="${esc(item.cover)}" alt="" referrerpolicy="no-referrer"></div>`:''}<div><h1 class="pg-title">${esc(item?item.name:'Loading…')}</h1></div></div><div class="blocks"><div class="skel" style="width:70%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:55%"></div></div>`;
+  vPage.innerHTML=`<div class="backbar"><a class="back" href="#memories" data-back>‹ Back</a></div><div style="height:44px"></div><div class="pg-head${item&&item.cover?'':' nocover'}" style="margin-top:28px">${item&&item.cover?`<div class="pg-cover"><img src="${esc(item.cover)}" alt="" referrerpolicy="no-referrer"></div>`:''}<div><h1 class="pg-title">${esc(item?item.name:'Loading…')}</h1></div></div><div class="blocks"><div class="skel" style="width:70%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:55%"></div></div>`;
   bindBack();
   if(demo){vPage.querySelector('.blocks').innerHTML=pgEmpty('Sub-pages need the live connection','This preview is showing demo data. On your real site, each item opens with its photos and notes from Notion.');return}
   try{
@@ -611,7 +643,20 @@ async function showPage(id){
 }
 function bindBack(){const b=$('[data-back]',vPage);if(b)b.addEventListener('click',e=>{e.preventDefault();goBack()})}
 const pgEmpty=(t,s)=>`<div class="pg-empty"><b>${esc(t)}</b>${esc(s)}</div>`;
-function rt(arr){return (arr||[]).map(r=>{let s=esc(r.t);if(r.c)s=`<code>${s}</code>`;if(r.b)s=`<strong>${s}</strong>`;if(r.i)s=`<em>${s}</em>`;if(r.s)s=`<s>${s}</s>`;if(r.u)s=`<u>${s}</u>`;if(r.h&&/^https?:\/\//i.test(r.h))s=`<a href="${esc(r.h)}" target="_blank" rel="noopener noreferrer">${s}</a>`;return s}).join('').replace(/\n/g,'<br>')}
+const nid=(u)=>{const m=String(u||'').replace(/-/g,'').match(/[0-9a-f]{32}/i);return m?m[0].toLowerCase():null};
+const isNotion=(u)=>/^https?:\/\/([\w-]+\.)?(notion\.so|notion\.site|notion\.com)\//i.test(u||'');
+function pageHref(id,url){const loc=id&&locate(id);if(loc)return{h:`#/p/${idk(id)}`,ext:false};return url?{h:url,ext:true}:null}
+function mention(r){
+  const m=r.m,title=esc(r.t||'Untitled');
+  if(m.k==='page'){const t=pageHref(m.id,r.h);return t?`<a class="mention page" href="${esc(t.h)}"${t.ext?' target="_blank" rel="noopener noreferrer"':''}>${title}${t.ext?' ↗':''}</a>`:`<span class="mention page">${title}</span>`}
+  if(m.k==='link'&&m.url&&/^https?:\/\//i.test(m.url)){
+    const pv=m.prov||host(m.url);
+    return `<a class="mention" href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">${m.icon?`<img class="mi" src="${esc(m.icon)}" alt="" width="16" height="16" referrerpolicy="no-referrer">`:''}<span>${title}</span><span class="pv">${esc(pv)}</span></a>`}
+  if(m.k==='date')return `<span class="mention date">${title}</span>`;
+  if(m.k==='user')return `<span class="mention user">${/^@/.test(r.t)?'':'@'}${title}</span>`;
+  return title;
+}
+function rt(arr){return (arr||[]).map(r=>{if(r.m){const x=mention(r);return r.b?`<strong>${x}</strong>`:x}let s=esc(r.t);if(r.c)s=`<code>${s}</code>`;if(r.b)s=`<strong>${s}</strong>`;if(r.i)s=`<em>${s}</em>`;if(r.s)s=`<s>${s}</s>`;if(r.u)s=`<u>${s}</u>`;if(r.h&&/^https?:\/\//i.test(r.h)){const t=isNotion(r.h)&&pageHref(nid(r.h),r.h);s=t&&!t.ext?`<a href="${esc(t.h)}">${s}</a>`:`<a href="${esc(r.h)}" target="_blank" rel="noopener noreferrer">${s}</a>`}return s}).join('').replace(/\n/g,'<br>')}
 const plainText=(arr)=>(arr||[]).map(r=>r.t).join('');
 function ytId(u){try{const x=new URL(u);if(x.hostname==='youtu.be')return x.pathname.slice(1);if(/youtube\.com$/.test(x.hostname)){if(x.pathname==='/watch')return x.searchParams.get('v');const m=x.pathname.match(/^\/(embed|shorts|live)\/([\w-]{6,})/);if(m)return m[2]}}catch(e){}return null}
 function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return u}}
@@ -640,7 +685,11 @@ function blockHtml(b){
     case 'code':return `<pre><code>${esc(plainText(b.text))}</code></pre>`;
     case 'to_do':return `<div class="todo"><i aria-hidden="true">${b.checked?'✓':''}</i><span>${rt(b.text)}</span></div>`;
     case 'toggle':return `<details class="tg"><summary>${rt(b.text)||'More'}</summary><div class="blocks">${blocksHtml(b.children||[])}</div></details>`;
-    case 'image':if(!b.url)return '';{const cap=plainText(b.caption);return `<figure class="photo"><button type="button" class="lb" data-src="${esc(b.url)}" data-cap="${esc(cap)}" aria-label="View photo larger${cap?': '+esc(cap):''}"><img class="thumb" src="${esc(b.url)}" alt="${esc(cap)}" loading="lazy" decoding="async" referrerpolicy="no-referrer"></button>${cap?`<figcaption>${rt(b.caption)}</figcaption>`:''}</figure>`}
+    case 'image':if(!b.url)return '';{const cap=plainText(b.caption);
+      const tgt=imageTarget(b,cap);
+      if(tgt)return `<a class="dbr" href="${esc(tgt.h)}"${tgt.ext?' target="_blank" rel="noopener noreferrer"':''}><img src="${esc(b.url)}" alt="" referrerpolicy="no-referrer" loading="lazy"><span><b>${esc(cap||'Open the debrief')}</b><small>${tgt.label}</small></span></a>`;
+      return `<figure class="photo"><button type="button" class="lb" data-src="${esc(b.url)}" data-cap="${esc(cap)}" aria-label="View photo larger${cap?': '+esc(cap):''}"><img class="thumb" src="${esc(b.url)}" alt="${esc(cap)}" loading="lazy" decoding="async" referrerpolicy="no-referrer"></button>${cap?`<figcaption>${rt(b.caption)}</figcaption>`:''}</figure>`}
+    case 'pagelink':{const t=pageHref(b.id,b.id?`https://www.notion.so/${idk(b.id)}`:null);if(!t)return '';const loc=locate(b.id);return `<p><a class="mention page" href="${esc(t.h)}"${t.ext?' target="_blank" rel="noopener noreferrer"':''}>${esc(loc?loc.item.name:'Open page')}${t.ext?' ↗':''}</a></p>`}
     case 'video':{if(!b.url)return '';const y=ytId(b.url);
       if(y)return `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(y)}" title="${esc(plainText(b.caption)||'Video')}" loading="lazy" allow="accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
       if(!b.external)return `<div class="video"><video controls playsinline preload="metadata" src="${esc(b.url)}"></video></div>`;
@@ -653,15 +702,32 @@ function blockHtml(b){
     default:return '';
   }
 }
+let curPage=null;
+// A linked image (e.g. the Gaja sticker under "Debrief") goes to the same page inside the wrapper.
+// Falls back to the Memory Lane date with the same name as the activity when Notion doesn't hand us the link.
+function imageTarget(b,cap){
+  let id=nid(b.link),url=b.link;
+  if(!id){for(const r of b.caption||[]){if(r.m&&r.m.k==='page'){id=nid(r.m.id);url=r.h;break}if(r.h&&isNotion(r.h)){id=nid(r.h);url=r.h;break}}}
+  const isDeb=curPage&&curPage.kind==='activities'&&/debrief/i.test(cap);
+  if(id&&locate(id))return{h:`#/p/${id}`,ext:false,label:'Open the memory ›'};
+  if(isDeb){
+    const nm=cleanName(curPage.title).toLowerCase();
+    const d=(DATA.dates||[]).filter(x=>cleanName(x.name).toLowerCase()===nm).sort((a,c)=>String(c.date).localeCompare(String(a.date)))[0];
+    if(d)return{h:href(d),ext:false,label:'Open the memory ›'};
+  }
+  if(url&&/^https?:\/\//i.test(url))return{h:url,ext:true,label:'Open link ↗'};
+  return null;
+}
 function linkCard(u,label,cap){return `<a class="linkcard" href="${esc(u)}" target="_blank" rel="noopener noreferrer"><div><b>${esc(label)} ↗</b><small>${esc(cap||host(u))}</small></div></a>`}
 function countPhotos(list){let n=0;(list||[]).forEach(b=>{if(b.type==='image')n++;if(b.children)n+=countPhotos(b.children)});return n}
 function renderPage(p,kind){
+  curPage={kind,title:p.title};
   document.title=`${p.title} · Mango Shake × Boy Wonder`;
   const pr=p.props||{};const st={Done:'st-done',Watched:'st-done',Visited:'st-done','In progress':'st-prog',Watching:'st-prog',Planning:'st-prog','Must Do':'st-must','Not Watched':'st-must','Not Visited':'st-must','Might Do':'st-might'};
   const meta=[pr.date?`<span class="num">${esc(rng({date:pr.date,dateEnd:pr.dateEnd}))}${parseD(pr.date).getFullYear()!==new Date().getFullYear()?', '+parseD(pr.date).getFullYear():''}</span>`:'',pr.status?`<span class="stamp ${st[pr.status]||''}">${esc(pr.status.toUpperCase())}</span>`:'',tags(pr.tags),pr.cost>0?`<span class="num">${esc(money(pr.cost))}</span>`:''].filter(Boolean).join('');
   const photos=countPhotos(p.blocks);
   const body=p.blocks&&p.blocks.length?blocksHtml(p.blocks):pgEmpty('Nothing written here yet','Add photos and notes to this page in Notion and they’ll show up here automatically.');
-  vPage.innerHTML=`<a class="back" href="#memories" data-back>‹ Back</a>
+  vPage.innerHTML=`<div class="backbar"><a class="back" href="#memories" data-back>‹ Back</a></div><div style="height:44px"></div>
   <div class="pg-head${p.cover?'':' nocover'}">${p.cover?`<div class="pg-cover"><img src="${esc(p.cover)}" alt="" referrerpolicy="no-referrer"></div>`:''}
     <div><h1 class="pg-title">${esc(p.title)}</h1><div class="pg-meta">${meta}</div><div class="pg-actions"><a class="chip" style="text-decoration:none;display:inline-block" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Open in Notion ↗</a></div></div></div>
   <div class="blocks">${body}</div>`;
@@ -681,24 +747,39 @@ lb.addEventListener('close',()=>{$('#lbimg').removeAttribute('src')});
 
 /* ============ SPLASH ============ */
 const splash=$('#splash');
-(function petals(){const p=$('#petals');const c=['#ffb8cf','#ff8fb1','#ffd9e6','#d4183a'];for(let i=0;i<24;i++){const s=document.createElement('i');s.className='petal';s.style.left=Math.random()*100+'%';s.style.background=c[i%4];s.style.width=8+Math.random()*10+'px';s.style.height=parseFloat(s.style.width)*.7+'px';s.style.animationDuration=6+Math.random()*7+'s';s.style.animationDelay=(2+Math.random()*7)+'s';p.appendChild(s)}})();
-function enter(fast){
-  if(splash.classList.contains('open'))return;
-  splash.classList.add('open');sset('seen','1');
-  setTimeout(()=>{splash.classList.add('gone');document.body.classList.add('ready');startGaja();setTimeout(()=>say(`Welcome in, you two! Tap me for tricks.`,6000),900)},fast?0:520);
+let splashT;
+function rain(){
+  const box=document.createElement('div');box.id='rain';box.setAttribute('aria-hidden','true');
+  const c=['#ffb8cf','#ff8fb1','#ffd9e6','#d4183a','#ff5c82'];
+  for(let i=0;i<46;i++){const p=document.createElement('i');const w=12+Math.random()*18;
+    p.style.cssText=`left:${Math.random()*104-2}%;width:${w}px;height:${w*.7}px;background:${c[i%5]};animation-duration:${1.5+Math.random()*1.3}s;animation-delay:${Math.random()*.55}s;--sx:${Math.random()*160-80}px;--rot:${300+Math.random()*420}deg`;
+    box.appendChild(p)}
+  document.body.appendChild(box);setTimeout(()=>box.remove(),3600);
 }
-$('#open').onclick=()=>enter();
+function finishSplash(){
+  splash.classList.add('gone');document.body.classList.add('ready');startGaja();
+  setTimeout(()=>say('Welcome in, you two! Tap me for tricks.',6000),900);
+}
+function enter(fast){
+  if(splash.classList.contains('go'))return;
+  clearTimeout(splashT);splash.classList.add('go');sset('seen','1');
+  if(fast||reduce){setTimeout(finishSplash,fast?120:300);return}
+  rain();setTimeout(finishSplash,1450);
+}
 $('#skip').onclick=()=>enter(true);
 if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');addEventListener('load',()=>setTimeout(()=>{startGaja();say('Welcome back~',3000)},300))}
-else{$('#open').focus({preventScroll:true})}
+else{$('#skip').focus({preventScroll:true});splashT=setTimeout(()=>enter(),reduce?900:2300)}
 $('#replay').onclick=()=>{try{sessionStorage.removeItem('seen')}catch(e){}location.href=location.pathname};
 ['splashImg','gimg','heroGaja'].forEach(id=>$('#'+id).addEventListener('error',function(){this.style.visibility='hidden'}));
 
+
 /* ============ GAJA ============ */
 const G=$('#gaja'),bub=$('#bub');
+const setHH=()=>document.documentElement.style.setProperty('--hh',($('header.top').offsetHeight)+'px');setHH();addEventListener('resize',setHH);
 let gw=108,gh=170;
 function measure(){gw=G.offsetWidth||108;gh=G.offsetHeight||170}
 addEventListener('resize',measure);
+let hold=0,holdT,htx=0,hty=0;
 let gx=innerWidth-150,gy=innerHeight-220,tx=gx,ty=gy,tilt=0,started=false,idleT=Date.now(),quiet=store.get('quiet')==='1',bubT;
 function startGaja(){if(started)return;started=true;measure();G.classList.add('hop');updateAway();requestAnimationFrame(loop)}
 function say(msg,ms=5200){
@@ -712,7 +793,7 @@ function updateAway(){G.classList.toggle('here',started&&!(heroSeen&&!onPage&&wi
 addEventListener('scroll',()=>{idleT=Date.now();updateAway()},{passive:true});
 function loop(){
   const w=gw,h=gh;
-  if(touch||reduce){tx=innerWidth-w-10;ty=innerHeight-h-12}
+  if(Date.now()<hold){tx=htx;ty=hty}else if(touch||reduce){tx=innerWidth-w-10;ty=innerHeight-h-12}
   gx+=(tx-gx)*.09;gy+=(ty-gy)*.09;
   const vx=tx-gx;tilt+=((Math.max(-10,Math.min(10,vx*.06)))-tilt)*.15;
   gx=Math.max(4,Math.min(innerWidth-w-4,gx));gy=Math.max(70,Math.min(innerHeight-h-4,gy));
@@ -723,7 +804,7 @@ let lastPetal=0;
 addEventListener('pointermove',e=>{
   idleT=Date.now();if(e.pointerType==='touch')return;
   tx=e.clientX+28;ty=e.clientY-gh*.35;
-  if(!reduce&&started&&G.classList.contains('here')&&e.timeStamp-lastPetal>110){lastPetal=e.timeStamp;trail(e.clientX,e.clientY)}
+  if(!reduce&&started&&Date.now()>=hold&&G.classList.contains('here')&&e.timeStamp-lastPetal>110){lastPetal=e.timeStamp;trail(e.clientX,e.clientY)}
 });
 const PET=['#ffb8cf','#ff8fb1','#d4183a','#ffd9e6'];
 function trail(x,y){const f=document.createElement('i');f.className='fx';f.style.background=pick(PET);f.style.left=x+'px';f.style.top=y+'px';f.style.setProperty('--dx',(Math.random()*30-15)+'px');f.style.setProperty('--dy',(20+Math.random()*30)+'px');f.style.setProperty('--rr',Math.random()*180+'deg');document.body.appendChild(f);setTimeout(()=>f.remove(),1000)}
@@ -745,9 +826,15 @@ function chapterTip(id){clearTimeout(tipTimer);if(!started||seenTips.has(id)||on
 setInterval(()=>{if(started&&G.classList.contains('here')&&Date.now()-idleT>28000){idleT=Date.now();say(pick(['Still there?','I found a petal. Keep it?','Asad would say it’s suspiciously quiet…','Psst, tap me for ideas.']),4500)}},4000);
 
 const gbody=$('#gbody');
-function toggleMenu(){G.classList.toggle('menu')}
-gbody.addEventListener('click',e=>{e.stopPropagation();toggleMenu();if(G.classList.contains('menu'))say('Next date · pick an activity · movie night · quiet mode',4200)});
-document.addEventListener('click',e=>{if(!e.target.closest('#gaja'))G.classList.remove('menu')});
+function openMenu(){
+  G.classList.add('menu');measure();
+  const m=108-gw/2;htx=Math.max(m,Math.min(innerWidth-gw-m,gx));hty=Math.max(170,Math.min(innerHeight-gh-6,gy));
+  hold=Date.now()+10000;clearTimeout(holdT);holdT=setTimeout(closeMenu,10000);
+}
+function closeMenu(){G.classList.remove('menu');hold=0;clearTimeout(holdT)}
+function toggleMenu(){G.classList.contains('menu')?closeMenu():openMenu()}
+gbody.addEventListener('click',e=>{e.stopPropagation();toggleMenu();if(G.classList.contains('menu'))say('I’ll hold still for 10 seconds. Pick one!',9000)});
+document.addEventListener('click',e=>{if(!e.target.closest('#gaja'))closeMenu()});
 $('#menu').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||!DATA)return;const a=b.dataset.a;
   const r=b.getBoundingClientRect();burst(r.left+20,r.top+20);
@@ -758,9 +845,9 @@ $('#menu').addEventListener('click',e=>{
   if(a==='movie'){const pool=DATA.movies.filter(x=>x.status==='Not Watched');
     say(pool.length?`Tonight: “${pick(pool).name}”. Popcorn time!`:'No unwatched movies. Add some in Notion!',6500)}
   if(a==='shh'){quiet=!quiet;store.set('quiet',quiet?'1':'0');say.force=true;say(quiet?'Quiet mode on. Tap me to wake me up.':'I’m back!',3000);say.force=false;if(quiet)setTimeout(()=>bub.classList.remove('show'),3000)}
-  G.classList.remove('menu')
+  closeMenu()
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')G.classList.remove('menu')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 </script>
 </body>
 </html>

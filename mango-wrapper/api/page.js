@@ -8,15 +8,32 @@ const MAX_DEPTH = 4;
 const SKIP = new Set(['child_page', 'child_database', 'unsupported', 'table_of_contents', 'breadcrumb']);
 
 const rich = (arr) =>
-  (arr || []).map((r) => ({
-    t: r.plain_text,
-    b: !!r.annotations.bold,
-    i: !!r.annotations.italic,
-    s: !!r.annotations.strikethrough,
-    u: !!r.annotations.underline,
-    c: !!r.annotations.code,
-    h: r.href || null,
-  }));
+  (arr || []).map((r) => {
+    const o = {
+      t: r.plain_text,
+      b: !!r.annotations.bold,
+      i: !!r.annotations.italic,
+      s: !!r.annotations.strikethrough,
+      u: !!r.annotations.underline,
+      c: !!r.annotations.code,
+      h: r.href || null,
+    };
+    // "Mentions" (page links, link previews, dates, people) arrive as their own rich-text type
+    if (r.type === 'mention' && r.mention) {
+      const m = r.mention;
+      if (m.type === 'page') o.m = { k: 'page', id: m.page.id };
+      else if (m.type === 'database') o.m = { k: 'page', id: m.database.id };
+      else if (m.type === 'link_mention') {
+        const l = m.link_mention || {};
+        o.m = { k: 'link', url: l.href || r.href || null, icon: l.icon_url || null, prov: l.link_provider || null };
+        if (l.title) o.t = l.title;
+      } else if (m.type === 'link_preview') o.m = { k: 'link', url: (m.link_preview && m.link_preview.url) || r.href || null };
+      else if (m.type === 'date') o.m = { k: 'date' };
+      else if (m.type === 'user') o.m = { k: 'user' };
+      else o.m = { k: 'other' };
+    }
+    return o;
+  });
 
 async function children(id, token) {
   const out = [];
@@ -55,7 +72,9 @@ function shape(b) {
     case 'divider':
       return { type: 'divider' };
     case 'image':
-      return { type: 'image', url: fileUrl(d), caption: rich(d.caption) };
+      return { type: 'image', url: fileUrl(d), caption: rich(d.caption), link: (d.link && (d.link.url || d.link.href)) || d.href || null };
+    case 'link_to_page':
+      return { type: 'pagelink', id: d.page_id || d.database_id || null };
     case 'video':
       return { type: 'video', url: fileUrl(d), caption: rich(d.caption), external: d.type === 'external' };
     case 'embed':
