@@ -1,7 +1,7 @@
 // Vercel serverless function: reads your Notion databases and returns tidy JSON.
 // The Notion token lives ONLY in the NOTION_TOKEN environment variable (never in the browser).
 
-const NOTION_VERSION = '2022-06-28';
+const { headers, nfetch, fileUrl, normalise } = require('./_notion');
 
 const DBS = {
   dates: process.env.DB_DATES || '3f788828e93080a4b4c3f76f9922946b',
@@ -11,18 +11,15 @@ const DBS = {
   movies: process.env.DB_MOVIES || '3f288828e930801b94a0c56c5cb25d78',
   books: process.env.DB_BOOKS || '3f388828e93080e3842ef6617367f677',
 };
+const MAIN_PAGE = process.env.MAIN_PAGE || '3f288828e93080c9867cd092158b7d26';
 
 async function queryAll(id, token) {
   const results = [];
   let cursor;
   do {
-    const r = await fetch(`https://api.notion.com/v1/databases/${id}/query`, {
+    const r = await nfetch(`https://api.notion.com/v1/databases/${id}/query`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Notion-Version': NOTION_VERSION,
-        'Content-Type': 'application/json',
-      },
+      headers: headers(token),
       body: JSON.stringify({ page_size: 100, ...(cursor ? { start_cursor: cursor } : {}) }),
     });
     if (!r.ok) throw new Error(`Notion ${r.status} for database ${id}`);
@@ -33,32 +30,11 @@ async function queryAll(id, token) {
   return results;
 }
 
-const plain = (arr) => (arr || []).map((t) => t.plain_text).join('');
-
-function normalise(page) {
-  const p = page.properties || {};
-  const out = { id: page.id, created: page.created_time };
-  for (const [key, prop] of Object.entries(p)) {
-    switch (prop.type) {
-      case 'title': out.name = plain(prop.title) || 'Untitled'; break;
-      case 'status': out.status = prop.status ? prop.status.name : null; break;
-      case 'multi_select': out.tags = (prop.multi_select || []).map((o) => o.name); break;
-      case 'date':
-        out.date = prop.date ? prop.date.start : null;
-        out.dateEnd = prop.date ? prop.date.end : null;
-        break;
-      case 'number': if (key.toLowerCase().startsWith('cost')) out.cost = prop.number; break;
-      case 'checkbox': if (key === 'Has Debrief') out.hasDebrief = prop.checkbox; break;
-      case 'files': {
-        const f = (prop.files || [])[0];
-        if (f) out.cover = f.type === 'file' ? f.file.url : f.external.url;
-        break;
-      }
-      default: break;
-    }
-  }
-  if (!out.tags) out.tags = [];
-  return out;
+async function mainPage(token) {
+  const r = await nfetch(`https://api.notion.com/v1/pages/${MAIN_PAGE}`, { headers: headers(token) });
+  if (!r.ok) throw new Error(`Notion ${r.status} for main page`);
+  const j = await r.json();
+  return { banner: fileUrl(j.cover) };
 }
 
 module.exports = async (req, res) => {
@@ -68,13 +44,17 @@ module.exports = async (req, res) => {
     return;
   }
   const keys = Object.keys(DBS);
-  const settled = await Promise.allSettled(keys.map((k) => queryAll(DBS[k], token)));
+  const settled = await Promise.allSettled([...keys.map((k) => queryAll(DBS[k], token)), mainPage(token)]);
   const data = {};
   const errors = [];
-  settled.forEach((s, i) => {
-    if (s.status === 'fulfilled') data[keys[i]] = s.value.map(normalise);
-    else { data[keys[i]] = []; errors.push(`${keys[i]}: ${s.reason.message}`); }
+  keys.forEach((k, i) => {
+    const s = settled[i];
+    if (s.status === 'fulfilled') data[k] = s.value.map(normalise);
+    else { data[k] = []; errors.push(`${k}: ${s.reason.message}`); }
   });
+  const m = settled[keys.length];
+  if (m.status === 'fulfilled') data.banner = m.value.banner;
+  else errors.push(`banner: ${m.reason.message}`);
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=120');
   res.status(200).json({ fetchedAt: new Date().toISOString(), errors, ...data });
 };

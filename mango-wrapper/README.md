@@ -4,9 +4,13 @@ A read-only "shoujo manga volume" front end for your Notion page. Notion stays t
 the site re-reads it every 60 seconds (and whenever you return to the tab).
 
 ```
-index.html        the whole site (splash, chapters, Gaja guide)
+index.html        the whole site (splash, chapters, sub-pages, Gaja guide)
 assets/gaja.png   Gaja sprite (already cropped for web)
-api/notion.js     tiny server function that reads Notion with your secret token
+assets/cover.jpg  your Notion page cover (starting banner; the live cover replaces it)
+api/notion.js     reads the six databases + the main page cover
+api/page.js       reads one sub-page (photos, text, videos) when you open it
+api/_notion.js    shared helpers (not a route)
+DESIGN.md         colours, shapes and motion rules
 ```
 
 ## Setup (about 10 minutes, all free)
@@ -31,9 +35,21 @@ Your site is now live and syncing. Never put the token in `index.html`.
 
 ### Optional
 - If you ever rebuild a database, override its ID with `DB_DATES`, `DB_ACTIVITIES`, `DB_TRAVEL`, `DB_SHOWS`, `DB_MOVIES` or `DB_BOOKS`.
-- Add images to the Shows "Files & media" property and they become that show's poster.
+- Set a cover on any item's page in Notion ("Add cover") and it becomes that item's poster or thumbnail.
 - Without the API (e.g. opening `index.html` directly) the site shows demo data and says "demo data" in the header.
 
 ## Notes
 - Notion image URLs expire after about an hour; the page refreshes them on each sync.
 - Gaja is a single flat image, so her animation is whole-body (follow, bob, tilt, wiggle). A layered file would unlock blinking and rat reactions.
+
+## Update notes (Nov 2026)
+- Thumbnails now come from each item's **Cover Image** (the Notion page cover). Notion-hosted covers expire after about an hour, so the page retries once with a fresh link and falls back to a colour block.
+- Calendar days show the event names (multi-day trips span their days); stray HTML like `<b>` in titles is stripped.
+- `/api/notion` also returns `banner` (the main page cover) and each item's Notion `url`, ready for the sub-page and banner work.
+- Polish pass from the Vercel Web Interface Guidelines and Emil Kowalski's animation rules: visible focus rings, press feedback, hover only on devices that hover, skip link, real buttons for calendar days, `Intl` dates and currency, no layout reads in Gaja's animation loop.
+**Redeploy:** replace `api/notion.js` and `index.html` in your repo and push; Vercel redeploys automatically.
+
+## Midnight Matinee update
+- New dark gothic-shoujo design (see DESIGN.md), a banner from your page cover, and a Memory Lane of past dates.
+- Every date, activity, trip, show, movie and book opens its own Notion sub-page at `#/p/<id>`: photos (tap for a viewer), text, YouTube videos, map links. Fetched fresh each time, so expiring photo links stay valid.
+- **Redeploy:** add/replace `index.html`, `api/notion.js`, `api/page.js`, `api/_notion.js`, `assets/cover.jpg` and push. Sub-pages need the integration connected to the main page (already done).
