@@ -6,9 +6,11 @@ the site re-reads it every 60 seconds (and whenever you return to the tab).
 ```
 index.html        the whole site (splash, chapters, sub-pages, Gaja guide)
 assets/gaja.png   Gaja sprite (already cropped for web)
+assets/music/     the playlist (01-… to 07-…, played in number order)
 assets/cover.jpg  your Notion page cover (starting banner; the live cover replaces it)
 api/notion.js     reads the six databases + the main page cover
 api/thumbs.js     finds the first photo inside a date page (Memory Lane fallback thumbnail)
+api/_maps.js      turns Google Maps links into embeddable maps
 api/page.js       reads one sub-page (photos, text, videos) when you open it
 api/_notion.js    shared helpers (not a route)
 DESIGN.md         colours, shapes and motion rules
@@ -63,3 +65,9 @@ Your site is now live and syncing. Never put the token in `index.html`.
 - Notion mentions (page links, link previews, dates, people) show as small pills. Mentions of pages in your databases open inside the wrapper.
 - Activities: new "Debrief written" filter. The Gaja sticker under "Debrief" opens the matching Memory Lane page (uses the image's link, else the date with the same name).
 - **Redeploy:** replace `index.html`, `api/page.js` and add `api/thumbs.js`; push.
+
+## Update (music + maps)
+- Music player pinned bottom-left: previous, play/pause, next, stop, volume. The playlist is `assets/music/01…07`, loops, fades in over ~4 seconds and keeps playing as you move between pages. Browsers block sound until someone taps the page, so if autoplay is refused it starts on the first tap. Stop/pause is remembered for next visit.
+- To change the playlist, add files to `assets/music/` and edit the `TRACKS` list in `index.html`.
+- Google Maps embeds/links on Notion pages now show as live maps (short `maps.app.goo.gl` links are expanded server-side). Directions links can't be embedded and stay as links.
+- **Redeploy:** replace `index.html`, `api/page.js`; add `api/_maps.js` and the `assets/music/` folder (about 23 MB); push.

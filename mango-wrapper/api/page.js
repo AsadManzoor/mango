@@ -3,6 +3,7 @@
 // Read-only. Photo links from Notion expire after about an hour, so this is fetched fresh each time a page is opened.
 
 const { headers, nfetch, plain, clean, fileUrl, normalise } = require('./_notion');
+const { mapFor } = require('./_maps');
 
 const MAX_DEPTH = 4;
 const SKIP = new Set(['child_page', 'child_database', 'unsupported', 'table_of_contents', 'breadcrumb']);
@@ -105,6 +106,8 @@ async function tree(id, token, depth) {
       const s = shape(b);
       if (!s) return null;
       if (b.has_children && depth < MAX_DEPTH) s.children = await tree(b.id, token, depth + 1);
+      // Google Maps links become real embedded maps
+      if (s.type === 'link' && s.url) { const m = await mapFor(s.url); if (m) s.map = m; }
       return s;
     })
   );

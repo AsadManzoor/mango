@@ -295,6 +295,41 @@ details.tg>div{margin-top:12px}
 .pg-empty{border:2px dashed var(--line);border-radius:10px;padding:34px 22px;text-align:center;color:var(--mute);max-width:560px;margin:10px auto 0}
 .pg-empty b{display:block;font:800 22px var(--serif);color:var(--rose);margin-bottom:6px}
 
+/* map embeds */
+figure.map{margin:0;max-width:760px}
+.mapbox{position:relative;aspect-ratio:16/10;border:2px solid var(--rose);border-radius:8px;overflow:hidden;background:var(--plum)}
+.mapbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+figure.map figcaption{margin-top:8px;font-size:14px;color:var(--mute);display:flex;gap:6px 14px;flex-wrap:wrap}
+
+/* music player */
+.mx{position:fixed;left:14px;bottom:14px;z-index:90;display:flex;align-items:center;gap:10px;background:var(--night);border:2px solid var(--rose);border-radius:34px;padding:5px;max-width:min(340px,calc(100vw - 120px))}
+.mx-disc{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:var(--rose);color:var(--night);display:grid;place-items:center;position:relative;transition:transform .16s var(--ease)}
+.mx-disc:active{transform:scale(.94)}
+.mx-disc svg{width:22px;height:22px;grid-area:1/1}
+.mx-disc .eq{grid-area:1/1;display:none;gap:3px;align-items:flex-end;height:18px}
+.mx.playing .mx-disc svg{display:none}
+.mx.playing .mx-disc .eq{display:flex}
+.eq i{width:4px;height:100%;background:var(--night);border-radius:2px;transform-origin:50% 100%;animation:eq 1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:-.4s}.eq i:nth-child(3){animation-delay:-.75s}
+@keyframes eq{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+.mx-panel{display:grid;gap:4px;min-width:0;padding-right:10px;flex:1}
+.mx.min .mx-panel{display:none}
+.mx.min{padding:5px}
+.mx-title{display:flex;gap:8px;align-items:baseline;min-width:0}
+.mx-title b{font:800 15px/1.2 var(--serif);color:var(--rose);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mx-title small{color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.mx-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.mx-ctl{display:flex;gap:2px}
+.mx-ctl button{width:36px;height:36px;border-radius:50%;border:0;background:transparent;color:var(--rose);display:grid;place-items:center;transition:background .15s var(--ease),transform .15s var(--ease)}
+.mx-ctl button svg{width:20px;height:20px}
+.mx-ctl button:active{transform:scale(.92)}
+@media(hover:hover) and (pointer:fine){.mx-ctl button:hover{background:var(--plum2)}}
+.mx-vol{display:flex;align-items:center;gap:6px;flex:1;min-width:76px;color:var(--rose)}
+.mx-vol svg{width:18px;height:18px;flex:none}
+.mx-vol input{flex:1;min-width:0;height:28px;margin:0;background:transparent;accent-color:var(--rose);cursor:pointer}
+.mx-note{font-size:12px;color:var(--mute)}
+@media(max-width:640px){.mx{bottom:10px;left:10px}}
+
 /* lightbox */
 dialog#lightbox{border:0;background:transparent;padding:0;max-width:100vw;max-height:100vh;width:100vw;height:100vh;color:var(--paper)}
 dialog#lightbox::backdrop{background:rgba(10,4,8,.94)}
@@ -399,6 +434,26 @@ body.ready #gaja.here{opacity:1}
   <button class="lb-btn lb-p" id="lbp" type="button" aria-label="Previous photo">‹</button>
   <button class="lb-btn lb-n" id="lbn" type="button" aria-label="Next photo">›</button>
 </dialog>
+
+<!-- MUSIC PLAYER -->
+<aside class="mx" id="mx" aria-label="Music player">
+  <button class="mx-disc" id="mxDisc" type="button" aria-expanded="true" aria-controls="mxPanel" aria-label="Show or hide the music player">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <div class="mx-panel" id="mxPanel">
+    <div class="mx-title"><b id="mxT">Loading…</b><small id="mxAr"></small></div>
+    <div class="mx-row">
+      <div class="mx-ctl" role="group" aria-label="Playback">
+        <button type="button" id="mxPrev" aria-label="Previous track"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+        <button type="button" id="mxPlay" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path id="mxPlayIc" d="M7 4l13 8-13 8z"/></svg></button>
+        <button type="button" id="mxNext" aria-label="Next track"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+        <button type="button" id="mxStop" aria-label="Stop music"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg></button>
+      </div>
+      <label class="mx-vol" id="mxVolWrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg><span class="sr">Volume</span><input type="range" id="mxVol" min="0" max="100" step="1" aria-label="Volume"></label>
+    </div>
+  </div>
+</aside>
 
 <!-- GAJA COMPANION -->
 <div id="gaja" aria-live="polite">
@@ -694,7 +749,7 @@ function blockHtml(b){
       if(y)return `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(y)}" title="${esc(plainText(b.caption)||'Video')}" loading="lazy" allow="accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
       if(!b.external)return `<div class="video"><video controls playsinline preload="metadata" src="${esc(b.url)}"></video></div>`;
       return linkCard(b.url,'Watch the video')}
-    case 'link':return b.url?linkCard(b.url,/maps\.|goo\.gl\/maps|google\.[^/]+\/maps/i.test(b.url)?'Open the map':'Open link',plainText(b.caption)):'';
+    case 'link':if(b.map&&b.map.embed&&b.url)return mapHtml(b);return b.url?linkCard(b.url,/maps\.|goo\.gl\/maps|google\.[^/]+\/maps/i.test(b.url)?'Open the map':'Open link',plainText(b.caption)):'';
     case 'file':return b.url?linkCard(b.url,b.name||'Download file'):'';
     case 'table':return `<div class="tbl"><table>${(b.children||[]).map((r,ri)=>`<tr>${(r.cells||[]).map(c=>`<${ri===0&&b.header?'th':'td'}>${rt(c)}</${ri===0&&b.header?'th':'td'}>`).join('')}</tr>`).join('')}</table></div>`;
     case 'column_list':{const cols=(b.children||[]);return `<div class="cols" style="--n:${Math.min(Math.max(cols.length,1),4)}">${cols.map(c=>`<div class="col-b">${blocksHtml(c.children||[])}</div>`).join('')}</div>`}
@@ -702,6 +757,8 @@ function blockHtml(b){
     default:return '';
   }
 }
+function mapHtml(b){const cap=plainText(b.caption);
+  return `<figure class="map"><div class="mapbox"><iframe src="${esc(b.map.embed)}" title="Map: ${esc(b.map.title||'location')}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div><figcaption>${cap?`<span>${esc(cap)}</span>`:''}<a href="${esc(b.url)}" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a></figcaption></figure>`}
 let curPage=null;
 // A linked image (e.g. the Gaja sticker under "Debrief") goes to the same page inside the wrapper.
 // Falls back to the Memory Lane date with the same name as the activity when Notion doesn't hand us the link.
@@ -773,6 +830,80 @@ $('#replay').onclick=()=>{try{sessionStorage.removeItem('seen')}catch(e){}locati
 ['splashImg','gimg','heroGaja'].forEach(id=>$('#'+id).addEventListener('error',function(){this.style.visibility='hidden'}));
 
 
+/* ============ MUSIC ============ */
+const TRACKS=[
+ {src:'assets/music/01-i-will-protect-you.mp3',t:'I Will Protect You',a:'Fruits Basket OST'},
+ {src:'assets/music/02-shadow-mountains-love-theme.mp3',t:'Shadow Mountains / Love Theme',a:'Jóhann Jóhannsson'},
+ {src:'assets/music/03-haseru-mirai.mp3',t:'Haseru Mirai',a:'Fruits Basket S2 OST'},
+ {src:'assets/music/04-dtmf.mp3',t:'DtMF',a:'Bad Bunny'},
+ {src:'assets/music/05-nobody-wanna-dance-anymore.mp3',t:'Nobody Wanna Dance Anymore',a:'Tinashe'},
+ {src:'assets/music/06-too-easy.mp3',t:'Too Easy',a:'Tinashe'},
+ {src:'assets/music/07-one-hundred-thousand-flowers.mp3',t:'One Hundred Thousand Flowers',a:'SVDP'}];
+(function music(){
+  const mx=new Audio(),box=$('#mx'),N=TRACKS.length;
+  mx.preload='auto';
+  const volOK=(()=>{try{const t=new Audio();t.volume=.5;return Math.abs(t.volume-.5)<.01}catch(e){return false}})();
+  let vol=parseFloat(store.get('mxvol'));if(!(vol>=0&&vol<=1))vol=.4;
+  let idx=Math.max(0,Math.min(N-1,parseInt(sget('mxi')||'0',10)||0));
+  let wants=store.get('mx')!=='off', playing=false, fadeT, errs=0, resumeAt=parseFloat(sget('mxt'))||0, armed=false;
+  const setVol=(v)=>{try{mx.volume=Math.max(0,Math.min(1,v))}catch(e){}};
+  function fadeTo(target,ms,done){
+    clearInterval(fadeT);
+    if(!volOK||ms<=0||reduce&&target>0){setVol(target);done&&done();return}
+    const from=mx.volume,t0=performance.now();
+    fadeT=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/ms);setVol(from+(target-from)*k);if(k>=1){clearInterval(fadeT);done&&done()}},40);
+  }
+  const ic={play:'M7 4l13 8-13 8z',pause:'M6 4h4v16H6zM14 4h4v16h-4z'};
+  function ui(){
+    const t=TRACKS[idx];$('#mxT').textContent=t.t;$('#mxAr').textContent=t.a+' · '+(idx+1)+'/'+N;
+    box.classList.toggle('playing',playing);
+    $('#mxPlayIc').setAttribute('d',playing?ic.pause:ic.play);
+    $('#mxPlay').setAttribute('aria-label',playing?'Pause':'Play');
+    if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:t.t,artist:t.a,album:'Mango Shake × Boy Wonder'})}catch(e){}}
+  }
+  function load(i,keepTime){
+    idx=(i+N)%N;sset('mxi',String(idx));
+    mx.src=TRACKS[idx].src;
+    if(keepTime&&resumeAt>0){const at=resumeAt;resumeAt=0;mx.addEventListener('loadedmetadata',()=>{try{if(at<mx.duration-2)mx.currentTime=at}catch(e){}},{once:true})}
+    ui();
+  }
+  function play(fade){
+    wants=true;store.set('mx','on');
+    if(!mx.src)load(idx,true);
+    if(fade&&volOK)setVol(0);else setVol(vol);
+    return mx.play().then(()=>{playing=true;errs=0;armed=false;if(fade)fadeTo(vol,3800);ui()}).catch(()=>{setVol(vol);playing=false;ui();arm()});
+  }
+  function pause(stop){
+    wants=false;store.set('mx','off');
+    fadeTo(0,stop?250:400,()=>{mx.pause();if(stop){try{mx.currentTime=0}catch(e){}}playing=false;setVol(vol);ui()});
+  }
+  function go(d){const was=playing||armed;load(idx+d);if(was)mx.play().then(()=>{playing=true;ui()}).catch(()=>{});else play(true)}
+  // browsers only allow sound after a first tap, so if autoplay is blocked we start on the first touch of the page
+  function arm(){
+    if(armed||!wants)return;armed=true;
+    const kick=(e)=>{if(e.target.closest&&e.target.closest('#mx'))return;['pointerdown','keydown'].forEach(n=>removeEventListener(n,kick,true));if(armed&&wants&&!playing){armed=false;play(true)}};
+    ['pointerdown','keydown'].forEach(n=>addEventListener(n,kick,true));
+  }
+  mx.addEventListener('ended',()=>go(1));
+  mx.addEventListener('error',()=>{if(++errs<N)setTimeout(()=>go(1),400);else{playing=false;ui()}});
+  const save=()=>{if(mx.currentTime)sset('mxt',String(Math.floor(mx.currentTime)))};
+  addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+  $('#mxPlay').onclick=()=>{playing?pause(false):play(true)};
+  $('#mxStop').onclick=()=>{if(playing||mx.currentTime>0)pause(true)};
+  $('#mxNext').onclick=()=>go(1);
+  $('#mxPrev').onclick=()=>go(-1);
+  const sl=$('#mxVol');sl.value=Math.round(vol*100);
+  if(!volOK){$('#mxVolWrap').innerHTML='<span class="mx-note">Use your device volume</span>'}
+  else sl.addEventListener('input',()=>{vol=sl.value/100;store.set('mxvol',String(vol));clearInterval(fadeT);if(playing)setVol(vol)});
+  const disc=$('#mxDisc');
+  const setMin=(m)=>{box.classList.toggle('min',m);disc.setAttribute('aria-expanded',String(!m))};
+  const savedMin=store.get('mxmin');setMin(savedMin==null?matchMedia('(max-width:640px)').matches:savedMin==='1');
+  disc.onclick=()=>{const m=!box.classList.contains('min');setMin(m);store.set('mxmin',m?'1':'0')};
+  if('mediaSession' in navigator){try{const h=(a,f)=>navigator.mediaSession.setActionHandler(a,f);h('play',()=>play(false));h('pause',()=>pause(false));h('previoustrack',()=>go(-1));h('nexttrack',()=>go(1));h('stop',()=>pause(true))}catch(e){}}
+  load(idx,true);
+  if(wants)play(true);
+})();
+
 /* ============ GAJA ============ */
 const G=$('#gaja'),bub=$('#bub');
 const setHH=()=>document.documentElement.style.setProperty('--hh',($('header.top').offsetHeight)+'px');setHH();addEventListener('resize',setHH);
@@ -803,6 +934,7 @@ function loop(){
 let lastPetal=0;
 addEventListener('pointermove',e=>{
   idleT=Date.now();if(e.pointerType==='touch')return;
+  if(e.target.closest&&e.target.closest('#mx')){const r=$('#mx').getBoundingClientRect();tx=r.left+8;ty=Math.max(70,r.top-gh-6);return}
   tx=e.clientX+28;ty=e.clientY-gh*.35;
   if(!reduce&&started&&Date.now()>=hold&&G.classList.contains('here')&&e.timeStamp-lastPetal>110){lastPetal=e.timeStamp;trail(e.clientX,e.clientY)}
 });
