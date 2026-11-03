@@ -44,24 +44,129 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 @keyframes wipe{to{-webkit-mask-position:0 0;mask-position:0 0}}
 .skip{position:absolute;right:16px;top:14px;z-index:6;background:transparent;border:2px solid var(--line);color:var(--mute);border-radius:99px;padding:6px 14px;font-size:14px;transition:border-color .16s var(--ease),transform .16s var(--ease)}
 .skip:active{transform:scale(.97)}
-.s-inner{position:relative;z-index:2;text-align:center;padding:20px;display:grid;justify-items:center;gap:10px;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.s-cap{position:absolute;left:0;right:0;top:9vh;z-index:3;display:grid;justify-items:center;text-align:center;padding:0 24px;pointer-events:none;transition:opacity .4s var(--ease)}
+.s-cap p{grid-area:1/1;margin:0;font:600 clamp(16px,2.7vw,27px)/1.35 var(--serif);opacity:0}
+.s-cap .c1{color:var(--blood)}.s-cap .c2{color:var(--rose)}
+#splash.go .s-cap{opacity:0}
+.run .s-cap .c1{animation:flick 2.3s .15s steps(1) forwards}
+.run .s-cap .c2{animation:cap2 1.9s 2.7s var(--ease) forwards}
+@keyframes flick{0%{opacity:0}6%{opacity:1}12%{opacity:.1}18%{opacity:1}30%{opacity:.2}36%{opacity:1}55%{opacity:1}62%{opacity:.25}70%{opacity:1}86%{opacity:1}100%{opacity:0}}
+@keyframes cap2{0%{opacity:0;transform:translateY(8px)}18%,78%{opacity:1;transform:none}100%{opacity:0}}
+.s-inner{position:relative;z-index:2;text-align:center;padding:20px;display:grid;justify-items:center;gap:8px;transition:opacity .45s var(--ease),transform .45s var(--ease)}
 #splash.go .s-inner{opacity:0;transform:translateY(-18px)}
-.s-stage{position:relative;width:min(300px,64vw);aspect-ratio:572/900;max-height:56vh}
-.s-glow{position:absolute;left:50%;top:44%;width:120%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.3);border-radius:50%;background:radial-gradient(circle,rgba(255,150,190,.55),rgba(212,24,58,.18) 50%,transparent 70%);opacity:0;animation:glow 1s .15s var(--ease) forwards}
+.s-stage{position:relative;height:min(54vh,500px);aspect-ratio:759/1182}
+.s-glow{position:absolute;left:50%;top:46%;width:150%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.2);border-radius:50%;background:radial-gradient(circle,rgba(255,150,190,.5),rgba(212,24,58,.16) 50%,transparent 70%);opacity:0}
+.run .s-glow{animation:glow 1.6s .2s var(--ease) forwards,glowp 3s 3.9s ease-in-out infinite}
 @keyframes glow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.s-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:translateY(46px) scale(.45);filter:drop-shadow(0 0 22px rgba(255,150,190,.55));animation:pop .85s .25s cubic-bezier(.34,1.56,.64,1) forwards,bob3 2.6s 1.2s ease-in-out infinite}
-@keyframes pop{to{opacity:1;transform:none}}
-@keyframes bob3{50%{transform:translateY(-7px)}}
-.s-title{font:800 clamp(30px,6.4vw,62px)/1 var(--serif);margin:6px 0 0;color:var(--rose);opacity:0;animation:stamp .55s 1s var(--ease) forwards}
+@keyframes glowp{50%{opacity:.7}}
+.s-stage .gj{height:100%;filter:drop-shadow(0 0 20px rgba(255,150,190,.5))}
+.s-ring{position:absolute;left:50%;top:15%;width:40%;aspect-ratio:1;border:3px solid var(--rose);border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(.2)}
+.run .s-ring{animation:ring .9s 3.95s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes ring{0%{opacity:.9;transform:translate(-50%,-50%) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(4)}}
+.s-flash{position:absolute;inset:0;z-index:4;background:radial-gradient(circle at 50% 40%,#ffd9e6,#ff8fb1 60%,transparent);opacity:0;pointer-events:none}
+.run .s-flash{animation:flash .5s 3.95s ease-out}
+@keyframes flash{0%{opacity:.55}100%{opacity:0}}
+.sp{position:absolute;width:var(--z,18px);aspect-ratio:1;background:var(--rose);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);opacity:0}
+.run .sp{animation:twinkle 1.8s var(--d,4s) ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.2) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+.s-title{font:800 clamp(30px,6.4vw,62px)/1 var(--serif);margin:6px 0 0;color:var(--rose);opacity:0}
+.run .s-title{animation:stamp .55s 4.4s var(--ease) forwards}
 .s-title .x{color:var(--blood);display:inline-block;margin:0 .1em}
 .s-title .w2{color:var(--blood)}
-.s-sub{margin:0;color:var(--mute);font-weight:500;opacity:0;animation:fade .5s 1.35s forwards}
+.s-sub{margin:0;color:var(--mute);font-weight:500;opacity:0}
+.run .s-sub{animation:fade .5s 5s forwards}
 @keyframes stamp{from{opacity:0;transform:scale(1.4) rotate(2deg)}to{opacity:1;transform:none}}
 @keyframes fade{to{opacity:1}}
 @keyframes bob{50%{transform:translateX(-50%) translateY(-6px)}}
 #rain{position:fixed;inset:0;z-index:210;pointer-events:none;overflow:hidden}
 #rain i{position:absolute;top:-40px;border-radius:70% 0 70% 0;opacity:0;animation:rain linear forwards}
 @keyframes rain{0%{opacity:0;transform:translate3d(0,0,0) rotate(0)}10%{opacity:.95}100%{opacity:.95;transform:translate3d(var(--sx),112vh,0) rotate(var(--rot))}}
+
+/* ============ GAJA RIG (layered character) ============ */
+.gj{position:relative;display:block;aspect-ratio:759/1182}
+.gj .q{position:absolute;left:0;top:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.gj .rt{transform-origin:53% 99%}
+.gj .tr{transform-origin:53% 76%;animation:g-breath 3.6s ease-in-out infinite}
+@keyframes g-breath{50%{scale:1 1.012}}
+.gj .hr{transform-origin:50% 15%;rotate:var(--hair,0deg)}
+.gj .hr>img{transform-origin:50% 15%;animation:g-hair 4.6s ease-in-out infinite}
+@keyframes g-hair{0%,100%{rotate:-1deg}50%{rotate:1.2deg}}
+.gj .hd{transform-origin:54% 50%;translate:calc(var(--lx,0)*1%) calc(var(--ly,0)*1%);transition:translate .35s cubic-bezier(.23,1,.32,1);animation:g-head 4.2s ease-in-out infinite}
+@keyframes g-head{0%,100%{rotate:-.8deg}50%{rotate:.8deg}}
+.gj .lids{transform-origin:50% 35%;scale:1 0;animation:g-blink 4.8s infinite}
+.gj.alt .lids{animation-duration:5.9s;animation-delay:-2s}
+@keyframes g-blink{0%,92%{scale:1 0}94%,97%{scale:1 1}100%{scale:1 0}}
+.gj .rat{transform-origin:56% 19%;animation:g-rat 5s ease-in-out infinite}
+@keyframes g-rat{0%,100%{rotate:-1.5deg}50%{rotate:1.5deg;translate:0 -.15%}}
+.gj .rat.jump{animation:g-ratjump .85s var(--ease)}
+@keyframes g-ratjump{0%{translate:0 0}30%{translate:0 -4%;rotate:-7deg}60%{translate:0 .3%;rotate:5deg}100%{translate:0 0;rotate:0deg}}
+.gj .rat.wig{animation:g-ratwig .7s ease-in-out}
+@keyframes g-ratwig{0%,100%{rotate:0deg}20%{rotate:-9deg}45%{rotate:8deg}70%{rotate:-6deg}}
+.gj .lr{transform-origin:67% 75%}.gj .ll{transform-origin:50% 76%}
+.gj .ap{transform-origin:78% 61%}.gj .al{transform-origin:29% 72%}
+.gj .zz{position:absolute;right:-6%;top:4%;display:none;pointer-events:none}
+.gj .zz i{position:absolute;font:800 26px var(--serif);font-style:normal;color:var(--rose);opacity:0;animation:g-z 2.8s linear infinite}
+.gj .zz i:nth-child(2){animation-delay:.9s}.gj .zz i:nth-child(3){animation-delay:1.8s}
+@keyframes g-z{0%{opacity:0;transform:translate(0,12px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translate(14px,-34px) scale(1.2)}}
+/* listening to music */
+.gj.dance .tr{animation:g-breath 3.6s ease-in-out infinite,g-bop .62s ease-in-out infinite}
+@keyframes g-bop{0%,100%{translate:0 0;rotate:-1.2deg}50%{translate:0 -1.4%;rotate:1.2deg}}
+.gj.dance .hd{animation:g-headd .62s ease-in-out infinite}
+@keyframes g-headd{0%,100%{rotate:-3.5deg}50%{rotate:3.5deg}}
+.gj.dance .hr>img{animation:g-haird .62s ease-in-out infinite}
+@keyframes g-haird{0%,100%{rotate:-3deg}50%{rotate:3.4deg}}
+.gj.dance .ap{animation:g-armd .62s ease-in-out infinite alternate}
+.gj.dance .al{animation:g-armd2 .62s ease-in-out infinite alternate}
+@keyframes g-armd{from{rotate:-5deg}to{rotate:7deg}}
+@keyframes g-armd2{from{rotate:6deg}to{rotate:-6deg}}
+.gj.dance .rat{animation:g-ratd .62s ease-in-out infinite}
+@keyframes g-ratd{0%,100%{rotate:-5deg}50%{rotate:5deg;translate:0 -.6%}}
+/* walking after the cursor */
+.gj.walking .ll{animation:g-lla .46s ease-in-out infinite alternate}
+.gj.walking .lr{animation:g-llb .46s ease-in-out infinite alternate}
+@keyframes g-lla{from{rotate:-11deg}to{rotate:11deg}}
+@keyframes g-llb{from{rotate:11deg}to{rotate:-11deg}}
+.gj.walking .tr{animation:g-walkbob .46s ease-in-out infinite}
+@keyframes g-walkbob{0%,100%{translate:0 0;rotate:-1deg}50%{translate:0 -1.3%;rotate:1deg}}
+.gj.walking .ap{animation:g-armw .46s ease-in-out infinite alternate}
+.gj.walking .al{animation:g-armw2 .46s ease-in-out infinite alternate}
+@keyframes g-armw{from{rotate:5deg}to{rotate:-5deg}}
+@keyframes g-armw2{from{rotate:-6deg}to{rotate:6deg}}
+.gj.walking .hr>img{animation:g-haird .46s ease-in-out infinite}
+/* chatting, waving, hopping, sleeping */
+.gj.talking .ap{animation:g-talk .6s ease-in-out infinite}
+@keyframes g-talk{0%,100%{rotate:0deg}50%{rotate:-15deg}}
+.gj.talking .hd{animation:g-nod .5s ease-in-out infinite}
+@keyframes g-nod{0%,100%{rotate:-1.6deg}50%{rotate:2deg}}
+.gj.waving .ap{animation:g-wave .5s ease-in-out 4}
+@keyframes g-wave{0%,100%{rotate:0deg}25%,75%{rotate:-30deg}50%{rotate:-12deg}}
+.gj.waving .hd{animation:g-tilt 2s ease-in-out}
+@keyframes g-tilt{0%,100%{rotate:0deg}25%,75%{rotate:5deg}}
+.gj.hop .rt{animation:g-hop .75s cubic-bezier(.23,1,.32,1)}
+@keyframes g-hop{0%{scale:1 1;translate:0 0}14%{scale:1.05 .93;translate:0 0}45%{scale:.97 1.05;translate:0 -7%}75%{scale:1.03 .97;translate:0 0}100%{scale:1 1;translate:0 0}}
+.gj.sleep .lids{scale:1 1;animation:none}
+.gj.sleep .hd{animation:none;rotate:7deg;translate:0 1.5%}
+.gj.sleep .tr{animation:g-breath 6s ease-in-out infinite}
+.gj.sleep .ap,.gj.sleep .al,.gj.sleep .rat{animation:none}
+.gj.sleep .zz{display:block}
+/* the big entrance, piece by piece (splash only) */
+.gj.intro .lg{animation:g-inUp .9s cubic-bezier(.34,1.56,.64,1) backwards}
+.gj.intro .lr{animation-delay:.5s}.gj.intro .ll{animation-delay:.68s}
+.gj.intro .bd{animation:g-inDown 1s .95s cubic-bezier(.34,1.3,.64,1) backwards}
+.gj.intro .hr{animation:g-inHair 1.1s 1.45s cubic-bezier(.22,1,.36,1) backwards}
+.gj.intro .fc{transform-origin:54% 34%;animation:g-inPop .75s 2.1s cubic-bezier(.34,1.56,.64,1) backwards}
+.gj.intro .al>img{transform-origin:29% 72%;animation:g-inL .85s 2.55s cubic-bezier(.34,1.4,.64,1) backwards}
+.gj.intro .ap>img{transform-origin:78% 61%;animation:g-inR .85s 2.85s cubic-bezier(.34,1.4,.64,1) backwards}
+.gj.intro .rat>img{transform-origin:56% 19%;animation:g-inDrop 1.15s 3.3s linear backwards}
+.gj.intro .rt{animation:g-land .5s 3.95s var(--ease)}
+@keyframes g-inUp{from{translate:0 40%;opacity:0}}
+@keyframes g-inDown{from{translate:0 -28%;opacity:0}}
+@keyframes g-inHair{from{translate:0 -30%;opacity:0;scale:1.15}}
+@keyframes g-inPop{from{scale:0;opacity:0}}
+@keyframes g-inL{from{translate:-45% 8%;rotate:-30deg;opacity:0}}
+@keyframes g-inR{from{translate:45% 8%;rotate:30deg;opacity:0}}
+@keyframes g-inDrop{0%{translate:0 -170%;opacity:0;scale:1 1;animation-timing-function:cubic-bezier(.55,0,1,.45)}8%{opacity:1}60%{translate:0 0;scale:1 1}72%{scale:1.2 .7;animation-timing-function:ease-out}86%{scale:.96 1.07}100%{scale:1 1;translate:0 0}}
+@keyframes g-land{0%{scale:1 1}30%{scale:1.05 .95}100%{scale:1 1}}
 
 /* ============ BUTTONS ============ */
 .btn{display:inline-block;font:700 17px/1 var(--sans);padding:15px 26px;text-decoration:none;border:2px solid var(--rose);border-radius:4px;transition:transform .16s var(--ease),background .16s var(--ease),color .16s var(--ease)}
@@ -105,7 +210,7 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .stage{position:relative;height:clamp(500px,56vw,660px)}
 .arch{position:absolute;inset:34px 26px 24px;border:3px solid var(--rose);border-radius:999px 999px 14px 14px;background:radial-gradient(circle at 50% 38%,#6a2850,#2a1424 70%);overflow:hidden}
 .moon{position:absolute;left:17%;top:20%;width:clamp(46px,7vw,84px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7fa,#ffc2d8)}
-.hero-gaja{position:absolute;left:50%;bottom:0;height:min(88%,570px);width:auto;transform:translateX(-50%);filter:drop-shadow(0 0 22px rgba(255,150,190,.5));animation:bob 3.2s ease-in-out infinite}
+.hero-gaja{position:absolute;left:50%;bottom:0;height:min(88%,570px);width:auto;transform:translateX(-50%);filter:drop-shadow(0 0 22px rgba(255,150,190,.5));pointer-events:auto;cursor:pointer}
 .hbubble{position:absolute;left:-6px;top:50px;z-index:3;max-width:min(250px,60%);background:var(--paper);color:var(--night);font-weight:700;font-size:16px;line-height:1.35;padding:13px 17px;border-radius:22px 22px 22px 4px;border:3px solid var(--rose)}
 .ticket{position:absolute;right:-4px;bottom:84px;z-index:3;background:var(--blood);color:#fff;font-weight:700;font-size:15px;padding:14px 22px;border:3px solid var(--paper);transform:rotate(-4deg);text-decoration:none;display:block;max-width:60%;transition:transform .2s var(--ease)}
 .ticket .big{display:block;font:800 28px/1.1 var(--serif);margin:3px 0;overflow-wrap:anywhere}
@@ -342,15 +447,13 @@ dialog#lightbox::backdrop{background:rgba(10,4,8,.94)}
 @media(max-width:560px){.lb-in{padding:60px 12px}.lb-p,.lb-n{top:auto;bottom:14px;margin:0}.lb-cap{padding:0 64px;bottom:22px}}
 
 /* ============ GAJA COMPANION ============ */
-#gaja{position:fixed;left:0;top:0;z-index:100;width:var(--gs,108px);pointer-events:none;opacity:0;transition:opacity .35s var(--ease);will-change:transform}
+#gaja{position:fixed;left:0;top:0;z-index:100;width:var(--gs,120px);pointer-events:none;opacity:0;transition:opacity .35s var(--ease);will-change:transform}
 body.ready #gaja.here{opacity:1}
-#gaja .body{position:relative;z-index:1;pointer-events:auto;cursor:pointer;transform-origin:50% 90%;display:block;border:0;background:none;padding:0}
-#gaja img{width:100%;height:auto;display:block;filter:drop-shadow(0 0 14px rgba(255,150,190,.45));animation:bob2 2.8s ease-in-out infinite;user-select:none;-webkit-user-drag:none}
+#gaja .body{width:100%;position:relative;z-index:1;pointer-events:auto;cursor:pointer;transform-origin:50% 90%;display:block;border:0;background:none;padding:0}
+#gaja .gj{width:100%;filter:drop-shadow(0 0 14px rgba(255,150,190,.45))}
 @keyframes bob2{50%{transform:translateY(-6px) rotate(1deg)}}
 #gaja.hop .body{animation:hopin .7s var(--ease)}
 @keyframes hopin{from{transform:translateY(60px) scale(.6);opacity:0}to{transform:none;opacity:1}}
-@media(hover:hover) and (pointer:fine){#gaja .body:hover img{animation:wiggle .5s}}
-@keyframes wiggle{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
 #bub{position:absolute;bottom:100%;left:50%;transform:translate(-50%,6px) scale(.92);transform-origin:50% 100%;width:max-content;max-width:min(260px,70vw);background:var(--paper);color:var(--night);border:3px solid var(--rose);border-radius:18px;padding:9px 14px;font-size:14px;font-weight:700;line-height:1.35;opacity:0;pointer-events:none;transition:opacity .22s var(--ease),transform .3s var(--ease);margin-bottom:6px}
 #bub.show{opacity:1;transform:translate(-50%,0) scale(1)}
 #bub:after{content:"";position:absolute;top:100%;left:50%;margin-left:-8px;border:8px solid transparent;border-top-color:var(--rose)}
@@ -367,7 +470,7 @@ body.ready #gaja.here{opacity:1}
 @keyframes petalfx{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rr));opacity:0}}
 
 @media(max-width:900px){.hero{grid-template-columns:1fr;gap:20px}.stage{height:min(560px,120vw);max-width:520px;margin:0 auto;width:100%}}
-@media(max-width:640px){#gaja{--gs:84px}header.top .sync{display:none}header.top{padding:8px 12px}header.top .logo{font-size:16px}.chapter{padding-top:48px}.meter .bar{width:90px}}
+@media(max-width:640px){#gaja{--gs:90px}header.top .sync{display:none}header.top{padding:8px 12px}header.top .logo{font-size:16px}.chapter{padding-top:48px}.meter .bar{width:90px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -377,8 +480,14 @@ body.ready #gaja.here{opacity:1}
 <!-- SPLASH -->
 <div id="splash" role="dialog" aria-modal="true" aria-label="Welcome">
   <button class="skip" id="skip" type="button">Skip intro</button>
+  <div class="s-cap" aria-hidden="true"><p class="c1">…it was a dark and quiet night…</p><p class="c2">…until a girl, a rat and a flurry of petals arrived.</p></div>
+  <div class="s-flash" aria-hidden="true"></div>
   <div class="s-inner">
-    <div class="s-stage"><span class="s-glow"></span><img src="assets/gaja.png" alt="Gaja" id="splashImg" width="572" height="900"></div>
+    <div class="s-stage" role="img" aria-label="Gaja, a cartoon girl with a rat on her head, holding a laptop and a phone">
+      <span class="s-glow"></span><span class="s-ring"></span>
+      <i class="sp" style="left:-14%;top:12%;--z:22px;--d:3.9s"></i><i class="sp" style="right:-12%;top:6%;--z:16px;--d:4.2s"></i><i class="sp" style="left:-20%;top:52%;--z:14px;--d:4.5s"></i><i class="sp" style="right:-22%;top:46%;--z:24px;--d:4.1s"></i><i class="sp" style="left:2%;top:84%;--z:12px;--d:4.8s"></i><i class="sp" style="right:0;top:88%;--z:16px;--d:4.35s"></i>
+      <div id="splashRig"></div>
+    </div>
     <p class="s-title" role="presentation">Mango Shake <span class="x">×</span> <span class="w2">Boy Wonder</span></p>
     <p class="s-sub">our plans, in chapters</p>
   </div>
@@ -406,7 +515,7 @@ body.ready #gaja.here{opacity:1}
         <div class="btns"><a class="btn primary" href="#dates">Open the next chapter</a><a class="btn ghost" href="#memories">Revisit our memories</a></div>
       </div>
       <div class="stage" id="stage">
-        <div class="arch"><span class="moon"></span><img class="hero-gaja" id="heroGaja" src="assets/gaja.png" alt="Gaja, holding her laptop and phone" width="572" height="900"></div>
+        <div class="arch"><span class="moon"></span><div class="hero-gaja" id="heroGaja" role="img" aria-label="Gaja, holding her laptop and phone"></div></div>
         <p class="hbubble" id="hbubble">Hi, I’m Gaja. Scroll on, I’ll tag along.</p>
         <a class="ticket" id="ticket" href="#dates">Next up<span class="big">…</span><span class="num">Checking the calendar…</span></a>
       </div>
@@ -464,7 +573,7 @@ body.ready #gaja.here{opacity:1}
     <button type="button" data-a="movie" title="Movie night pick" aria-label="Movie night pick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="M3 8l3-5 4 5 3-5 4 5 3-5"/></svg></button>
     <button type="button" data-a="shh" title="Quiet mode" aria-label="Toggle quiet mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
   </div>
-  <button class="body" id="gbody" type="button" aria-label="Talk to Gaja"><img id="gimg" src="assets/gaja.png" alt="" width="572" height="900"></button>
+  <button class="body" id="gbody" type="button" aria-label="Talk to Gaja"><span id="gRig" style="display:block"></span></button>
 </div>
 
 <script>
@@ -790,6 +899,7 @@ function renderPage(p,kind){
   <div class="blocks">${body}</div>`;
   bindBack();settleThumbs(vPage);
   lbList=$$('.photo .lb',vPage).map(b=>({src:b.dataset.src,cap:b.dataset.cap}));
+  if(started)fx(compRig,'hop',800);
   if(photos&&started)say(photos>3?`Ooh, ${photos} photos! Tap any to see it bigger.`:'Aww, look at this one.',5500);
   else if(!photos&&started&&kind)say('Quiet page… add some photos in Notion!',4500);
 }
@@ -802,13 +912,33 @@ lb.addEventListener('click',e=>{if(e.target===lb||e.target.classList.contains('l
 lb.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')stepLb(-1);if(e.key==='ArrowRight')stepLb(1)});
 lb.addEventListener('close',()=>{$('#lbimg').removeAttribute('src')});
 
+/* ============ GAJA RIG: nine layers, one character ============ */
+const RIGS=[];let musicOn=false;
+const GL=['02-leg-r','03-leg-l','01-hair','04-body','05-face','09-lids','08-rat','06-phone','07-laptop'];
+const gsrc=(n)=>`assets/gaja/${n}.webp`;
+function mountGaja(el,opt={}){
+  el.classList.add('gj');if(opt.alt)el.classList.add('alt');if(opt.nodance)el.classList.add('nodance');
+  const I=(n,c='')=>`<img class="q ${c}" src="${gsrc(n)}" alt="" width="759" height="1182" decoding="async" draggable="false">`;
+  el.innerHTML=`<div class="q rt"><div class="q lg lr">${I('02-leg-r')}</div><div class="q lg ll">${I('03-leg-l')}</div><div class="q tr"><div class="q hr">${I('01-hair')}</div>${I('04-body','bd')}<div class="q hd">${I('05-face','fc')}${I('09-lids','lids')}<div class="q rat">${I('08-rat')}</div></div><div class="q ap">${I('06-phone')}</div><div class="q al">${I('07-laptop')}</div></div></div>${opt.zz?'<span class="zz" aria-hidden="true"><i>z</i><i>Z</i><i>z</i></span>':''}`;
+  RIGS.push(el);if(musicOn&&!opt.nodance)el.classList.add('dance');
+  return el;
+}
+function setDance(on){musicOn=on;RIGS.forEach(r=>r.classList.toggle('dance',on&&!r.classList.contains('nodance')))}
+// add a class for a moment (restarts the animation if it's already running)
+function fx(el,cls,ms){if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),ms)}
+const splashRig=mountGaja($('#splashRig').parentNode.querySelector('#splashRig'),{nodance:true});
+const heroRig=mountGaja($('#heroGaja'));
+const compRig=mountGaja($('#gRig'),{zz:true,alt:true});
+function loadGaja(){return Promise.all(GL.map(n=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=gsrc(n)})))}
+
 /* ============ SPLASH ============ */
 const splash=$('#splash');
-let splashT;
+let splashT=[];
+const later=(ms,f)=>splashT.push(setTimeout(f,ms));
 function rain(){
   const box=document.createElement('div');box.id='rain';box.setAttribute('aria-hidden','true');
   const c=['#ffb8cf','#ff8fb1','#ffd9e6','#d4183a','#ff5c82'];
-  for(let i=0;i<46;i++){const p=document.createElement('i');const w=12+Math.random()*18;
+  for(let i=0;i<54;i++){const p=document.createElement('i');const w=12+Math.random()*18;
     p.style.cssText=`left:${Math.random()*104-2}%;width:${w}px;height:${w*.7}px;background:${c[i%5]};animation-duration:${1.5+Math.random()*1.3}s;animation-delay:${Math.random()*.55}s;--sx:${Math.random()*160-80}px;--rot:${300+Math.random()*420}deg`;
     box.appendChild(p)}
   document.body.appendChild(box);setTimeout(()=>box.remove(),3600);
@@ -819,15 +949,27 @@ function finishSplash(){
 }
 function enter(fast){
   if(splash.classList.contains('go'))return;
-  clearTimeout(splashT);splash.classList.add('go');sset('seen','1');
+  splashT.forEach(clearTimeout);splash.classList.add('go');sset('seen','1');
+  splashRig.classList.remove('intro');
   if(fast||reduce){setTimeout(finishSplash,fast?120:300);return}
-  rain();setTimeout(finishSplash,1450);
+  fx(splashRig,'hop',800);rain();setTimeout(finishSplash,1450);
+}
+function runSplash(){
+  Promise.race([loadGaja(),new Promise(r=>setTimeout(r,2500))]).then(()=>{
+    if(splash.classList.contains('go'))return;
+    splash.classList.add('run');
+    if(reduce){later(900,()=>enter());return}
+    splashRig.classList.add('intro');
+    later(4500,()=>{splashRig.classList.remove('intro');fx(splashRig,'waving',2200);fx(splashRig.querySelector('.rat'),'wig',800)});
+    later(6000,()=>fx(splashRig,'hop',800));
+    later(6500,()=>fx(splashRig.querySelector('.rat'),'jump',900));
+    later(7400,()=>enter());
+  });
 }
 $('#skip').onclick=()=>enter(true);
 if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');addEventListener('load',()=>setTimeout(()=>{startGaja();say('Welcome back~',3000)},300))}
-else{$('#skip').focus({preventScroll:true});splashT=setTimeout(()=>enter(),reduce?900:2300)}
+else{$('#skip').focus({preventScroll:true});runSplash()}
 $('#replay').onclick=()=>{try{sessionStorage.removeItem('seen')}catch(e){}location.href=location.pathname};
-['splashImg','gimg','heroGaja'].forEach(id=>$('#'+id).addEventListener('error',function(){this.style.visibility='hidden'}));
 
 
 /* ============ MUSIC ============ */
@@ -856,7 +998,7 @@ const TRACKS=[
   const ic={play:'M7 4l13 8-13 8z',pause:'M6 4h4v16H6zM14 4h4v16h-4z'};
   function ui(){
     const t=TRACKS[idx];$('#mxT').textContent=t.t;$('#mxAr').textContent=t.a+' · '+(idx+1)+'/'+N;
-    box.classList.toggle('playing',playing);
+    box.classList.toggle('playing',playing);setDance(playing);
     $('#mxPlayIc').setAttribute('d',playing?ic.pause:ic.play);
     $('#mxPlay').setAttribute('aria-label',playing?'Pause':'Play');
     if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:t.t,artist:t.a,album:'Mango Shake × Boy Wonder'})}catch(e){}}
@@ -912,16 +1054,19 @@ function measure(){gw=G.offsetWidth||108;gh=G.offsetHeight||170}
 addEventListener('resize',measure);
 let hold=0,holdT,htx=0,hty=0;
 let gx=innerWidth-150,gy=innerHeight-220,tx=gx,ty=gy,tilt=0,started=false,idleT=Date.now(),quiet=store.get('quiet')==='1',bubT;
-function startGaja(){if(started)return;started=true;measure();G.classList.add('hop');updateAway();requestAnimationFrame(loop)}
+function startGaja(){if(started)return;started=true;measure();G.classList.add('hop');updateAway();requestAnimationFrame(loop);setTimeout(()=>fx(compRig,'waving',2200),700)}
 function say(msg,ms=5200){
   if(!started||(quiet&&!say.force))return;
-  bub.textContent=msg;bub.classList.toggle('left',gx>innerWidth-200);bub.classList.add('show');clearTimeout(bubT);bubT=setTimeout(()=>bub.classList.remove('show'),ms)
+  bub.textContent=msg;bub.classList.toggle('left',gx>innerWidth-200);bub.classList.add('show');clearTimeout(bubT);bubT=setTimeout(()=>bub.classList.remove('show'),ms);
+  wake();compRig.classList.add('talking');clearTimeout(say.t);say.t=setTimeout(()=>compRig.classList.remove('talking'),Math.min(ms,2600));
 }
 // she waits in the hero portrait, then tags along once you scroll past it
 let heroSeen=true;
 new IntersectionObserver(es=>es.forEach(e=>{heroSeen=e.intersectionRatio>.35;updateAway()}),{threshold:[0,.35,.6]}).observe($('#stage'));
 function updateAway(){G.classList.toggle('here',started&&!(heroSeen&&!onPage&&window.scrollY<innerHeight*.9));}
-addEventListener('scroll',()=>{idleT=Date.now();updateAway()},{passive:true});
+let lastSY=scrollY,scrollV=0,hairNow=0,walking=false;
+addEventListener('scroll',()=>{idleT=Date.now();wake();updateAway();const y=scrollY;scrollV=Math.max(-14,Math.min(14,scrollV+(y-lastSY)*.12));lastSY=y},{passive:true});
+function wake(){if(compRig.classList.contains('sleep'))compRig.classList.remove('sleep')}
 function loop(){
   const w=gw,h=gh;
   if(Date.now()<hold){tx=htx;ty=hty}else if(touch||reduce){tx=innerWidth-w-10;ty=innerHeight-h-12}
@@ -929,11 +1074,19 @@ function loop(){
   const vx=tx-gx;tilt+=((Math.max(-10,Math.min(10,vx*.06)))-tilt)*.15;
   gx=Math.max(4,Math.min(innerWidth-w-4,gx));gy=Math.max(70,Math.min(innerHeight-h-4,gy));
   G.style.transform=`translate(${gx}px,${gy}px)`;$('#gbody').style.transform=`rotate(${tilt}deg)`;
+  // legs walk while she's catching up with the cursor; hair trails behind movement and scrolling
+  const sp=Math.hypot(tx-gx,ty-gy),hold_=Date.now()<hold;
+  if(!walking&&sp>34&&!hold_){walking=true;compRig.classList.add('walking')}else if(walking&&(sp<12||hold_)){walking=false;compRig.classList.remove('walking')}
+  scrollV*=.9;const ht=Math.max(-16,Math.min(16,-vx*.05+scrollV));hairNow+=(ht-hairNow)*.12;
+  if(Math.abs(hairNow-(loop.hv||0))>.15){loop.hv=hairNow;compRig.style.setProperty('--hair',hairNow.toFixed(2)+'deg')}
   requestAnimationFrame(loop)
 }
 let lastPetal=0;
 addEventListener('pointermove',e=>{
-  idleT=Date.now();if(e.pointerType==='touch')return;
+  idleT=Date.now();wake();if(e.pointerType==='touch')return;
+  // head follows the pointer
+  compRig.style.setProperty('--lx',Math.max(-1.2,Math.min(1.2,(e.clientX-(gx+gw/2))/gw*2.4)).toFixed(2));compRig.style.setProperty('--ly',Math.max(-.8,Math.min(.8,(e.clientY-(gy+gh*.3))/gh*1.6)).toFixed(2));
+  lookHero(e);
   if(e.target.closest&&e.target.closest('#mx')){const r=$('#mx').getBoundingClientRect();tx=r.left+8;ty=Math.max(70,r.top-gh-6);return}
   tx=e.clientX+28;ty=e.clientY-gh*.35;
   if(!reduce&&started&&Date.now()>=hold&&G.classList.contains('here')&&e.timeStamp-lastPetal>110){lastPetal=e.timeStamp;trail(e.clientX,e.clientY)}
@@ -941,7 +1094,13 @@ addEventListener('pointermove',e=>{
 const PET=['#ffb8cf','#ff8fb1','#d4183a','#ffd9e6'];
 function trail(x,y){const f=document.createElement('i');f.className='fx';f.style.background=pick(PET);f.style.left=x+'px';f.style.top=y+'px';f.style.setProperty('--dx',(Math.random()*30-15)+'px');f.style.setProperty('--dy',(20+Math.random()*30)+'px');f.style.setProperty('--rr',Math.random()*180+'deg');document.body.appendChild(f);setTimeout(()=>f.remove(),1000)}
 function burst(x,y){if(reduce)return;for(let i=0;i<14;i++){const f=document.createElement('i');f.className='fx';f.style.background=pick(PET);f.style.left=x+'px';f.style.top=y+'px';const a=Math.random()*6.28,r=50+Math.random()*90;f.style.setProperty('--dx',Math.cos(a)*r+'px');f.style.setProperty('--dy',Math.sin(a)*r-30+'px');f.style.setProperty('--rr',Math.random()*360+'deg');f.style.animationDuration='1.2s';document.body.appendChild(f);setTimeout(()=>f.remove(),1300)}}
-$('#heroGaja').addEventListener('click',e=>{burst(e.clientX,e.clientY);const l=['Hi hi!','Scroll on, I’ll follow you down.','Psst… tap a date to see the photos.'];$('#hbubble').textContent=pick(l)});
+let heroRaf=0;
+function lookHero(e){
+  if(!heroSeen||heroRaf||onPage)return;
+  heroRaf=requestAnimationFrame(()=>{heroRaf=0;const r=$('#heroGaja').getBoundingClientRect();
+    heroRig.style.setProperty('--lx',Math.max(-1.3,Math.min(1.3,(e.clientX-(r.left+r.width/2))/r.width*2.6)).toFixed(2));
+    heroRig.style.setProperty('--ly',Math.max(-.9,Math.min(.9,(e.clientY-(r.top+r.height*.33))/r.height*1.8)).toFixed(2))})}
+$('#heroGaja').addEventListener('click',e=>{fx(heroRig,'hop',800);fx(heroRig,'waving',2200);fx(heroRig.querySelector('.rat'),'jump',900);burst(e.clientX,e.clientY);const l=['Hi hi!','Scroll on, I’ll follow you down.','Psst… tap a date to see the photos.'];$('#hbubble').textContent=pick(l)});
 
 const TIPS={
  dates:['Pink days have plans. Tap one, then open the date for photos.','Rose chips are together, red are apart, dashed are maybes.'],
@@ -954,8 +1113,22 @@ const TIPS={
  resources:['Extra goodies live down here.']
 };
 const seenTips=new Set();let tipTimer;
-function chapterTip(id){clearTimeout(tipTimer);if(!started||seenTips.has(id)||onPage)return;tipTimer=setTimeout(()=>{if(onPage)return;seenTips.add(id);say(pick(TIPS[id]||['…']),6000)},900)}
-setInterval(()=>{if(started&&G.classList.contains('here')&&Date.now()-idleT>28000){idleT=Date.now();say(pick(['Still there?','I found a petal. Keep it?','Asad would say it’s suspiciously quiet…','Psst, tap me for ideas.']),4500)}},4000);
+function chapterTip(id){if(started&&!onPage)fx(compRig,'hop',800);clearTimeout(tipTimer);if(!started||seenTips.has(id)||onPage)return;tipTimer=setTimeout(()=>{if(onPage)return;seenTips.add(id);say(pick(TIPS[id]||['…']),6000)},900)}
+// little life signs: rat antics, waves, glances, and a nap when nobody's around
+setInterval(()=>{
+  if(reduce||document.hidden)return;
+  const rigs=[];if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&!G.classList.contains('menu'))rigs.push(compRig);
+  if(heroSeen&&!onPage&&splash.classList.contains('gone'))rigs.push(heroRig);
+  if(!rigs.length)return;
+  const rg=pick(rigs),k=pick(['ratjump','ratwig','wave','look','look','hop','ratwig']);
+  if(k==='ratjump')fx(rg.querySelector('.rat'),'jump',900);
+  else if(k==='ratwig')fx(rg.querySelector('.rat'),'wig',800);
+  else if(k==='wave')fx(rg,'waving',2200);
+  else if(k==='hop')fx(rg,'hop',800);
+  else{const sx=(Math.random()<.5?-1:1)*(.8+Math.random()*.5);rg.style.setProperty('--lx',sx);rg.style.setProperty('--ly',(Math.random()-.5)*.8);setTimeout(()=>{rg.style.setProperty('--lx',0);rg.style.setProperty('--ly',0)},1500)}
+},5200);
+setInterval(()=>{if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&Date.now()-idleT>50000&&!G.classList.contains('menu')){compRig.classList.add('sleep');compRig.classList.remove('walking','talking');say('…zzz…',3500)}},3000);
+setInterval(()=>{if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&Date.now()-idleT>28000){idleT=Date.now();say(pick(['Still there?','I found a petal. Keep it?','Asad would say it’s suspiciously quiet…','Psst, tap me for ideas.']),4500)}},4000);
 
 const gbody=$('#gbody');
 function openMenu(){
@@ -965,7 +1138,8 @@ function openMenu(){
 }
 function closeMenu(){G.classList.remove('menu');hold=0;clearTimeout(holdT)}
 function toggleMenu(){G.classList.contains('menu')?closeMenu():openMenu()}
-gbody.addEventListener('click',e=>{e.stopPropagation();toggleMenu();if(G.classList.contains('menu'))say('I’ll hold still for 10 seconds. Pick one!',9000)});
+gbody.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&!compRig.classList.contains('sleep'))fx(compRig,'waving',2200)});
+gbody.addEventListener('click',e=>{e.stopPropagation();wake();fx(compRig,'hop',800);fx(compRig.querySelector('.rat'),'jump',900);toggleMenu();if(G.classList.contains('menu'))say('I’ll hold still for 10 seconds. Pick one!',9000)});
 document.addEventListener('click',e=>{if(!e.target.closest('#gaja'))closeMenu()});
 $('#menu').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||!DATA)return;const a=b.dataset.a;

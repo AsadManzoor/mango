@@ -5,7 +5,8 @@ the site re-reads it every 60 seconds (and whenever you return to the tab).
 
 ```
 index.html        the whole site (splash, chapters, sub-pages, Gaja guide)
-assets/gaja.png   Gaja sprite (already cropped for web)
+assets/gaja/      Gaja's nine layers (01 hair … 09 eyelids), cropped to one shared frame
+assets/gaja.png   old flat sprite (no longer used)
 assets/music/     the playlist (01-… to 07-…, played in number order)
 assets/cover.jpg  your Notion page cover (starting banner; the live cover replaces it)
 api/notion.js     reads the six databases + the main page cover
@@ -71,3 +72,10 @@ Your site is now live and syncing. Never put the token in `index.html`.
 - To change the playlist, add files to `assets/music/` and edit the `TRACKS` list in `index.html`.
 - Google Maps embeds/links on Notion pages now show as live maps (short `maps.app.goo.gl` links are expanded server-side). Directions links can't be embedded and stay as links.
 - **Redeploy:** replace `index.html`, `api/page.js`; add `api/_maps.js` and the `assets/music/` folder (about 23 MB); push.
+
+## Update (layered Gaja)
+- Gaja is now built from your nine layers, stacked in one frame so each piece can move on its own pivot (`mountGaja()` in `index.html`).
+- Splash (about 8 seconds, skippable): legs, body, hair, face, laptop and phone arrive piece by piece, the rat drops onto her head with a squash and a pink flash, she waves, the title stamps in, then petals wipe the intro away.
+- Everywhere she appears: breathing, blinking (layer 09 are the eyelids), hair sway, head follows the cursor, rat antics, waves and hops.
+- Companion extras: legs walk when she chases the cursor, hair trails movement and scrolling, she nods while talking, bops to the music, and naps (eyes closed, floating z's) after about 50 seconds idle.
+- **Redeploy:** replace `index.html` and add the `assets/gaja/` folder.
