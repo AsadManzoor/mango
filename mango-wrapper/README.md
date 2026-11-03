@@ -68,14 +68,14 @@ Your site is now live and syncing. Never put the token in `index.html`.
 - **Redeploy:** replace `index.html`, `api/page.js` and add `api/thumbs.js`; push.
 
 ## Update (music + maps)
-- Music player pinned bottom-left: previous, play/pause, next, stop, volume. The playlist is `assets/music/01…07`, loops, fades in over ~4 seconds and keeps playing as you move between pages. Browsers block sound until someone taps the page, so if autoplay is refused it starts on the first tap. Stop/pause is remembered for next visit.
+- Music player pinned bottom-left: previous, play/pause, next, stop, volume. The playlist is `assets/music/01…07`, loops, fades in over ~4 seconds and keeps playing as you move between pages. It tries to autoplay the moment the page loads. Browsers (especially Safari/iOS and first-time Chrome visitors) refuse sound before any tap, so in that case a "Tap to enter" screen appears first and the tap starts the music, then the intro runs. If music was stopped last time, there is no gate. Stop/pause is remembered for next visit.
 - To change the playlist, add files to `assets/music/` and edit the `TRACKS` list in `index.html`.
 - Google Maps embeds/links on Notion pages now show as live maps (short `maps.app.goo.gl` links are expanded server-side). Directions links can't be embedded and stay as links.
 - **Redeploy:** replace `index.html`, `api/page.js`; add `api/_maps.js` and the `assets/music/` folder (about 23 MB); push.
 
 ## Update (layered Gaja)
 - Gaja is now built from your nine layers, stacked in one frame so each piece can move on its own pivot (`mountGaja()` in `index.html`).
-- Splash (about 8 seconds, skippable): legs, body, hair, face, laptop and phone arrive piece by piece, the rat drops onto her head with a squash and a pink flash, she waves, the title stamps in, then petals wipe the intro away.
+- Splash (about 8 seconds, skippable): legs, body, hair, face, laptop and phone arrive piece by piece, the mouse drops onto her head with a squash and a pink flash, she waves, the title stamps in, then petals wipe the intro away.
 - Everywhere she appears: breathing, blinking (layer 09 are the eyelids), hair sway, head follows the cursor, rat antics, waves and hops.
 - Companion extras: legs walk when she chases the cursor, hair trails movement and scrolling, she nods while talking, bops to the music, and naps (eyes closed, floating z's) after about 50 seconds idle.
 - **Redeploy:** replace `index.html` and add the `assets/gaja/` folder.

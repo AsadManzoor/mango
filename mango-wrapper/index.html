@@ -44,6 +44,15 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 @keyframes wipe{to{-webkit-mask-position:0 0;mask-position:0 0}}
 .skip{position:absolute;right:16px;top:14px;z-index:6;background:transparent;border:2px solid var(--line);color:var(--mute);border-radius:99px;padding:6px 14px;font-size:14px;transition:border-color .16s var(--ease),transform .16s var(--ease)}
 .skip:active{transform:scale(.97)}
+.gate{position:absolute;inset:0;z-index:8;display:none;place-items:center;align-content:center;gap:14px;text-align:center;padding:24px;background:var(--night)}
+.gate:before{content:"";position:absolute;inset:0;background:var(--tone);pointer-events:none}
+#splash.gated .gate{display:grid}
+.gate .moon2{width:clamp(70px,16vw,110px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7fa,#ffc2d8);box-shadow:0 0 50px rgba(255,150,190,.5);position:relative;animation:glowp 3s ease-in-out infinite}
+.gate h2{position:relative;font:800 clamp(30px,6vw,54px)/1.05 var(--serif);color:var(--rose);margin:6px 0 0}
+.gate h2 b{color:var(--blood)}
+.gate p{position:relative;margin:0;color:var(--mute);font-weight:500}
+.gate .btn{position:relative;margin-top:8px}
+#splash:not(.run) .s-inner,#splash:not(.run) .s-cap{visibility:hidden}
 .s-cap{position:absolute;left:0;right:0;top:9vh;z-index:3;display:grid;justify-items:center;text-align:center;padding:0 24px;pointer-events:none;transition:opacity .4s var(--ease)}
 .s-cap p{grid-area:1/1;margin:0;font:600 clamp(16px,2.7vw,27px)/1.35 var(--serif);opacity:0}
 .s-cap .c1{color:var(--blood)}.s-cap .c2{color:var(--rose)}
@@ -479,11 +488,12 @@ body.ready #gaja.here{opacity:1}
 
 <!-- SPLASH -->
 <div id="splash" role="dialog" aria-modal="true" aria-label="Welcome">
+  <div class="gate"><span class="moon2" aria-hidden="true"></span><h2 translate="no">Mango Shake <b>×</b> Boy Wonder</h2><p>Best with sound on ♪</p><button class="btn primary" id="gate" type="button">Tap to enter</button></div>
   <button class="skip" id="skip" type="button">Skip intro</button>
   <div class="s-cap" aria-hidden="true"><p class="c1">…it was a dark and quiet night…</p><p class="c2">…until a girl, a mouse and a flurry of petals arrived.</p></div>
   <div class="s-flash" aria-hidden="true"></div>
   <div class="s-inner">
-    <div class="s-stage" role="img" aria-label="Gaja, a cartoon girl with a rat on her head, holding a laptop and a phone">
+    <div class="s-stage" role="img" aria-label="Gaja, a cartoon girl with a mouse on her head, holding a laptop and a phone">
       <span class="s-glow"></span><span class="s-ring"></span>
       <i class="sp" style="left:-14%;top:12%;--z:22px;--d:3.9s"></i><i class="sp" style="right:-12%;top:6%;--z:16px;--d:4.2s"></i><i class="sp" style="left:-20%;top:52%;--z:14px;--d:4.5s"></i><i class="sp" style="right:-22%;top:46%;--z:24px;--d:4.1s"></i><i class="sp" style="left:2%;top:84%;--z:12px;--d:4.8s"></i><i class="sp" style="right:0;top:88%;--z:16px;--d:4.35s"></i>
       <div id="splashRig"></div>
@@ -966,9 +976,21 @@ function runSplash(){
     later(7400,()=>enter());
   });
 }
-$('#skip').onclick=()=>enter(true);
-if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');addEventListener('load',()=>setTimeout(()=>{startGaja();say('Welcome back~',3000)},300))}
-else{$('#skip').focus({preventScroll:true});runSplash()}
+// Browsers only allow sound after a tap. If autoplay is refused, a "Tap to enter" screen comes first, and that tap starts the music (and the intro).
+const musicNow=()=>{try{if(window.mxApi&&mxApi.wants()&&!mxApi.isPlaying())mxApi.play(true)}catch(e){}};
+$('#skip').onclick=()=>{musicNow();enter(true)};
+function bootSite(){
+  if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');addEventListener('load',()=>setTimeout(()=>{startGaja();say('Welcome back~',3000)},300));if(document.readyState==='complete'){startGaja();say('Welcome back~',3000)}}
+  else{$('#skip').focus({preventScroll:true});runSplash()}
+}
+function showGate(){
+  splash.classList.add('gated');$('#gate').focus({preventScroll:true});
+  $('#gate').onclick=()=>{
+    musicNow();splash.classList.remove('gated');
+    if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');startGaja();say('Welcome back~',3000)}
+    else{$('#skip').focus({preventScroll:true});runSplash()}
+  };
+}
 $('#replay').onclick=()=>{try{sessionStorage.removeItem('seen')}catch(e){}location.href=location.pathname};
 
 
@@ -1009,11 +1031,11 @@ const TRACKS=[
     if(keepTime&&resumeAt>0){const at=resumeAt;resumeAt=0;mx.addEventListener('loadedmetadata',()=>{try{if(at<mx.duration-2)mx.currentTime=at}catch(e){}},{once:true})}
     ui();
   }
-  function play(fade){
+  function play(fade,noArm){
     wants=true;store.set('mx','on');
     if(!mx.src)load(idx,true);
     if(fade&&volOK)setVol(0);else setVol(vol);
-    return mx.play().then(()=>{playing=true;errs=0;armed=false;if(fade)fadeTo(vol,3800);ui()}).catch(()=>{setVol(vol);playing=false;ui();arm()});
+    return mx.play().then(()=>{playing=true;errs=0;armed=false;if(fade)fadeTo(vol,3800);ui()}).catch(()=>{setVol(vol);playing=false;ui();if(!noArm)arm()});
   }
   function pause(stop){
     wants=false;store.set('mx','off');
@@ -1043,7 +1065,10 @@ const TRACKS=[
   disc.onclick=()=>{const m=!box.classList.contains('min');setMin(m);store.set('mxmin',m?'1':'0')};
   if('mediaSession' in navigator){try{const h=(a,f)=>navigator.mediaSession.setActionHandler(a,f);h('play',()=>play(false));h('pause',()=>pause(false));h('previoustrack',()=>go(-1));h('nexttrack',()=>go(1));h('stop',()=>pause(true))}catch(e){}}
   load(idx,true);
-  if(wants)play(true);
+  window.mxApi={play:(f)=>play(f,true),wants:()=>wants,isPlaying:()=>playing};
+  // try to start right away; if the browser says no, show the tap-to-enter screen instead
+  if(!wants)bootSite();
+  else play(true,true).then(()=>{if(playing)bootSite();else{showGate()}});
 })();
 
 /* ============ GAJA ============ */
