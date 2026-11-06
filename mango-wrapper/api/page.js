@@ -133,6 +133,7 @@ module.exports = async (req, res) => {
       url: page.url,
       cover: meta.cover || null,
       icon: page.icon && page.icon.type === 'emoji' ? page.icon.emoji : null,
+      nsfw: !!meta.nsfw,
       props: { status: meta.status || null, tags: meta.tags, date: meta.date || null, dateEnd: meta.dateEnd || null, cost: meta.cost == null ? null : meta.cost, hasDebrief: !!meta.hasDebrief },
       blocks,
     });

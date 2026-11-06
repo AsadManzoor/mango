@@ -91,3 +91,14 @@ Your site is now live and syncing. Never put the token in `index.html`.
 ## Activities grid
 
 Activities are one even grid instead of status columns. Each card's thumbnail carries a status stamp (Must Do, Might Do, In progress, Done). Cards keep the order Notion returns them in. The thumbnail is the page's Cover; if there's none, the first image in the page body is used; if that's missing too, a coloured gradient.
+
+## Slower avatar and NSFW tags
+
+- Gaja now drifts after the cursor at under half her old speed (`gx+=(tx-gx)*.035` in `loop()`), which makes her easier to click.
+- Any entry with the NSFW checkbox ticked (visible to VIPs only) shows a small red "NSFW" tag on the calendar, Memory Lane, Activities, Travel, Shows, Movies, Books, the "Next up" ticket and its own page.
+
+## Movies (DVD cases) and Books (face-out shelves)
+
+- **The Screening Room**: each movie is a DVD case, overlapping its neighbour slightly with a small random tilt. Hover: the case tilts toward the cursor with a glare, and the disc slides out and spins. The cover is the Notion cover, else the first image in the page, else a coloured placeholder showing the title (the title appears on hover when a real cover is used). Status stamp (Watched / Now / To watch) on the cover.
+- **Book Club**: books stand face-out on shelves, leaning and overlapping. The shelves re-flow to fit the screen width. Hover pulls a book forward, straightens it and tilts it toward the cursor. Covers come the same way as movies (cover, else first image, else coloured placeholder with the title).
+- Shows still use the poster look. NSFW tags sit on the cover for VIPs.

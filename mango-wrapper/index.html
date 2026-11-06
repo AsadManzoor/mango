@@ -259,6 +259,8 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .tag.Together{background:var(--rose);color:var(--night)}
 .tag.Apart{background:var(--blood);border-color:var(--blood);color:#fff}
 .tag.Potential{border-style:dashed}
+.nsfw{display:inline-block;vertical-align:middle;font:800 10px/1 var(--sans);letter-spacing:.08em;padding:3px 7px;border-radius:99px;background:var(--blood);color:#fff;border:1px solid rgba(255,255,255,.45);margin:0 0 0 6px;white-space:nowrap}
+.arc .nsfw{margin:6px 0 0;display:table}
 .stamp{display:inline-block;font:800 12px var(--sans);letter-spacing:.08em;padding:4px 9px;border:2px solid currentColor;background:var(--night);transform:rotate(5deg)}
 .st-done{color:var(--mint)}.st-prog{color:var(--sky)}.st-must{color:var(--bloodl)}.st-might{color:var(--gold)}
 
@@ -347,7 +349,50 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .pass:active{transform:scale(.98)}
 @media(hover:hover) and (pointer:fine){.pass:hover{transform:rotate(1.5deg) translateY(-4px)}}
 
-/* books */
+
+/* movies: overlapping DVD cases, disc slides out on hover */
+.dvds{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:40px 4px;padding:8px clamp(34px,6vw,64px) 14px 4px}
+.dvw{position:relative;display:block;width:126%;aspect-ratio:3/4.15;perspective:1000px;text-decoration:none;color:#fff;z-index:var(--z,1);transform:translateY(var(--dy,0)) rotate(var(--j,0deg))}
+.dvw:hover,.dvw:focus-visible{z-index:300}
+.dsc{position:absolute;top:8%;left:6%;width:80%;aspect-ratio:1;border-radius:50%;background:conic-gradient(from 20deg,#d8d8e8,#9ab,#f2e6ff,#a8c8d8,#fff,#b9a8d8,#d8d8e8);box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .55s cubic-bezier(.2,.8,.2,1);z-index:0}
+.dsc:before{content:"";position:absolute;inset:34%;border-radius:50%;background:var(--night);box-shadow:0 0 0 6px rgba(255,255,255,.55),0 0 0 12px rgba(0,0,0,.18)}
+.dsc:after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 6px,rgba(255,255,255,.07) 6px 7px)}
+.dvc{position:absolute;inset:0;border-radius:6px 8px 8px 6px;background:#0b0b10;border:1px solid #2c2c36;box-shadow:-6px 8px 18px rgba(0,0,0,.6);transition:transform .25s ease-out;z-index:2;overflow:hidden}
+.dvc:before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;background:linear-gradient(90deg,#050508,#1b1b24 70%,#0b0b10);border-right:1px solid #333;z-index:3}
+.dvc .dtop{position:absolute;left:14px;right:0;top:0;height:19px;background:#060609;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:0 8px;font:800 9px var(--sans);letter-spacing:.2em;color:#cfd0e0}
+.dvc .dface{position:absolute;left:14px;right:0;top:19px;bottom:0;overflow:hidden}
+.dvc .dface .thumb{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.dvc .dface .ph{position:absolute;left:50%;top:26%;width:34%;aspect-ratio:1;margin-left:-17%;border-radius:50%;border:3px solid rgba(255,255,255,.5);box-shadow:0 0 0 10px rgba(255,255,255,.08)}
+.dvc .ttl{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 12px;background:linear-gradient(transparent,rgba(8,3,6,.9) 60%);font:800 clamp(17px,1.9vw,22px)/1.08 var(--serif);overflow-wrap:anywhere;transition:opacity .25s}
+.dvc .thumb.ld~.ttl{opacity:0}
+.dvw:hover .dvc .thumb.ld~.ttl,.dvw:focus-visible .dvc .thumb.ld~.ttl{opacity:1}
+.dvc .stamp{position:absolute;left:22px;top:28px;transform:rotate(-4deg);font-size:10px;padding:3px 7px;z-index:4;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.dvc .nsfw{position:absolute;left:22px;top:56px;z-index:4;margin:0}
+.dvc .glare{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(circle at var(--gx,30%) var(--gy,20%),rgba(255,255,255,.28),transparent 55%);mix-blend-mode:screen;opacity:0;transition:opacity .25s}
+.dvw:hover .glare{opacity:1}
+@media(hover:hover) and (pointer:fine){
+ .dvw:hover .dsc,.dvw:focus-visible .dsc{transform:translateX(58%) rotate(250deg)}
+ .dvw:hover .dvc,.dvw:focus-visible .dvc{transform:translateX(-9%) rotateX(var(--rx,0deg)) rotateY(-10deg)}
+}
+@media(max-width:640px){.dvds{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}.dvc .dtop{font-size:7px}}
+/* books: face-out shelves, leaning and overlapping */
+.bkcase{border:3px solid var(--line);border-radius:10px;background:linear-gradient(#26121d,#1a0c14);padding:26px 18px 0;box-shadow:inset 0 0 70px rgba(0,0,0,.6);overflow:hidden}
+.bkrow{display:flex;align-items:flex-end;padding:0 10px;perspective:900px;position:relative}
+.bkboard{height:20px;margin:0 -18px 24px;background:linear-gradient(#6a3550,#3a1c2c);border-top:3px solid #8a4a6e;box-shadow:0 16px 22px rgba(0,0,0,.55)}
+.bk{position:relative;flex:none;display:block;text-decoration:none;color:#fff;transform-origin:50% 100%;transform:rotate(var(--r,0deg));transition:transform .25s ease-out,box-shadow .25s;border-radius:2px 5px 5px 2px;background:var(--cv);box-shadow:5px 0 0 #e9dcc4,7px 0 0 #bfb092,-8px 6px 14px rgba(0,0,0,.6);overflow:hidden;z-index:var(--z,1)}
+.bk:before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(255,255,255,.14) 55%,rgba(0,0,0,.2));z-index:3}
+.bk .thumb{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.bk .ct{position:absolute;inset:0;padding:22px 12px 12px 22px;display:flex;align-items:flex-end}
+.bk .ct:before{content:"";position:absolute;inset:8px 7px 8px 17px;border:1px solid currentColor;opacity:.45}
+.bk .ct b{position:relative;font:800 clamp(13px,1.4vw,17px)/1.05 var(--serif);overflow-wrap:anywhere}
+.bk .thumb.ld~.ct{opacity:0}
+.bk .nsfw{position:absolute;left:16px;top:8px;z-index:4;margin:0}
+.bk .glare{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(circle at var(--gx,30%) var(--gy,20%),rgba(255,255,255,.26),transparent 55%);opacity:0;transition:opacity .25s}
+.bk:hover .glare{opacity:1}
+.bk:hover,.bk:focus-visible{z-index:300}
+@media(hover:hover) and (pointer:fine){.bk:hover,.bk:focus-visible{transform:translateY(-16px) scale(1.07) rotate(0deg) rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));box-shadow:5px 0 0 #e9dcc4,7px 0 0 #bfb092,-14px 22px 28px rgba(0,0,0,.65)}}
+
+/* books (old) */
 .shelf{display:flex;align-items:flex-end;gap:7px;flex-wrap:wrap;padding:26px 20px 0;border-bottom:14px solid var(--line);background:linear-gradient(var(--plum),var(--plum2))}
 .spine{writing-mode:vertical-rl;padding:16px 11px;border:2px solid var(--night);border-bottom:0;border-radius:5px 5px 0 0;font:800 16px var(--serif);color:#fff;text-decoration:none;transition:transform .25s var(--ease)}
 .spine:active{transform:scale(.97)}
@@ -646,6 +691,7 @@ const relTag=(e)=>REL.find(x=>(e.tags||[]).includes(x))||'';
 const idk=(s)=>String(s||'').replace(/-/g,'');
 const href=(i)=>`#/p/${idk(i.id)}`;
 function locate(id){id=idk(id);for(const k of LISTS){const f=((DATA&&DATA[k])||[]).find(x=>idk(x.id)===id);if(f)return{k,item:f}}return null}
+const nsfwTag=(i)=>i&&i.nsfw?'<span class="nsfw" title="NSFW">NSFW</span>':'';
 const tags=(a)=>(a||[]).map(t=>`<span class="tag ${esc(t)}">${esc(t)}</span>`).join('');
 const extraCover={};let thumbsAt=0,thumbBusy=false;
 const coverOf=(i)=>i.cover||extraCover[idk(i.id)]||'';
@@ -684,7 +730,7 @@ function renderDates(){
   for(let n=1;n<=dim;n++){
     const key=`${y}-${String(m+1).padStart(2,'0')}-${String(n).padStart(2,'0')}`;
     const evs=map[key]||[], isT=t.getFullYear()===y&&t.getMonth()===m&&t.getDate()===n;
-    const chips=evs.slice(0,2).map(({e,first:f})=>`<span class="ev ${relTag(e)}${f?'':' cont'}">${esc(e.name)}</span>`).join('')+(evs.length>2?`<span class="ev-more">+${evs.length-2} more</span>`:'');
+    const chips=evs.slice(0,2).map(({e,first:f})=>`<span class="ev ${relTag(e)}${f?'':' cont'}">${esc(e.name)}${nsfwTag(e)}</span>`).join('')+(evs.length>2?`<span class="ev-more">+${evs.length-2} more</span>`:'');
     const cls=`d${isT?' today':''}${evs.length?' has':''}${selDay===key?' sel':''}`;
     cells+=evs.length
       ?`<button type="button" class="${cls}" data-day="${key}" aria-pressed="${selDay===key}" aria-label="${n} ${esc(monShort(calMonth))}: ${esc(evs.map(x=>x.e.name).join(', '))}"><span class="n">${n}</span>${chips}${selDay===key?thumb(evs.map(x=>x.e).find(coverOf)||{}):''}</button>`
@@ -692,7 +738,7 @@ function renderDates(){
   }
   const up=d.filter(e=>daysUntil(e.dateEnd||e.date)>=0);
   const shown=selDay?(map[selDay]||[]).map(x=>x.e):up.slice(0,6);
-  const li=shown.map(e=>{const dt=parseD(e.date);const th=selDay&&coverOf(e);return `<li><a href="${href(e)}"${th?' class="hasth"':''}>${th?`<div class="uth">${thumb(e)}</div>`:''}<div class="when">${dt.getDate()}<small>${esc(monShort(dt))}</small></div><div><div class="nm">${esc(e.name)}</div><div class="rng">${esc(rng(e))}</div><div>${tags(e.tags)}</div></div><span class="cd">${cdText(e)}</span></a></li>`}).join('');
+  const li=shown.map(e=>{const dt=parseD(e.date);const th=selDay&&coverOf(e);return `<li><a href="${href(e)}"${th?' class="hasth"':''}>${th?`<div class="uth">${thumb(e)}</div>`:''}<div class="when">${dt.getDate()}<small>${esc(monShort(dt))}</small></div><div><div class="nm">${esc(e.name)}</div><div class="rng">${esc(rng(e))}</div><div>${tags(e.tags)}${nsfwTag(e)}</div></div><span class="cd">${cdText(e)}</span></a></li>`}).join('');
   const monthLabel=new Intl.DateTimeFormat(undefined,{month:'long',year:'numeric'}).format(calMonth);
   $('#dates').innerHTML=head('dates','Our Calendar','Pick a day, then open the date to see its photos and notes.')+`<div class="cal-wrap">
     <div class="panel reveal"><div class="cal-head"><button type="button" data-m="-1" aria-label="Previous month">‹</button><b aria-live="polite">${esc(monthLabel)}</b><button type="button" data-m="1" aria-label="Next month">›</button></div><div class="cal">${cells}</div></div>
@@ -712,25 +758,25 @@ async function fetchThumbs(ids){
 async function loadThumbs(){
   if(demo||!DATA||thumbBusy)return;
   if(Date.now()-thumbsAt>20*60*1000){for(const k in extraCover)delete extraCover[k];thumbsAt=Date.now()}
-  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
+  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
   if(!need.length)return;
   thumbBusy=true;
   const ch=await fetchThumbs(need);
   thumbBusy=false;
-  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
+  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));renderMovies();renderBooks();observe();settleThumbs($('#movies'));settleThumbs($('#books'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
   if(need.length>=48)setTimeout(loadThumbs,400);
 }
 function renderMemories(){
   const past=memPast();
   $('#memories').innerHTML=head('memories','Memory Lane','Every date we’ve already lived, oldest first. Open one for the photos and the story.')+
-   `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${past.map(e=>{const h=hue(e.name);return `<a class="arc mem reveal" href="${href(e)}" style="background-image:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}<div class="in"><div class="dt">${esc(rng(e))}</div><div class="t">${esc(e.name)}</div></div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
+   `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${past.map(e=>{const h=hue(e.name);return `<a class="arc mem reveal" href="${href(e)}" style="background-image:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}<div class="in"><div class="dt">${esc(rng(e))}</div><div class="t">${esc(e.name)}</div>${nsfwTag(e)}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
 }
 function renderActivities(){
   const A=DATA.activities, all=['All',...new Set(A.flatMap(a=>a.tags))];
   const ST={'Must Do':['MUST DO','st-must'],'Might Do':['MIGHT DO','st-might'],'In progress':['IN PROGRESS','st-prog'],'Done':['DONE','st-done']};
   const list=A.filter(a=>(actFilter==='All'||a.tags.includes(actFilter))&&(!dbOnly||a.hasDebrief));
   const cards=list.map(a=>{const s=ST[a.status||'Must Do']||ST['Must Do'];const h=hue(a.name);
-    return `<a class="card agc reveal" href="${href(a)}"><div class="agt" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(a)}<span class="stamp ${s[1]}">${s[0]}</span></div><p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing here</div>';
+    return `<a class="card agc reveal" href="${href(a)}"><div class="agt" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(a)}<span class="stamp ${s[1]}">${s[0]}</span></div><p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${nsfwTag(a)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing here</div>';
   const done=A.filter(a=>a.status==='Done').length;
   $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`<div class="filters" role="group" aria-label="Filter activities">${all.map(f=>`<button type="button" class="chip${f===actFilter?' on':''}" aria-pressed="${f===actFilter}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}<span class="fsep" aria-hidden="true"></span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div><div class="act-grid">${cards}</div>`;
 }
@@ -739,7 +785,7 @@ function renderTravel(){
   const cls={Visited:'st-v'};
   const st={Visited:['VISITED','st-done'],Planning:['PLANNING','st-prog'],'Not Visited':['SOMEDAY','st-must']};
   $('#travel').innerHTML=head('travel','Travel Passport','Places we’ve stayed, and places we’re dreaming of.',meter(T.filter(t=>t.status==='Visited').length,T.length,'Stamped'))+
-   `<div class="grid">${T.map(t=>{const s=st[t.status]||st['Not Visited'];return `<a class="pass ${cls[t.status]||''} reveal" href="${href(t)}">${thumb(t)}<span class="pn">${esc(t.name)}</span><div>${tags(t.tags)}</div><span class="stamp ${s[1]}">${s[0]}</span></a>`}).join('')||'<div class="empty panel">No trips yet!</div>'}</div>`;
+   `<div class="grid">${T.map(t=>{const s=st[t.status]||st['Not Visited'];return `<a class="pass ${cls[t.status]||''} reveal" href="${href(t)}">${thumb(t)}<span class="pn">${esc(t.name)}</span><div>${tags(t.tags)}${nsfwTag(t)}</div><span class="stamp ${s[1]}">${s[0]}</span></a>`}).join('')||'<div class="empty panel">No trips yet!</div>'}</div>`;
 }
 const HORROR=/horror|haunt|ring|omen|conjur|silent hill|cabin|jennifer|it$|monster|hannibal|midnight mass|scream|hereditary|widow/i;
 function renderPosters(id,title,sub,items){
@@ -747,22 +793,43 @@ function renderPosters(id,title,sub,items){
   const done=items.filter(i=>i.status==='Watched').length;
   $('#'+id).innerHTML=head(id,title,sub,meter(done,items.length,'Watched'))+
    `<div class="grid posters">${items.map(i=>{const s=st[i.status]||st['Not Watched'];
-     return `<a class="arc ${HORROR.test(i.name)?'horror':'shoujo'} reveal" href="${href(i)}">${thumb(i)}<span class="stamp ${s[1]}">${s[0]}</span><div class="in"><div class="t">${esc(i.name)}</div></div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing queued!</div>'}</div>`;
+     return `<a class="arc ${HORROR.test(i.name)?'horror':'shoujo'} reveal" href="${href(i)}">${thumb(i)}<span class="stamp ${s[1]}">${s[0]}</span><div class="in"><div class="t">${esc(i.name)}</div>${nsfwTag(i)}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing queued!</div>'}</div>`;
 }
+function renderMovies(){
+  const items=DATA.movies;
+  const st={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
+  const done=items.filter(i=>i.status==='Watched').length;
+  $('#movies').innerHTML=head('movies','The Screening Room','Movie nights, past and planned.',meter(done,items.length,'Watched'))+
+   `<div class="dvds reveal">${items.map((i,n)=>{const s=st[i.status]||st['Not Watched'],h=hue(i.name);
+     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing queued!</div>'}</div>`;
+}
+let bkPer=0;
 function renderBooks(){
-  const cols=['#d4183a','#8a56c0','#e0568a','#2f9e8f','#c98a1a','#4f6fe0'];
-  $('#books').innerHTML=head('books','Book Club','Our shelf. Tap a spine to open the notes.')+`<div class="shelf reveal">${DATA.books.map((b,i)=>`<a class="spine" href="${href(b)}" style="background:${cols[i%cols.length]};height:${150+((i*37)%60)}px">${esc(b.name)}</a>`).join('')||'<div class="empty">The shelf is empty…</div>'}</div>`;
+  const el=$('#books'),W=Math.max(300,el.clientWidth||1000);
+  const bw=W<640?104:150, ov=W<640?18:26;
+  const per=Math.max(2,Math.floor((W-64-bw)/(bw-ov))+1);bkPer=per;
+  const B=DATA.books,rows=[];for(let i=0;i<B.length;i+=per)rows.push(B.slice(i,i+per));
+  const html=rows.map((row,ri)=>`<div class="bkrow" style="height:${Math.round(bw*1.5)+30}px">${row.map((b,k)=>{const n=ri*per+k,h=hue(b.name),w=bw+((n*17)%14)-7,ht=Math.round(bw*1.38+((n*37)%30));
+    return `<a class="bk" href="${href(b)}" aria-label="${esc(b.name)}" title="${esc(b.name)}" style="--cv:linear-gradient(150deg,hsl(${h} 50% 36%),hsl(${(h+50)%360} 45% 14%));width:${w}px;height:${ht}px;margin-left:${k?-ov:0}px;--z:${k+1};--r:${(((n*53)%7)-3)*.9}deg">${thumb(b)}<span class="ct"><b>${esc(b.name)}</b></span>${nsfwTag(b)}<span class="glare"></span></a>`}).join('')}</div><div class="bkboard"></div>`).join('');
+  el.innerHTML=head('books','Book Club','Our shelf. Tap a book to open the notes.')+`<div class="bkcase reveal">${html||'<div class="empty" style="padding-bottom:26px">The shelf is empty…</div>'}</div>`;
 }
+let bkW=0;addEventListener('resize',()=>{clearTimeout(bkW);bkW=setTimeout(()=>{if(!DATA)return;const w=$('#books').clientWidth,bw=w<640?104:150,ov=w<640?18:26;if(Math.max(2,Math.floor((Math.max(300,w)-64-bw)/(bw-ov))+1)!==bkPer){renderBooks();observe();settleThumbs($('#books'))}},200)});
+// shared hover tilt for DVD cases and books
+document.addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;const d=e.target.closest&&e.target.closest('.dvw,.bk');if(!d)return;
+  const r=d.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  d.style.setProperty('--gx',(x*100).toFixed(0)+'%');d.style.setProperty('--gy',(y*100).toFixed(0)+'%');d.style.setProperty('--rx',((.5-y)*10).toFixed(1)+'deg');d.style.setProperty('--ry',((x-.5)*14).toFixed(1)+'deg');
+},{passive:true});
 function renderTicket(){
   const up=DATA.dates.filter(d=>d.date&&daysUntil(d.dateEnd||d.date)>=0&&relTag(d)!=='Potential').sort((a,b)=>a.date.localeCompare(b.date))[0]||DATA.dates.filter(d=>d.date&&daysUntil(d.dateEnd||d.date)>=0).sort((a,b)=>a.date.localeCompare(b.date))[0];
   const t=$('#ticket');
-  if(up){t.href=href(up);t.innerHTML=`Next up<span class="big">${esc(up.name)}</span><span class="num">${esc(rng(up))} · ${esc(cdText(up))}</span>`}
+  if(up){t.href=href(up);t.innerHTML=`Next up<span class="big">${esc(up.name)}${nsfwTag(up)}</span><span class="num">${esc(rng(up))} · ${esc(cdText(up))}</span>`}
   else{t.href='#dates';t.innerHTML='Next up<span class="big">Nothing yet</span><span>Add a date in Notion</span>'}
 }
 function render(){
   renderTicket();renderDates();renderMemories();renderActivities();renderTravel();
   renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows);
-  renderPosters('movies','The Screening Room','Movie nights, past and planned.',DATA.movies);
+  renderMovies();
   renderBooks();observe();settleThumbs(document);loadThumbs();
 }
 
@@ -941,7 +1008,7 @@ function renderPage(p,kind){
   const body=p.blocks&&p.blocks.length?blocksHtml(p.blocks):pgEmpty('Nothing written here yet','Add photos and notes to this page in Notion and they’ll show up here automatically.');
   vPage.innerHTML=`<div class="backbar"><a class="back" href="#memories" data-back>‹ Back</a></div><div style="height:44px"></div>
   <div class="pg-head${p.cover?'':' nocover'}">${p.cover?`<div class="pg-cover"><img src="${esc(p.cover)}" alt="" referrerpolicy="no-referrer"></div>`:''}
-    <div><h1 class="pg-title">${esc(p.title)}</h1><div class="pg-meta">${meta}</div><div class="pg-actions"><a class="chip" style="text-decoration:none;display:inline-block" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Open in Notion ↗</a></div></div></div>
+    <div><h1 class="pg-title">${esc(p.title)}${nsfwTag(p)}</h1><div class="pg-meta">${meta}</div><div class="pg-actions"><a class="chip" style="text-decoration:none;display:inline-block" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Open in Notion ↗</a></div></div></div>
   <div class="blocks">${body}</div>`;
   bindBack();settleThumbs(vPage);
   lbList=$$('.photo .lb',vPage).map(b=>({src:b.dataset.src,cap:b.dataset.cap}));
@@ -1148,7 +1215,7 @@ function wake(){if(compRig.classList.contains('sleep'))compRig.classList.remove(
 function loop(){
   const w=gw,h=gh;
   if(Date.now()<hold){tx=htx;ty=hty}else if(touch||reduce){tx=innerWidth-w-10;ty=innerHeight-h-12}
-  gx+=(tx-gx)*.09;gy+=(ty-gy)*.09;
+  gx+=(tx-gx)*.035;gy+=(ty-gy)*.035;
   const vx=tx-gx;tilt+=((Math.max(-10,Math.min(10,vx*.06)))-tilt)*.15;
   gx=Math.max(4,Math.min(innerWidth-w-4,gx));gy=Math.max(70,Math.min(innerHeight-h-4,gy));
   G.style.transform=`translate(${gx}px,${gy}px)`;$('#gbody').style.transform=`rotate(${tilt}deg)`;
@@ -1188,7 +1255,7 @@ const TIPS={
  travel:['Stamped places are ones we’ve been to.','Planning is the fun part. Dreaming counts.'],
  shows:['Open a show to see its notes.','Cursed shows glow red. Cozy ones glow pink.'],
  movies:['Horror for Asad, romance for me. Fair trade.','Tap me, then the clapper, for a surprise movie pick.'],
- books:['Tap a spine to open the notes.','Everything here updates from Notion.'],
+ books:['Tap a book to open the notes.','Everything here updates from Notion.'],
  resources:['Extra goodies live down here.']
 };
 const seenTips=new Set();let tipTimer;
