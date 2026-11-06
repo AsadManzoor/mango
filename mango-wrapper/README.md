@@ -94,7 +94,7 @@ Activities are one even grid instead of status columns. Each card's thumbnail ca
 
 ## Slower avatar and NSFW tags
 
-- Gaja now drifts after the cursor at under half her old speed (`gx+=(tx-gx)*.035` in `loop()`), which makes her easier to click.
+- Gaja now drifts after the cursor at a very gentle pace (`gx+=(tx-gx)*.0175` in `loop()`), which makes her easier to click.
 - Any entry with the NSFW checkbox ticked (visible to VIPs only) shows a small red "NSFW" tag on the calendar, Memory Lane, Activities, Travel, Shows, Movies, Books, the "Next up" ticket and its own page.
 
 ## Movies (DVD cases) and Books (face-out shelves)
@@ -102,3 +102,7 @@ Activities are one even grid instead of status columns. Each card's thumbnail ca
 - **The Screening Room**: each movie is a DVD case, overlapping its neighbour slightly with a small random tilt. Hover: the case tilts toward the cursor with a glare, and the disc slides out and spins. The cover is the Notion cover, else the first image in the page, else a coloured placeholder showing the title (the title appears on hover when a real cover is used). Status stamp (Watched / Now / To watch) on the cover.
 - **Book Club**: books stand face-out on shelves, leaning and overlapping. The shelves re-flow to fit the screen width. Hover pulls a book forward, straightens it and tilts it toward the cursor. Covers come the same way as movies (cover, else first image, else coloured placeholder with the title).
 - Shows still use the poster look. NSFW tags sit on the cover for VIPs.
+
+## Memory Lane (polaroids)
+
+Every past date is a taped polaroid with a handwritten title and date (the Caveat font from Google Fonts, with each letter nudged slightly so it looks pen-written). Polaroids overlap and tilt slightly. Hover: the polaroid lifts, straightens and tilts toward the cursor with a glossy glare. The photo is the Notion cover, else the first image in the page, else a coloured placeholder. Dates show a two-digit year, e.g. "Oct 11 ’26". NSFW tags (VIP only) sit on the photo.

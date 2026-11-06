@@ -8,7 +8,7 @@
 <title>Mango Shake × Boy Wonder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Maru+Gothic:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --night:#150b13;--plum:#2a1424;--plum2:#3a1a30;--line:#5a2d4a;
@@ -392,6 +392,26 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .bk:hover,.bk:focus-visible{z-index:300}
 @media(hover:hover) and (pointer:fine){.bk:hover,.bk:focus-visible{transform:translateY(-16px) scale(1.07) rotate(0deg) rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));box-shadow:5px 0 0 #e9dcc4,7px 0 0 #bfb092,-14px 22px 28px rgba(0,0,0,.65)}}
 
+
+/* memory lane: taped polaroids */
+.pols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:30px 2px;padding:18px clamp(24px,4vw,44px) 20px 6px}
+.pol{position:relative;display:block;width:114%;background:linear-gradient(170deg,#fbf6ea,#eee5d2);padding:11px 11px 0;border-radius:2px;box-shadow:0 1px 0 #fff inset,0 10px 22px rgba(0,0,0,.55);color:#232b55;text-decoration:none;z-index:var(--z,1);transform:translateY(var(--dy,0)) rotate(var(--r,0deg));transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;perspective:900px}
+.pol .ph{position:relative;aspect-ratio:1;overflow:hidden;filter:sepia(.16) contrast(.94) saturate(.92);box-shadow:inset 0 0 22px rgba(0,0,0,.4),inset 0 0 0 1px rgba(0,0,0,.18)}
+.pol .ph .thumb{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.pol .ph:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.16),transparent 55%),linear-gradient(transparent 60%,rgba(40,20,0,.22))}
+.pol .cap{position:relative;min-height:74px;padding:7px 4px 9px;font-family:'Caveat','Reenie Beanie','Segoe Print','Bradley Hand',cursive}
+.pol .pt{display:block;font-weight:700;font-size:clamp(21px,2vw,26px);line-height:.98;color:#1f2a5c;overflow-wrap:anywhere}
+.pol .pd{display:block;margin-top:3px;font-weight:500;font-size:clamp(16px,1.6vw,20px);line-height:1;color:#4a5588;transform:rotate(-1.5deg);transform-origin:0 50%}
+.pol .pt i,.pol .pd i{display:inline-block;font-style:normal}
+.pol .tape{position:absolute;top:-12px;left:50%;width:34%;height:22px;margin-left:-17%;transform:rotate(var(--tr,-3deg));background:linear-gradient(90deg,rgba(255,179,207,.6),rgba(255,210,225,.75));box-shadow:0 1px 3px rgba(0,0,0,.3);z-index:5;clip-path:polygon(0 8%,4% 0,8% 10%,12% 0,16% 8%,100% 0,100% 100%,96% 92%,92% 100%,88% 90%,84% 100%,0 92%)}
+.pol .tape.g{background:linear-gradient(90deg,rgba(242,193,78,.6),rgba(255,226,150,.75))}
+.pol .nsfw{position:absolute;left:18px;top:18px;z-index:4;margin:0}
+.pol .glare{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(circle at var(--gx,30%) var(--gy,15%),rgba(255,255,255,.55),transparent 50%);opacity:0;transition:opacity .25s;mix-blend-mode:soft-light}
+.pol:hover,.pol:focus-visible{z-index:300}
+.pol:hover .glare{opacity:1}
+@media(hover:hover) and (pointer:fine){.pol:hover,.pol:focus-visible{transform:perspective(900px) translateY(-14px) rotate(calc(var(--r,0deg)*.25)) scale(1.1) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));box-shadow:0 26px 36px rgba(0,0,0,.6)}}
+@media(max-width:640px){.pols{grid-template-columns:repeat(auto-fill,minmax(138px,1fr))}.pol{padding:8px 8px 0}.pol .cap{min-height:62px}}
+
 /* books (old) */
 .shelf{display:flex;align-items:flex-end;gap:7px;flex-wrap:wrap;padding:26px 20px 0;border-bottom:14px solid var(--line);background:linear-gradient(var(--plum),var(--plum2))}
 .spine{writing-mode:vertical-rl;padding:16px 11px;border:2px solid var(--night);border-bottom:0;border-radius:5px 5px 0 0;font:800 16px var(--serif);color:#fff;text-decoration:none;transition:transform .25s var(--ease)}
@@ -766,10 +786,15 @@ async function loadThumbs(){
   if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));renderMovies();renderBooks();observe();settleThumbs($('#movies'));settleThumbs($('#books'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
   if(need.length>=48)setTimeout(loadThumbs,400);
 }
+const hwHash=(str)=>{let h=7;for(const c of String(str))h=(h*31+c.charCodeAt(0))%233280;return h};
+function hw(str){let sd=hwHash(str)||7;const r=()=>{sd=(sd*9301+49297)%233280;return sd/233280};
+  return String(str).split(' ').map(w=>`<span style="white-space:nowrap">${[...w].map(c=>`<i style="transform:translateY(${(r()*3-1.5).toFixed(1)}px) rotate(${(r()*6-3).toFixed(1)}deg)">${esc(c)}</i>`).join('')}</span>`).join(' ')}
+const polDate=(e)=>{const d=parseD(e.date);return rng(e)+' ’'+String(d.getFullYear()).slice(2)};
 function renderMemories(){
   const past=memPast();
   $('#memories').innerHTML=head('memories','Memory Lane','Every date we’ve already lived, oldest first. Open one for the photos and the story.')+
-   `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${past.map(e=>{const h=hue(e.name);return `<a class="arc mem reveal" href="${href(e)}" style="background-image:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}<div class="in"><div class="dt">${esc(rng(e))}</div><div class="t">${esc(e.name)}</div>${nsfwTag(e)}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
+   `<div class="pols reveal">${past.map((e,n)=>{const h=hue(e.name);
+     return `<a class="pol" href="${href(e)}" aria-label="${esc(e.name)}, ${esc(rng(e))}" style="--z:${n+1};--r:${(((n*47)%9)-4)*1.5}deg;--dy:${((n*29)%5)*4-8}px;--tr:${n%2?4:-5}deg"><span class="tape${n%3===1?' g':''}" aria-hidden="true"></span><div class="ph" style="background:linear-gradient(150deg,hsl(${h} 50% 42%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}${nsfwTag(e)}</div><div class="cap" aria-hidden="true"><span class="pt">${hw(e.name)}</span><span class="pd">${hw(polDate(e))}</span></div><span class="glare"></span></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
 }
 function renderActivities(){
   const A=DATA.activities, all=['All',...new Set(A.flatMap(a=>a.tags))];
@@ -816,7 +841,7 @@ function renderBooks(){
 let bkW=0;addEventListener('resize',()=>{clearTimeout(bkW);bkW=setTimeout(()=>{if(!DATA)return;const w=$('#books').clientWidth,bw=w<640?104:150,ov=w<640?18:26;if(Math.max(2,Math.floor((Math.max(300,w)-64-bw)/(bw-ov))+1)!==bkPer){renderBooks();observe();settleThumbs($('#books'))}},200)});
 // shared hover tilt for DVD cases and books
 document.addEventListener('pointermove',e=>{
-  if(e.pointerType==='touch')return;const d=e.target.closest&&e.target.closest('.dvw,.bk');if(!d)return;
+  if(e.pointerType==='touch')return;const d=e.target.closest&&e.target.closest('.dvw,.bk,.pol');if(!d)return;
   const r=d.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
   d.style.setProperty('--gx',(x*100).toFixed(0)+'%');d.style.setProperty('--gy',(y*100).toFixed(0)+'%');d.style.setProperty('--rx',((.5-y)*10).toFixed(1)+'deg');d.style.setProperty('--ry',((x-.5)*14).toFixed(1)+'deg');
 },{passive:true});
@@ -1215,7 +1240,7 @@ function wake(){if(compRig.classList.contains('sleep'))compRig.classList.remove(
 function loop(){
   const w=gw,h=gh;
   if(Date.now()<hold){tx=htx;ty=hty}else if(touch||reduce){tx=innerWidth-w-10;ty=innerHeight-h-12}
-  gx+=(tx-gx)*.035;gy+=(ty-gy)*.035;
+  gx+=(tx-gx)*.0175;gy+=(ty-gy)*.0175;
   const vx=tx-gx;tilt+=((Math.max(-10,Math.min(10,vx*.06)))-tilt)*.15;
   gx=Math.max(4,Math.min(innerWidth-w-4,gx));gy=Math.max(70,Math.min(innerHeight-h-4,gy));
   G.style.transform=`translate(${gx}px,${gy}px)`;$('#gbody').style.transform=`rotate(${tilt}deg)`;
