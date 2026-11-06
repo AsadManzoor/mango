@@ -698,7 +698,7 @@ function renderDates(){
     <div class="panel reveal"><div class="cal-head"><button type="button" data-m="-1" aria-label="Previous month">‹</button><b aria-live="polite">${esc(monthLabel)}</b><button type="button" data-m="1" aria-label="Next month">›</button></div><div class="cal">${cells}</div></div>
     <div class="panel reveal"><h3>${selDay?'That day <button type="button" class="chip" data-clear>Show upcoming</button>':'Coming up'}</h3>${li?`<ul class="upc">${li}</ul>`:'<div class="empty">Nothing planned yet… plot twist incoming?</div>'}</div></div>`;
 }
-function memPast(){return DATA.dates.filter(x=>x.date&&daysUntil(x.dateEnd||x.date)<0).sort((a,b)=>b.date.localeCompare(a.date))}
+function memPast(){return DATA.dates.filter(x=>x.date&&daysUntil(x.dateEnd||x.date)<0).sort((a,b)=>a.date.localeCompare(b.date))}
 function dayEvents(key){return key?((eventsByDay(DATA.dates.filter(x=>x.date))[key])||[]).map(x=>x.e):[]}
 async function fetchThumbs(ids){
   let changed=false;
@@ -722,7 +722,7 @@ async function loadThumbs(){
 }
 function renderMemories(){
   const past=memPast();
-  $('#memories').innerHTML=head('memories','Memory Lane','Every date we’ve already lived, newest first. Open one for the photos and the story.')+
+  $('#memories').innerHTML=head('memories','Memory Lane','Every date we’ve already lived, oldest first. Open one for the photos and the story.')+
    `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${past.map(e=>{const h=hue(e.name);return `<a class="arc mem reveal" href="${href(e)}" style="background-image:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}<div class="in"><div class="dt">${esc(rng(e))}</div><div class="t">${esc(e.name)}</div></div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
 }
 function renderActivities(){
