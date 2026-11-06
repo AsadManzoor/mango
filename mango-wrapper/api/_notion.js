@@ -40,7 +40,10 @@ function normalise(page) {
         out.dateEnd = prop.date ? prop.date.end : null;
         break;
       case 'number': if (key.toLowerCase().startsWith('cost')) out.cost = prop.number; break;
-      case 'checkbox': if (key === 'Has Debrief') out.hasDebrief = prop.checkbox; break;
+      case 'checkbox':
+        if (key === 'Has Debrief') out.hasDebrief = prop.checkbox;
+        if (key.trim().toLowerCase() === 'nsfw') out.nsfw = !!prop.checkbox;
+        break;
       case 'files':
         if (!cover && key.toLowerCase().includes('cover')) cover = fileUrl((prop.files || [])[0]);
         break;
@@ -52,4 +55,14 @@ function normalise(page) {
   return out;
 }
 
-module.exports = { NOTION_VERSION, headers, nfetch, plain, clean, fileUrl, normalise };
+// VIP access. The password is checked here on the server (set VIP_PASSWORD in Vercel to change it),
+// so NSFW entries are never sent to a guest's browser at all.
+const VIP_PASSWORD = process.env.VIP_PASSWORD || 'plounge';
+function isVip(req) {
+  const q = (req.query && req.query.k) || '';
+  const h = (req.headers && req.headers['x-vip']) || '';
+  const k = String(q || h);
+  return k.length > 0 && k === VIP_PASSWORD;
+}
+
+module.exports = { isVip, NOTION_VERSION, headers, nfetch, plain, clean, fileUrl, normalise };

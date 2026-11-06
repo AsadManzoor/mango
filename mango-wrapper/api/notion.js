@@ -1,7 +1,7 @@
 // Vercel serverless function: reads your Notion databases and returns tidy JSON.
 // The Notion token lives ONLY in the NOTION_TOKEN environment variable (never in the browser).
 
-const { headers, nfetch, fileUrl, normalise } = require('./_notion');
+const { headers, nfetch, fileUrl, normalise, isVip } = require('./_notion');
 
 const DBS = {
   dates: process.env.DB_DATES || '3f788828e93080a4b4c3f76f9922946b',
@@ -43,18 +43,19 @@ module.exports = async (req, res) => {
     res.status(500).json({ error: 'NOTION_TOKEN is not set' });
     return;
   }
+  const vip = isVip(req);
   const keys = Object.keys(DBS);
   const settled = await Promise.allSettled([...keys.map((k) => queryAll(DBS[k], token)), mainPage(token)]);
   const data = {};
   const errors = [];
   keys.forEach((k, i) => {
     const s = settled[i];
-    if (s.status === 'fulfilled') data[k] = s.value.map(normalise);
+    if (s.status === 'fulfilled') data[k] = s.value.map(normalise).filter((x) => vip || !x.nsfw);
     else { data[k] = []; errors.push(`${k}: ${s.reason.message}`); }
   });
   const m = settled[keys.length];
   if (m.status === 'fulfilled') data.banner = m.value.banner;
   else errors.push(`banner: ${m.reason.message}`);
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=120');
-  res.status(200).json({ fetchedAt: new Date().toISOString(), errors, ...data });
+  res.status(200).json({ vip, fetchedAt: new Date().toISOString(), errors, ...data });
 };

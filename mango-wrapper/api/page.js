@@ -2,7 +2,7 @@
 // Reads one page (a date, activity, trip, show...) and returns its photos, text and videos as tidy blocks.
 // Read-only. Photo links from Notion expire after about an hour, so this is fetched fresh each time a page is opened.
 
-const { headers, nfetch, plain, clean, fileUrl, normalise } = require('./_notion');
+const { headers, nfetch, plain, clean, fileUrl, normalise, isVip } = require('./_notion');
 const { mapFor } = require('./_maps');
 
 const MAX_DEPTH = 4;
@@ -124,6 +124,7 @@ module.exports = async (req, res) => {
     if (!pr.ok) { res.status(pr.status === 404 ? 404 : 502).json({ error: `Notion ${pr.status}` }); return; }
     const page = await pr.json();
     const meta = normalise(page);
+    if (meta.nsfw && !isVip(req)) { res.status(404).json({ error: 'Not found' }); return; }
     const blocks = await tree(id, token, 0);
     res.setHeader('Cache-Control', 's-maxage=20, stale-while-revalidate=40');
     res.status(200).json({

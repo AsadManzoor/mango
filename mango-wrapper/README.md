@@ -79,3 +79,11 @@ Your site is now live and syncing. Never put the token in `index.html`.
 - Everywhere she appears: breathing, blinking (layer 09 are the eyelids), hair sway, head follows the cursor, rat antics, waves and hops.
 - Companion extras: legs walk when she chases the cursor, hair trails movement and scrolling, she nods while talking, bops to the music, and naps (eyes closed, floating z's) after about 50 seconds idle.
 - **Redeploy:** replace `index.html` and add the `assets/gaja/` folder.
+
+## Memory Lane, calendar photos, NSFW and VIP
+
+- **Memory Lane** lists every calendar entry whose date has passed (newest first). A "Debrief" is no longer required, and "Potential" entries show up too once their date is past. Thumbnails come from the page cover, or else the first photo in the page.
+- **Calendar thumbnails**: tapping a day makes its cell a little taller and shows the entry's thumbnail (cover, else first photo in the page). The same image appears at the top of that entry in the side panel.
+- **NSFW checkbox**: any entry (or sub-page) with the `NSFW` checkbox ticked is left out for guests. This happens on the server (`api/notion.js`, `api/page.js`), so the entry never reaches a guest's browser. Entries with the box unticked, or no such property, always show.
+- **Guest / VIP**: the opening screen asks. Guest sees everything except NSFW. VIP asks for a password, checked by `api/vip.js`, and then sees everything. The password is `plounge`; to change it, set a `VIP_PASSWORD` environment variable in Vercel. The choice lasts for the browser session; the footer link "Switch Guest / VIP" asks again.
+- Add the `NSFW` checkbox property to whichever databases need it; the integration needs no extra permissions.
