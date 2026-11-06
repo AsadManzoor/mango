@@ -87,3 +87,7 @@ Your site is now live and syncing. Never put the token in `index.html`.
 - **NSFW checkbox**: any entry (or sub-page) with the `NSFW` checkbox ticked is left out for guests. This happens on the server (`api/notion.js`, `api/page.js`), so the entry never reaches a guest's browser. Entries with the box unticked, or no such property, always show.
 - **Guest / VIP**: the opening screen asks. Guest sees everything except NSFW. VIP asks for a password, checked by `api/vip.js`, and then sees everything. The password is `plounge`; to change it, set a `VIP_PASSWORD` environment variable in Vercel. The choice lasts for the browser session; the footer link "Switch Guest / VIP" asks again.
 - Add the `NSFW` checkbox property to whichever databases need it; the integration needs no extra permissions.
+
+## Activities grid
+
+Activities are one even grid instead of status columns. Each card's thumbnail carries a status stamp (Must Do, Might Do, In progress, Done). Cards keep the order Notion returns them in. The thumbnail is the page's Cover; if there's none, the first image in the page body is used; if that's missing too, a coloured gradient.

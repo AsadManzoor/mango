@@ -322,6 +322,11 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .posters{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
 
 /* activities */
+.act-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.agc{margin-bottom:0}
+.agt{position:relative;aspect-ratio:16/9;border-radius:4px;overflow:hidden;margin-bottom:10px;border:2px solid var(--line)}
+.agc .agt .thumb{position:absolute;inset:0;width:100%;height:100%;margin:0;border:0;border-radius:0}
+.agc .stamp{position:absolute;left:8px;top:8px;transform:rotate(-4deg);font-size:11px;padding:3px 8px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.5)}
 .act-cols{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .col h3{font:800 20px var(--serif);margin:0 0 12px;color:var(--paper);display:flex;align-items:center;gap:9px}
 .col h3 i{width:12px;height:12px;border-radius:50%;background:currentColor;flex:none}
@@ -707,12 +712,12 @@ async function fetchThumbs(ids){
 async function loadThumbs(){
   if(demo||!DATA||thumbBusy)return;
   if(Date.now()-thumbsAt>20*60*1000){for(const k in extraCover)delete extraCover[k];thumbsAt=Date.now()}
-  const need=[...new Set([...dayEvents(selDay),...memPast()].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
+  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
   if(!need.length)return;
   thumbBusy=true;
   const ch=await fetchThumbs(need);
   thumbBusy=false;
-  if(ch){renderMemories();observe();settleThumbs($('#memories'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
+  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
   if(need.length>=48)setTimeout(loadThumbs,400);
 }
 function renderMemories(){
@@ -722,12 +727,12 @@ function renderMemories(){
 }
 function renderActivities(){
   const A=DATA.activities, all=['All',...new Set(A.flatMap(a=>a.tags))];
+  const ST={'Must Do':['MUST DO','st-must'],'Might Do':['MIGHT DO','st-might'],'In progress':['IN PROGRESS','st-prog'],'Done':['DONE','st-done']};
   const list=A.filter(a=>(actFilter==='All'||a.tags.includes(actFilter))&&(!dbOnly||a.hasDebrief));
-  const groups=[['Must Do','st-must'],['Might Do','st-might'],['In progress','st-prog'],['Done','st-done']];
-  const cols=groups.map(([g,cls])=>{const items=list.filter(a=>(a.status||'Must Do')===g);
-    return `<div class="col"><h3 class="${cls}"><i></i><b style="color:var(--paper)">${g}</b> <span>${items.length}</span></h3>${items.map(a=>`<a class="card reveal" href="${href(a)}">${thumb(a)}<p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`).join('')||'<div class="empty">Nothing here</div>'}</div>`}).join('');
+  const cards=list.map(a=>{const s=ST[a.status||'Must Do']||ST['Must Do'];const h=hue(a.name);
+    return `<a class="card agc reveal" href="${href(a)}"><div class="agt" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(a)}<span class="stamp ${s[1]}">${s[0]}</span></div><p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing here</div>';
   const done=A.filter(a=>a.status==='Done').length;
-  $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`<div class="filters" role="group" aria-label="Filter activities">${all.map(f=>`<button type="button" class="chip${f===actFilter?' on':''}" aria-pressed="${f===actFilter}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}<span class="fsep" aria-hidden="true"></span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div><div class="act-cols">${cols}</div>`;
+  $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`<div class="filters" role="group" aria-label="Filter activities">${all.map(f=>`<button type="button" class="chip${f===actFilter?' on':''}" aria-pressed="${f===actFilter}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}<span class="fsep" aria-hidden="true"></span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div><div class="act-grid">${cards}</div>`;
 }
 function renderTravel(){
   const T=DATA.travel;
