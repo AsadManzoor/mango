@@ -80,12 +80,18 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 @keyframes cap2{0%{opacity:0;transform:translateY(8px)}18%,78%{opacity:1;transform:none}100%{opacity:0}}
 .s-inner{position:relative;z-index:2;text-align:center;padding:20px;display:grid;justify-items:center;gap:8px;transition:opacity .45s var(--ease),transform .45s var(--ease)}
 #splash.go .s-inner{opacity:0;transform:translateY(-18px)}
-.s-stage{position:relative;height:min(54vh,500px);aspect-ratio:759/1182}
+.s-stage{position:relative;height:min(54vh,500px);aspect-ratio:1.18}
+.s-duo{position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-end}
+.s-duo>.gj{height:100%;width:auto;flex:none}
+.s-duo>#splashRigA{margin-left:-17%}
+.s-heart{position:absolute;left:50%;top:30%;width:15%;translate:-50% 0;opacity:0;fill:var(--blood);filter:drop-shadow(0 0 10px rgba(255,92,130,.8));pointer-events:none}
+.run .s-heart{animation:heart 2.6s 4.5s var(--ease) forwards}
+@keyframes heart{0%{opacity:0;scale:.2;translate:-50% 30%}20%{opacity:1;scale:1.15}35%{scale:.95}100%{opacity:0;scale:1;translate:-50% -170%}}
 .s-glow{position:absolute;left:50%;top:46%;width:150%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.2);border-radius:50%;background:radial-gradient(circle,rgba(255,150,190,.5),rgba(212,24,58,.16) 50%,transparent 70%);opacity:0}
 .run .s-glow{animation:glow 1.6s .2s var(--ease) forwards,glowp 3s 3.9s ease-in-out infinite}
 @keyframes glow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @keyframes glowp{50%{opacity:.7}}
-.s-stage .gj{height:100%;filter:drop-shadow(0 0 20px rgba(255,150,190,.5))}
+.s-stage .gj{filter:drop-shadow(0 0 20px var(--glow))}
 .s-ring{position:absolute;left:50%;top:15%;width:40%;aspect-ratio:1;border:3px solid var(--rose);border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(.2)}
 .run .s-ring{animation:ring .9s 3.95s cubic-bezier(.2,.8,.3,1) forwards}
 @keyframes ring{0%{opacity:.9;transform:translate(-50%,-50%) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(4)}}
@@ -109,27 +115,30 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 @keyframes rain{0%{opacity:0;transform:translate3d(0,0,0) rotate(0)}10%{opacity:.95}100%{opacity:.95;transform:translate3d(var(--sx),112vh,0) rotate(var(--rot))}}
 
 /* ============ GAJA RIG (layered character) ============ */
-.gj{position:relative;display:block;aspect-ratio:759/1182}
+.gj{position:relative;display:block;aspect-ratio:800/1230;--glow:rgba(255,150,190,.5)}
+.gj.a{--glow:rgba(165,180,255,.5)}
+.gj.g{--o-rt:59.0% 99.6%;--o-tr:53.7% 75.4%;--o-hr:50.0% 17.2%;--o-hd:54.1% 50.0%;--o-lids:57.3% 39.7%;--o-pet:56.1% 18.5%;--o-lr:67.1% 75.4%;--o-ll:50.0% 76.5%;--o-ap:77.3% 63.0%;--o-al:37.8% 71.5%;--o-fc:54.2% 35.8%}
+.gj.a{--o-rt:61.4% 99.5%;--o-tr:56.9% 77.5%;--o-hd:53.3% 50.5%;--o-lids:57.6% 39.0%;--o-pet:50.8% 25.9%;--o-lr:69.1% 72.5%;--o-ll:49.6% 74.1%;--o-ap:77.7% 63.0%;--o-al:37.0% 71.5%;--o-fc:52.7% 29.9%}
 .gj .q{position:absolute;left:0;top:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
-.gj .rt{transform-origin:53% 99%}
-.gj .tr{transform-origin:53% 76%;animation:g-breath 3.6s ease-in-out infinite}
+.gj .rt{transform-origin:var(--o-rt)}
+.gj .tr{transform-origin:var(--o-tr);animation:g-breath 3.6s ease-in-out infinite}
 @keyframes g-breath{50%{scale:1 1.012}}
-.gj .hr{transform-origin:50% 15%;rotate:var(--hair,0deg)}
-.gj .hr>img{transform-origin:50% 15%;animation:g-hair 4.6s ease-in-out infinite}
+.gj .hr{transform-origin:var(--o-hr);rotate:var(--hair,0deg)}
+.gj .hr>img{transform-origin:var(--o-hr);animation:g-hair 4.6s ease-in-out infinite}
 @keyframes g-hair{0%,100%{rotate:-1deg}50%{rotate:1.2deg}}
-.gj .hd{transform-origin:54% 50%;translate:calc(var(--lx,0)*1%) calc(var(--ly,0)*1%);transition:translate .35s cubic-bezier(.23,1,.32,1);animation:g-head 4.2s ease-in-out infinite}
+.gj .hd{transform-origin:var(--o-hd);translate:calc(var(--lx,0)*1%) calc(var(--ly,0)*1%);transition:translate .35s cubic-bezier(.23,1,.32,1);animation:g-head 4.2s ease-in-out infinite}
 @keyframes g-head{0%,100%{rotate:-.8deg}50%{rotate:.8deg}}
-.gj .lids{transform-origin:50% 35%;scale:1 0;animation:g-blink 4.8s infinite}
+.gj .lids{transform-origin:var(--o-lids);scale:1 0;animation:g-blink 4.8s infinite}
 .gj.alt .lids{animation-duration:5.9s;animation-delay:-2s}
 @keyframes g-blink{0%,92%{scale:1 0}94%,97%{scale:1 1}100%{scale:1 0}}
-.gj .rat{transform-origin:56% 19%;animation:g-rat 5s ease-in-out infinite}
+.gj .rat{transform-origin:var(--o-pet);animation:g-rat 5s ease-in-out infinite}
 @keyframes g-rat{0%,100%{rotate:-1.5deg}50%{rotate:1.5deg;translate:0 -.15%}}
 .gj .rat.jump{animation:g-ratjump .85s var(--ease)}
 @keyframes g-ratjump{0%{translate:0 0}30%{translate:0 -4%;rotate:-7deg}60%{translate:0 .3%;rotate:5deg}100%{translate:0 0;rotate:0deg}}
 .gj .rat.wig{animation:g-ratwig .7s ease-in-out}
 @keyframes g-ratwig{0%,100%{rotate:0deg}20%{rotate:-9deg}45%{rotate:8deg}70%{rotate:-6deg}}
-.gj .lr{transform-origin:67% 75%}.gj .ll{transform-origin:50% 76%}
-.gj .ap{transform-origin:78% 61%}.gj .al{transform-origin:29% 72%}
+.gj .lr{transform-origin:var(--o-lr)}.gj .ll{transform-origin:var(--o-ll)}
+.gj .ap{transform-origin:var(--o-ap)}.gj .al{transform-origin:var(--o-al)}
 .gj .zz{position:absolute;right:-6%;top:4%;display:none;pointer-events:none}
 .gj .zz i{position:absolute;font:800 26px var(--serif);font-style:normal;color:var(--rose);opacity:0;animation:g-z 2.8s linear infinite}
 .gj .zz i:nth-child(2){animation-delay:.9s}.gj .zz i:nth-child(3){animation-delay:1.8s}
@@ -179,11 +188,14 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 .gj.intro .lg{animation:g-inUp .9s cubic-bezier(.34,1.56,.64,1) backwards}
 .gj.intro .lr{animation-delay:.5s}.gj.intro .ll{animation-delay:.68s}
 .gj.intro .bd{animation:g-inDown 1s .95s cubic-bezier(.34,1.3,.64,1) backwards}
+.gj.a.intro .hd{animation:g-inHat 1.1s 1.45s cubic-bezier(.22,1,.36,1) backwards}
+.gj.a.intro .fc{animation:none}
+@keyframes g-inHat{from{translate:0 -40%;opacity:0;scale:1.12}}
 .gj.intro .hr{animation:g-inHair 1.1s 1.45s cubic-bezier(.22,1,.36,1) backwards}
-.gj.intro .fc{transform-origin:54% 34%;animation:g-inPop .75s 2.1s cubic-bezier(.34,1.56,.64,1) backwards}
-.gj.intro .al>img{transform-origin:29% 72%;animation:g-inL .85s 2.55s cubic-bezier(.34,1.4,.64,1) backwards}
-.gj.intro .ap>img{transform-origin:78% 61%;animation:g-inR .85s 2.85s cubic-bezier(.34,1.4,.64,1) backwards}
-.gj.intro .rat>img{transform-origin:56% 19%;animation:g-inDrop 1.15s 3.3s linear backwards}
+.gj.intro .fc{transform-origin:var(--o-fc);animation:g-inPop .75s 2.1s cubic-bezier(.34,1.56,.64,1) backwards}
+.gj.intro .al>img{transform-origin:var(--o-al);animation:g-inL .85s 2.55s cubic-bezier(.34,1.4,.64,1) backwards}
+.gj.intro .ap>img{transform-origin:var(--o-ap);animation:g-inR .85s 2.85s cubic-bezier(.34,1.4,.64,1) backwards}
+.gj.intro .rat>img{transform-origin:var(--o-pet);animation:g-inDrop 1.15s 3.3s linear backwards}
 .gj.intro .rt{animation:g-land .5s 3.95s var(--ease)}
 @keyframes g-inUp{from{translate:0 40%;opacity:0}}
 @keyframes g-inDown{from{translate:0 -28%;opacity:0}}
@@ -234,11 +246,15 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .lede{font-size:clamp(18px,2vw,23px);line-height:1.55;max-width:34em;margin:26px 0 0;color:#ffe3ec}
 .btns{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
 .stage{position:relative;height:clamp(500px,56vw,660px)}
-.arch{position:absolute;inset:34px 26px 24px;border:3px solid var(--rose);border-radius:999px 999px 14px 14px;background:radial-gradient(circle at 50% 38%,#6a2850,#2a1424 70%);overflow:hidden}
+.arch{position:absolute;inset:34px 26px 84px;border:3px solid var(--rose);border-radius:999px 999px 14px 14px;background:radial-gradient(circle at 50% 38%,#6a2850,#2a1424 70%);overflow:hidden}
 .moon{position:absolute;left:17%;top:20%;width:clamp(46px,7vw,84px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7fa,#ffc2d8)}
-.hero-gaja{position:absolute;left:50%;bottom:0;height:min(88%,570px);width:auto;transform:translateX(-50%);filter:drop-shadow(0 0 22px rgba(255,150,190,.5));pointer-events:auto;cursor:pointer}
+.hero-duo{position:absolute;left:50%;bottom:0;width:100%;max-width:640px;aspect-ratio:1.18;transform:translateX(-50%);display:flex;justify-content:center;align-items:flex-end;pointer-events:none}
+.hero-who{height:100%;width:auto;flex:none;filter:drop-shadow(0 0 22px var(--glow));pointer-events:auto;cursor:pointer}
+.hero-who+.hero-who{margin-left:-17%}
+.hbubble small{display:block;font:800 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--blood);margin-bottom:5px}
+.hbubble.r{left:auto;right:-6px;border-radius:22px 22px 4px 22px;border-color:#a9b8ff}
 .hbubble{position:absolute;left:-6px;top:50px;z-index:3;max-width:min(250px,60%);background:var(--paper);color:var(--night);font-weight:700;font-size:16px;line-height:1.35;padding:13px 17px;border-radius:22px 22px 22px 4px;border:3px solid var(--rose)}
-.ticket{position:absolute;right:-4px;bottom:84px;z-index:3;background:var(--blood);color:#fff;font-weight:700;font-size:15px;padding:14px 22px;border:3px solid var(--paper);transform:rotate(-4deg);text-decoration:none;display:block;max-width:60%;transition:transform .2s var(--ease)}
+.ticket{position:absolute;right:-4px;bottom:2px;z-index:3;background:var(--blood);color:#fff;font-weight:700;font-size:15px;padding:14px 22px;border:3px solid var(--paper);transform:rotate(-4deg);text-decoration:none;display:block;max-width:60%;transition:transform .2s var(--ease)}
 .ticket .big{display:block;font:800 28px/1.1 var(--serif);margin:3px 0;overflow-wrap:anywhere}
 @media(hover:hover) and (pointer:fine){.ticket:hover{transform:rotate(-2deg) translateY(-4px)}}
 .chapter{max-width:1240px;margin:0 auto;padding:64px 24px 10px;scroll-margin-top:76px}
@@ -546,7 +562,9 @@ dialog#lightbox::backdrop{background:rgba(10,4,8,.94)}
 #gaja{position:fixed;left:0;top:0;z-index:100;width:var(--gs,120px);pointer-events:none;opacity:0;transition:opacity .35s var(--ease);will-change:transform}
 body.ready #gaja.here{opacity:1}
 #gaja .body{width:100%;position:relative;z-index:1;pointer-events:auto;cursor:pointer;transform-origin:50% 90%;display:block;border:0;background:none;padding:0}
-#gaja .gj{width:100%;filter:drop-shadow(0 0 14px rgba(255,150,190,.45))}
+#gaja .gj{width:100%;filter:drop-shadow(0 0 14px var(--glow))}
+#gaja .gj[hidden]{display:none}
+#gaja.asad #bub{border-color:#a9b8ff}#gaja.asad #bub:after{border-top-color:#a9b8ff}
 @keyframes bob2{50%{transform:translateY(-6px) rotate(1deg)}}
 #gaja.hop .body{animation:hopin .7s var(--ease)}
 @keyframes hopin{from{transform:translateY(60px) scale(.6);opacity:0}to{transform:none;opacity:1}}
@@ -565,7 +583,7 @@ body.ready #gaja.here{opacity:1}
 .fx{position:fixed;pointer-events:none;z-index:150;width:12px;height:8px;border-radius:70% 0 70% 0;animation:petalfx 1s var(--ease) forwards}
 @keyframes petalfx{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rr));opacity:0}}
 
-@media(max-width:900px){.hero{grid-template-columns:1fr;gap:20px}.stage{height:min(560px,120vw);max-width:520px;margin:0 auto;width:100%}}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:20px}.arch{inset:34px 26px 104px}.hbubble{top:-2px;font-size:14px;padding:10px 14px;max-width:62%}.ticket{max-width:78%;padding:11px 18px}.ticket .big{font-size:23px}.stage{height:min(560px,120vw);max-width:520px;margin:0 auto;width:100%}}
 @media(max-width:640px){#gaja{--gs:90px}header.top .sync{display:none}header.top{padding:8px 12px}header.top .logo{font-size:16px}.chapter{padding-top:48px}.meter .bar{width:90px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
 </style>
@@ -580,13 +598,13 @@ body.ready #gaja.here{opacity:1}
     <form class="gate-pw" id="gPw" hidden autocomplete="off"><label class="sr" for="pw">VIP password</label><input id="pw" type="password" placeholder="Password" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="row"><button class="btn primary" type="submit">Continue</button><button class="btn ghost" type="button" id="gBack">Back</button></div><p class="gate-err" id="gErr" role="alert"></p></form>
     <button class="btn primary" id="gate" type="button" hidden>Tap to enter</button></div>
   <button class="skip" id="skip" type="button">Skip intro</button>
-  <div class="s-cap" aria-hidden="true"><p class="c1">…it was a dark and quiet night…</p><p class="c2">…until a girl, a mouse and a flurry of petals arrived.</p></div>
+  <div class="s-cap" aria-hidden="true"><p class="c1">…it was a dark and quiet night…</p><p class="c2">And tonight’s feature: Gaja &amp; Asad.</p></div>
   <div class="s-flash" aria-hidden="true"></div>
   <div class="s-inner">
-    <div class="s-stage" role="img" aria-label="Gaja, a cartoon girl with a mouse on her head, holding a laptop and a phone">
+    <div class="s-stage" role="img" aria-label="Gaja, a cartoon girl with a mouse on her head, and Asad, a cartoon guy with a cat on his beanie, standing side by side">
       <span class="s-glow"></span><span class="s-ring"></span>
       <i class="sp" style="left:-14%;top:12%;--z:22px;--d:3.9s"></i><i class="sp" style="right:-12%;top:6%;--z:16px;--d:4.2s"></i><i class="sp" style="left:-20%;top:52%;--z:14px;--d:4.5s"></i><i class="sp" style="right:-22%;top:46%;--z:24px;--d:4.1s"></i><i class="sp" style="left:2%;top:84%;--z:12px;--d:4.8s"></i><i class="sp" style="right:0;top:88%;--z:16px;--d:4.35s"></i>
-      <div id="splashRig"></div>
+      <div class="s-duo"><div id="splashRig"></div><div id="splashRigA"></div></div><svg class="s-heart" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 21C-4 10 3-2 12 5c9-7 16 5 0 16z"/></svg>
     </div>
     <p class="s-title" role="presentation">Mango Shake <span class="x">×</span> <span class="w2">Boy Wonder</span></p>
     <p class="s-sub">our plans, in chapters</p>
@@ -615,8 +633,8 @@ body.ready #gaja.here{opacity:1}
         <div class="btns"><a class="btn primary" href="#dates">Open the next chapter</a><a class="btn ghost" href="#memories">Revisit our memories</a></div>
       </div>
       <div class="stage" id="stage">
-        <div class="arch"><span class="moon"></span><div class="hero-gaja" id="heroGaja" role="img" aria-label="Gaja, holding her laptop and phone"></div></div>
-        <p class="hbubble" id="hbubble">Hi, I’m Gaja. Scroll on, I’ll tag along.</p>
+        <div class="arch"><span class="moon"></span><div class="hero-duo"><div class="hero-who" id="heroGaja" role="img" aria-label="Gaja, with Yuki the mouse on her head, holding her laptop and phone"></div><div class="hero-who" id="heroAsad" role="img" aria-label="Asad, with Julie the cat on his beanie, holding his phone and a cylinder"></div></div></div>
+        <p class="hbubble" id="hbubble"><small>Gaja &amp; Asad</small>Hi, we’re Gaja &amp; Asad. Scroll on and we’ll take turns tagging along.</p>
         <a class="ticket" id="ticket" href="#dates">Next up<span class="big">…</span><span class="num">Checking the calendar…</span></a>
       </div>
     </div>
@@ -673,7 +691,7 @@ body.ready #gaja.here{opacity:1}
     <button type="button" data-a="movie" title="Movie night pick" aria-label="Movie night pick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="M3 8l3-5 4 5 3-5 4 5 3-5"/></svg></button>
     <button type="button" data-a="shh" title="Quiet mode" aria-label="Toggle quiet mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
   </div>
-  <button class="body" id="gbody" type="button" aria-label="Talk to Gaja"><span id="gRig" style="display:block"></span></button>
+  <button class="body" id="gbody" type="button" aria-label="Talk to Gaja" ><span id="gRig" style="display:block"><span id="gRigG"></span><span id="gRigA" hidden></span></span></button>
 </div>
 
 <script>
@@ -900,10 +918,10 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
 document.addEventListener('click',e=>{
   const t=e.target.closest('button,.d.has');if(!t)return;
   if(t.dataset.m){calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+Number(t.dataset.m),1);selDay=null;renderDates();observe();return}
-  if(t.dataset.day){selDay=selDay===t.dataset.day?null:t.dataset.day;renderDates();observe();if(selDay){say('Tap a date to open its photos and notes.');settleThumbs($('#dates'));loadThumbs()}return}
+  if(t.dataset.day){selDay=selDay===t.dataset.day?null:t.dataset.day;renderDates();observe();if(selDay){say(T('day'));settleThumbs($('#dates'));loadThumbs()}return}
   if('clear' in t.dataset){selDay=null;renderDates();observe();return}
-  if('db' in t.dataset){dbOnly=!dbOnly;renderActivities();observe();settleThumbs($('#activities'));say(dbOnly?'Only the ones we wrote a debrief for.':'All activities again.');return}
-  if(t.dataset.f){actFilter=t.dataset.f;renderActivities();observe();settleThumbs($('#activities'));say(actFilter==='All'?'Everything, everywhere.':`Just the “${actFilter}” ones.`);return}
+  if('db' in t.dataset){dbOnly=!dbOnly;renderActivities();observe();settleThumbs($('#activities'));say(T('db',dbOnly));return}
+  if(t.dataset.f){actFilter=t.dataset.f;renderActivities();observe();settleThumbs($('#activities'));say(T('filter',actFilter));return}
 });
 
 /* ============ SUB-PAGES ============ */
@@ -1038,8 +1056,8 @@ function renderPage(p,kind){
   bindBack();settleThumbs(vPage);
   lbList=$$('.photo .lb',vPage).map(b=>({src:b.dataset.src,cap:b.dataset.cap}));
   if(started)fx(compRig,'hop',800);
-  if(photos&&started)say(photos>3?`Ooh, ${photos} photos! Tap any to see it bigger.`:'Aww, look at this one.',5500);
-  else if(!photos&&started&&kind)say('Quiet page… add some photos in Notion!',4500);
+  if(photos&&started)say(T('photos',photos),5500);
+  else if(!photos&&started&&kind)say(T('nophotos'),4500);
 }
 vPage.addEventListener('click',e=>{const b=e.target.closest('.photo .lb');if(!b)return;lbIdx=$$('.photo .lb',vPage).indexOf(b);openLb()});
 const lb=$('#lightbox');
@@ -1052,21 +1070,73 @@ lb.addEventListener('close',()=>{$('#lbimg').removeAttribute('src')});
 
 /* ============ GAJA RIG: nine layers, one character ============ */
 const RIGS=[];let musicOn=false;
-const GL=['02-leg-r','03-leg-l','01-hair','04-body','05-face','09-lids','08-rat','06-phone','07-laptop'];
-const gsrc=(n)=>`assets/gaja/${n}.webp`;
+const LAY={g:['02-leg-r','03-leg-l','01-hair','04-body','05-face','09-lids','08-rat','06-phone','07-laptop'],a:['01-leg-r','02-leg-l','03-torso','04-jacket','05-cyl','06-head','07-lids','08-julie','09-phone']};
+const GL=LAY.g.map(n=>'gaja/'+n).concat(LAY.a.map(n=>'asad/'+n));
+const gsrc=(n)=>`assets/${n}.webp`;
 function mountGaja(el,opt={}){
-  el.classList.add('gj');if(opt.alt)el.classList.add('alt');if(opt.nodance)el.classList.add('nodance');
-  const I=(n,c='')=>`<img class="q ${c}" src="${gsrc(n)}" alt="" width="759" height="1182" decoding="async" draggable="false">`;
-  el.innerHTML=`<div class="q rt"><div class="q lg lr">${I('02-leg-r')}</div><div class="q lg ll">${I('03-leg-l')}</div><div class="q tr"><div class="q hr">${I('01-hair')}</div>${I('04-body','bd')}<div class="q hd">${I('05-face','fc')}${I('09-lids','lids')}<div class="q rat">${I('08-rat')}</div></div><div class="q ap">${I('06-phone')}</div><div class="q al">${I('07-laptop')}</div></div></div>${opt.zz?'<span class="zz" aria-hidden="true"><i>z</i><i>Z</i><i>z</i></span>':''}`;
+  const w=opt.who||'g',d=w==='g'?'gaja/':'asad/';
+  el.classList.add('gj',w);if(opt.alt)el.classList.add('alt');if(opt.nodance)el.classList.add('nodance');
+  const I=(n,c='')=>`<img class="q ${c}" src="${gsrc(d+n)}" alt="" width="800" height="1230" decoding="async" draggable="false">`;
+  el.innerHTML=(w==='g'
+   ?`<div class="q rt"><div class="q lg lr">${I('02-leg-r')}</div><div class="q lg ll">${I('03-leg-l')}</div><div class="q tr"><div class="q hr">${I('01-hair')}</div>${I('04-body','bd')}<div class="q hd">${I('05-face','fc')}${I('09-lids','lids')}<div class="q rat">${I('08-rat')}</div></div><div class="q ap">${I('06-phone')}</div><div class="q al">${I('07-laptop')}</div></div></div>`
+   :`<div class="q rt"><div class="q lg lr">${I('01-leg-r')}</div><div class="q lg ll">${I('02-leg-l')}</div><div class="q tr">${I('03-torso','bd')}${I('04-jacket','bd')}<div class="q al">${I('05-cyl')}</div><div class="q hd">${I('06-head','fc')}${I('07-lids','lids')}<div class="q rat">${I('08-julie')}</div></div><div class="q ap">${I('09-phone')}</div></div></div>`)
+   +(opt.zz?'<span class="zz" aria-hidden="true"><i>z</i><i>Z</i><i>z</i></span>':'');
   RIGS.push(el);if(musicOn&&!opt.nodance)el.classList.add('dance');
   return el;
 }
 function setDance(on){musicOn=on;RIGS.forEach(r=>r.classList.toggle('dance',on&&!r.classList.contains('nodance')))}
 // add a class for a moment (restarts the animation if it's already running)
 function fx(el,cls,ms){if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),ms)}
-const splashRig=mountGaja($('#splashRig').parentNode.querySelector('#splashRig'),{nodance:true});
-const heroRig=mountGaja($('#heroGaja'));
-const compRig=mountGaja($('#gRig'),{zz:true,alt:true});
+const splashRig=mountGaja($('#splashRig'),{nodance:true,who:'g'}),splashRigA=mountGaja($('#splashRigA'),{nodance:true,who:'a'});
+const heroRig=mountGaja($('#heroGaja'),{who:'g'}),heroRigA=mountGaja($('#heroAsad'),{who:'a'});
+const compG=mountGaja($('#gRigG'),{zz:true,alt:true,who:'g'}),compA=mountGaja($('#gRigA'),{zz:true,who:'a'});
+let compRig=compG,who='g';
+/* what each of them says. Gaja is the fiery one, Asad is the gentle one. */
+const LN={
+ g:{name:'Gaja',
+  welcome:['Welcome in! I’m so glad you’re here. Tap me for tricks.'],back:['Welcome back~','Oh good, you’re back. I missed you.'],
+  photos:n=>n>3?`${n} photos?! Look how happy we are. Tap any to see it bigger.`:'Aww, look at this one. I love it so much.',
+  nophotos:'Empty page! Go add some photos in Notion.',day:'Tap a date to open its photos and notes.',
+  db:on=>on?'Only the ones with a debrief. We worked hard on those.':'All activities. Everything, everywhere.',
+  filter:f=>f==='All'?'Everything, everywhere.':`Just the “${f}” ones. Pick one, I’m excited!`,
+  idle:['Still there? Hello? I’m right here!','I found a petal. Keep it?','Yuki’s getting restless. Say something, please!','Psst, tap me for ideas.','Asad is the kindest person I know. I will defend that forever.','If anyone is unkind to Asad, they’ll hear from me. Politely, but loudly.','I’m so proud of him. He works so hard on everything he does.'],
+  zz:'…zzz…',menu:'I’ll hold still for 10 seconds. Pick one!',
+  next:(n,cd)=>n?`Next up: “${n}”, ${cd}. I can’t wait!`:'Nothing on the calendar. Plan something!',
+  pick:(n,c)=>`How about “${n}”?${c}`,pickNone:'Everything’s done?! Add more in Notion.',
+  movie:n=>`Tonight: “${n}”. Popcorn time!`,movieNone:'No unwatched movies. Add some in Notion!',
+  quiet:on=>on?'Quiet mode on. Tap me to wake me up.':'I’m back!',
+  swap:['My turn! Asad’s resting, and I’ve got you covered.','Hi! Did you miss me? I missed you.','Asad’s with Julie. I’m on guard duty, and no one’s getting past me.'],
+  hero:['Hi hi! I’m Gaja. Yuki says hello.','Scroll on. We’ll follow you down.','Psst… tap a date to see the photos.','Asad is right next to me, and I’ve got him. Always.'],
+  tips:{dates:['Pink days have plans. Tap one, then open the date for photos.','Rose chips are together, red are apart, dashed are maybes. Easy!'],
+   memories:['These are the dates we’ve lived. Tap one and relive it.'],
+   activities:['Filter by tag, it makes this so much easier!','Can’t decide? Tap me, then the laptop. I’ll pick for you, and I’m very passionate about it.'],
+   travel:['Stamped places are ones we’ve been to. Let’s fill up the rest.','Planning is the fun part. Dreaming counts too.'],
+   shows:['Open a show to see its notes.','Cursed shows glow red. Cozy ones glow pink.'],
+   movies:['Horror for Asad, romance for me. I’ll sit through every jump scare for him.','Tap me, then the clapper, for a surprise movie pick.'],
+   books:['Tap a book to open the notes.','Everything here updates from Notion.'],resources:['Extra goodies live down here.']}},
+ a:{name:'Asad',
+  welcome:['Hi, welcome in. Tap me if you’d like some tricks.'],back:['Welcome back. I saved you a seat.','Hi again. I’m glad you’re here.'],
+  photos:n=>n>3?`${n} photos. I love looking at these. Tap any to see it bigger.`:'Aw, look at this one. I could stare at it all day.',
+  nophotos:'Nothing here yet. Maybe we can add some in Notion.',day:'Tap a date to open its photos and notes, whenever you’re ready.',
+  db:on=>on?'Just the ones we wrote debriefs for.':'Back to all of them.',
+  filter:f=>f==='All'?'Everything, everywhere.':`Just the “${f}” ones.`,
+  idle:['Still there? No rush, I’m happy to wait.','Julie’s fallen asleep on my head again.','I should stretch. Or lift something. Or both.','Tap me if you want ideas.','Yes, I’m missing a tooth. I was a rowdy kid. I still smile anyway.','I’ve been sketching in my head. The VFX brain never really turns off.','Muay Thai later. I’ll try to be gentle with the bag.','Thinking about my next sketch. Or Gaja. Mostly Gaja.'],
+  zz:'…zzz…',menu:'I’ll stay right here for ten seconds. Pick one whenever you’re ready.',
+  next:(n,cd)=>n?`Next up: “${n}”, ${cd}. I’m looking forward to it.`:'The calendar’s empty. Maybe we could plan something together?',
+  pick:(n,c)=>`Maybe “${n}”?${c} I think we’d like that.`,pickNone:'Looks like everything’s done. We could add more in Notion.',
+  movie:n=>`How about “${n}” tonight? I’ll make the popcorn.`,movieNone:'No unwatched movies. Maybe we add some in Notion?',
+  quiet:on=>on?'Quiet mode on. Tap me when you want me back.':'I’m here again.',
+  swap:['Hi, it’s me. Gaja’s taking a breather.','Hey. I’ll keep you company for a bit.','Julie wanted to say hi. She’s on my head, so, hi.'],
+  hero:['Hi, I’m Asad. That’s Julie on my head. She’s very comfy.','Take your time. We’ll tag along when you scroll.','Gaja’s the brave one. I’m the one who’ll hold your hand.','Lost a tooth being a rowdy kid. Still grinning, though.'],
+  tips:{dates:['Pink days have plans. Take your time and tap one to see the photos.','Rose is together, red is apart, dashed is maybe. Hopefully more rose.'],
+   memories:['Every one of these is a day I got to spend with Gaja.','Tap one to look back. Go slow with it.'],
+   activities:['Use the tags to narrow it down, no rush.','Stuck? Tap me, then the little screen. I’ll pick something gentle.'],
+   travel:['Stamped ones we’ve been to. The blank ones are waiting for us.','Wherever we go, I’m just glad we go together.'],
+   shows:['Open a show to read the notes.','Cursed ones glow red, cozy ones glow pink.'],
+   movies:['Horror’s my comfort food. Gaja lets me hold her hand through the scary parts.','Tap me, then the clapper, and I’ll find tonight’s movie.'],
+   books:['Tap a book to read the notes.','It all updates from Notion on its own.'],resources:['A few extras live down here.']}}
+};
+const T=(k,...a)=>{const v=LN[who][k];return typeof v==='function'?v(...a):Array.isArray(v)?pick(v):v};
 function loadGaja(){return Promise.all(GL.map(n=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=gsrc(n)})))}
 
 /* ============ SPLASH ============ */
@@ -1083,24 +1153,24 @@ function rain(){
 }
 function finishSplash(){
   splash.classList.add('gone');document.body.classList.add('ready');startGaja();
-  setTimeout(()=>say('Welcome in, you two! Tap me for tricks.',6000),900);
+  setTimeout(()=>say(T('welcome'),6000),900);
 }
 function enter(fast){
   if(splash.classList.contains('go'))return;
   splashT.forEach(clearTimeout);splash.classList.add('go');sset('seen','1');
-  splashRig.classList.remove('intro');
+  splashRig.classList.remove('intro');splashRigA.classList.remove('intro');
   if(fast||reduce){setTimeout(finishSplash,fast?120:300);return}
-  fx(splashRig,'hop',800);rain();setTimeout(finishSplash,1450);
+  fx(splashRig,'hop',800);fx(splashRigA,'hop',800);rain();setTimeout(finishSplash,1450);
 }
 function runSplash(){
   Promise.race([loadGaja(),new Promise(r=>setTimeout(r,2500))]).then(()=>{
     if(splash.classList.contains('go'))return;
     splash.classList.add('run');
     if(reduce){later(900,()=>enter());return}
-    splashRig.classList.add('intro');
-    later(4500,()=>{splashRig.classList.remove('intro');fx(splashRig,'waving',2200);fx(splashRig.querySelector('.rat'),'wig',800)});
-    later(6000,()=>fx(splashRig,'hop',800));
-    later(6500,()=>fx(splashRig.querySelector('.rat'),'jump',900));
+    splashRig.classList.add('intro');splashRigA.classList.add('intro');
+    later(4500,()=>{[splashRig,splashRigA].forEach(r=>{r.classList.remove('intro');fx(r,'waving',2200);fx(r.querySelector('.rat'),'wig',800)})});
+    later(6000,()=>{fx(splashRig,'hop',800);fx(splashRigA,'hop',800)});
+    later(6500,()=>{fx(splashRig.querySelector('.rat'),'jump',900);fx(splashRigA.querySelector('.rat'),'jump',900)});
     later(7400,()=>enter());
   });
 }
@@ -1108,7 +1178,7 @@ function runSplash(){
 const musicNow=()=>{try{if(window.mxApi&&mxApi.wants()&&!mxApi.isPlaying())mxApi.play(true)}catch(e){}};
 $('#skip').onclick=()=>{musicNow();enter(true)};
 function bootSite(){
-  if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');addEventListener('load',()=>setTimeout(()=>{startGaja();say('Welcome back~',3000)},300));if(document.readyState==='complete'){startGaja();say('Welcome back~',3000)}}
+  if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');addEventListener('load',()=>setTimeout(()=>{startGaja();say(T('back'),3000)},300));if(document.readyState==='complete'){startGaja();say(T('back'),3000)}}
   else{$('#skip').focus({preventScroll:true});runSplash()}
 }
 // The opening screen: choose Guest or VIP (VIP needs the password, checked on the server). That tap also starts the music.
@@ -1116,7 +1186,7 @@ function showGate(mode){
   const $g=(id)=>document.getElementById(id);
   splash.classList.add('gated');
   const done=()=>{musicNow();splash.classList.remove('gated');
-    if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');startGaja();say('Welcome back~',3000)}
+    if(sget('seen')){splash.classList.add('gone');document.body.classList.add('ready');startGaja();say(T('back'),3000)}
     else{$('#skip').focus({preventScroll:true});runSplash()}};
   if(mode==='tap'){$g('gate').hidden=false;$g('gate').focus({preventScroll:true});$g('gate').onclick=done;return}
   const choose=$g('gChoose'),form=$g('gPw'),err=$g('gErr'),pw=$g('pw');
@@ -1224,7 +1294,7 @@ function measure(){gw=G.offsetWidth||108;gh=G.offsetHeight||170}
 addEventListener('resize',measure);
 let hold=0,holdT,htx=0,hty=0;
 let gx=innerWidth-150,gy=innerHeight-220,tx=gx,ty=gy,tilt=0,started=false,idleT=Date.now(),quiet=store.get('quiet')==='1',bubT;
-function startGaja(){if(started)return;started=true;measure();G.classList.add('hop');updateAway();requestAnimationFrame(loop);setTimeout(()=>fx(compRig,'waving',2200),700)}
+function startGaja(){if(started)return;started=true;nextSwap=Date.now()+22000+Math.random()*12000;measure();G.classList.add('hop');updateAway();requestAnimationFrame(loop);setTimeout(()=>fx(compRig,'waving',2200),700)}
 function say(msg,ms=5200){
   if(!started||(quiet&&!say.force))return;
   bub.textContent=msg;bub.classList.toggle('left',gx>innerWidth-200);bub.classList.add('show');clearTimeout(bubT);bubT=setTimeout(()=>bub.classList.remove('show'),ms);
@@ -1271,37 +1341,40 @@ function lookHero(e){
   heroRaf=requestAnimationFrame(()=>{heroRaf=0;const r=$('#heroGaja').getBoundingClientRect();
     heroRig.style.setProperty('--lx',Math.max(-1.3,Math.min(1.3,(e.clientX-(r.left+r.width/2))/r.width*2.6)).toFixed(2));
     heroRig.style.setProperty('--ly',Math.max(-.9,Math.min(.9,(e.clientY-(r.top+r.height*.33))/r.height*1.8)).toFixed(2))})}
-$('#heroGaja').addEventListener('click',e=>{fx(heroRig,'hop',800);fx(heroRig,'waving',2200);fx(heroRig.querySelector('.rat'),'jump',900);burst(e.clientX,e.clientY);const l=['Hi hi!','Scroll on, I’ll follow you down.','Psst… tap a date to see the photos.'];$('#hbubble').textContent=pick(l)});
+function heroTalk(rig,w,e){fx(rig,'hop',800);fx(rig,'waving',2200);fx(rig.querySelector('.rat'),'jump',900);burst(e.clientX,e.clientY);const hb=$('#hbubble');hb.classList.toggle('r',w==='a');hb.innerHTML='<small>'+LN[w].name+'</small>'+esc(pick(LN[w].hero))}
+$('#heroGaja').addEventListener('click',e=>heroTalk(heroRig,'g',e));
+$('#heroAsad').addEventListener('click',e=>heroTalk(heroRigA,'a',e));
 
-const TIPS={
- dates:['Pink days have plans. Tap one, then open the date for photos.','Rose chips are together, red are apart, dashed are maybes.'],
- memories:['These are the dates we’ve lived. Tap one to look back.'],
- activities:['Filter by tag to narrow things down.','Can’t decide? Tap me, then the laptop. I’ll pick for you.'],
- travel:['Stamped places are ones we’ve been to.','Planning is the fun part. Dreaming counts.'],
- shows:['Open a show to see its notes.','Cursed shows glow red. Cozy ones glow pink.'],
- movies:['Horror for Asad, romance for me. Fair trade.','Tap me, then the clapper, for a surprise movie pick.'],
- books:['Tap a book to open the notes.','Everything here updates from Notion.'],
- resources:['Extra goodies live down here.']
-};
 const seenTips=new Set();let tipTimer;
-function chapterTip(id){if(started&&!onPage)fx(compRig,'hop',800);clearTimeout(tipTimer);if(!started||seenTips.has(id)||onPage)return;tipTimer=setTimeout(()=>{if(onPage)return;seenTips.add(id);say(pick(TIPS[id]||['…']),6000)},900)}
+function chapterTip(id){if(started&&!onPage)fx(compRig,'hop',800);clearTimeout(tipTimer);if(!started||seenTips.has(id)||onPage)return;tipTimer=setTimeout(()=>{if(onPage)return;seenTips.add(id);say(pick(LN[who].tips[id]||['…']),6000)},900)}
 // little life signs: rat antics, waves, glances, and a nap when nobody's around
 setInterval(()=>{
   if(reduce||document.hidden)return;
   const rigs=[];if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&!G.classList.contains('menu'))rigs.push(compRig);
-  if(heroSeen&&!onPage&&splash.classList.contains('gone'))rigs.push(heroRig);
+  if(heroSeen&&!onPage&&splash.classList.contains('gone'))rigs.push(heroRig,heroRigA);
   if(!rigs.length)return;
-  const rg=pick(rigs),k=pick(rg===heroRig?['ratjump','ratwig','wave','hop','ratwig']:['ratjump','ratwig','wave','look','look','hop','ratwig']);
+  const rg=pick(rigs),k=pick(rg.id.startsWith('hero')?['ratjump','ratwig','wave','hop','ratwig']:['ratjump','ratwig','wave','look','look','hop','ratwig']);
   if(k==='ratjump')fx(rg.querySelector('.rat'),'jump',900);
   else if(k==='ratwig')fx(rg.querySelector('.rat'),'wig',800);
   else if(k==='wave')fx(rg,'waving',2200);
   else if(k==='hop')fx(rg,'hop',800);
   else{const sx=(Math.random()<.5?-1:1)*(.8+Math.random()*.5);rg.style.setProperty('--lx',sx);rg.style.setProperty('--ly',(Math.random()-.5)*.8);setTimeout(()=>{rg.style.setProperty('--lx',0);rg.style.setProperty('--ly',0)},1500)}
 },5200);
-setInterval(()=>{if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&Date.now()-idleT>50000&&!G.classList.contains('menu')){compRig.classList.add('sleep');compRig.classList.remove('walking','talking');say('…zzz…',3500)}},3000);
-setInterval(()=>{if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&Date.now()-idleT>28000){idleT=Date.now();say(pick(['Still there?','I found a petal. Keep it?','Asad would say it’s suspiciously quiet…','Psst, tap me for ideas.']),4500)}},4000);
+setInterval(()=>{if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&Date.now()-idleT>50000&&!G.classList.contains('menu')){compRig.classList.add('sleep');compRig.classList.remove('walking','talking');say(T('zz'),3500)}},3000);
+setInterval(()=>{if(started&&G.classList.contains('here')&&!compRig.classList.contains('sleep')&&Date.now()-idleT>28000){idleT=Date.now();say(T('idle'),4500)}},4000);
 
 const gbody=$('#gbody');
+function swapComp(to){
+  to=to||(who==='g'?'a':'g');const from=compRig,next=to==='g'?compG:compA;
+  from.classList.remove('walking','talking','sleep','waving');from.hidden=true;
+  next.hidden=false;next.style.setProperty('--hair',hairNow.toFixed(2)+'deg');next.style.setProperty('--lx',from.style.getPropertyValue('--lx')||0);next.style.setProperty('--ly',from.style.getPropertyValue('--ly')||0);
+  compRig=next;who=to;walking=false;G.classList.toggle('asad',to==='a');gbody.setAttribute('aria-label','Talk to '+LN[to].name);
+  fx(next,'hop',800);burst(gx+gw/2,gy+gh*.4);say(T('swap'),4600);
+}
+// every so often they trade places
+let nextSwap=Infinity;
+setInterval(()=>{if(Date.now()<nextSwap||document.hidden)return;
+  if(started&&G.classList.contains('here')&&!G.classList.contains('menu')&&!compRig.classList.contains('sleep')&&Date.now()>=hold){swapComp();nextSwap=Date.now()+40000+Math.random()*30000}},2000);
 function openMenu(){
   G.classList.add('menu');measure();
   const m=108-gw/2;htx=Math.max(m,Math.min(innerWidth-gw-m,gx));hty=Math.max(170,Math.min(innerHeight-gh-6,gy));
@@ -1310,18 +1383,18 @@ function openMenu(){
 function closeMenu(){G.classList.remove('menu');hold=0;clearTimeout(holdT)}
 function toggleMenu(){G.classList.contains('menu')?closeMenu():openMenu()}
 gbody.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&!compRig.classList.contains('sleep'))fx(compRig,'waving',2200)});
-gbody.addEventListener('click',e=>{e.stopPropagation();wake();fx(compRig,'hop',800);fx(compRig.querySelector('.rat'),'jump',900);toggleMenu();if(G.classList.contains('menu'))say('I’ll hold still for 10 seconds. Pick one!',9000)});
+gbody.addEventListener('click',e=>{e.stopPropagation();wake();fx(compRig,'hop',800);fx(compRig.querySelector('.rat'),'jump',900);toggleMenu();if(G.classList.contains('menu'))say(T('menu'),9000)});
 document.addEventListener('click',e=>{if(!e.target.closest('#gaja'))closeMenu()});
 $('#menu').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||!DATA)return;const a=b.dataset.a;
   const r=b.getBoundingClientRect();burst(r.left+20,r.top+20);
   if(a==='next'){const up=DATA.dates.filter(d=>d.date&&daysUntil(d.dateEnd||d.date)>=0).sort((x,y)=>x.date.localeCompare(y.date))[0];
-    say(up?`Next up: “${up.name}”, ${cdText(up)}.`:'Nothing on the calendar. Time to plan something!',6500)}
+    say(T('next',up&&up.name,up&&cdText(up)),6500)}
   if(a==='pick'){const pool=DATA.activities.filter(x=>x.status!=='Done');
-    if(pool.length){const x=pick(pool);say(`How about “${x.name}”?${x.cost>0?` (about ${money(x.cost)})`:''}`,6500)}else say('Everything’s done?! Add more in Notion.',6500)}
+    if(pool.length){const x=pick(pool);say(T('pick',x.name,x.cost>0?` (about ${money(x.cost)})`:''),6500)}else say(T('pickNone'),6500)}
   if(a==='movie'){const pool=DATA.movies.filter(x=>x.status==='Not Watched');
-    say(pool.length?`Tonight: “${pick(pool).name}”. Popcorn time!`:'No unwatched movies. Add some in Notion!',6500)}
-  if(a==='shh'){quiet=!quiet;store.set('quiet',quiet?'1':'0');say.force=true;say(quiet?'Quiet mode on. Tap me to wake me up.':'I’m back!',3000);say.force=false;if(quiet)setTimeout(()=>bub.classList.remove('show'),3000)}
+    say(pool.length?T('movie',pick(pool).name):T('movieNone'),6500)}
+  if(a==='shh'){quiet=!quiet;store.set('quiet',quiet?'1':'0');say.force=true;say(T('quiet',quiet),3000);say.force=false;if(quiet)setTimeout(()=>bub.classList.remove('show'),3000)}
   closeMenu()
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});

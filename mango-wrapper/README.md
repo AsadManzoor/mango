@@ -106,3 +106,10 @@ Activities are one even grid instead of status columns. Each card's thumbnail ca
 ## Memory Lane (polaroids)
 
 Every past date is a taped polaroid with a handwritten title and date (the Caveat font from Google Fonts, with each letter nudged slightly so it looks pen-written). Polaroids overlap and tilt slightly. Hover: the polaroid lifts, straightens and tilts toward the cursor with a glossy glare. The photo is the Notion cover, else the first image in the page, else a coloured placeholder. Dates show a two-digit year, e.g. "Oct 11 ’26". NSFW tags (VIP only) sit on the photo.
+
+## Two avatars: Gaja & Asad
+- Layers live in `assets/gaja/` and `assets/asad/` (nine webp layers each, one shared 800×1230 frame, so they line up when stacked). To swap art, export the same layers at the same canvas and crop, and replace the files.
+- Gaja (with Yuki) and Asad (with Julie) both appear on the opening screen and at the top of the page. Click either one in the hero for their own line.
+- The cursor companion swaps between them every 40–70 seconds (first swap about 25 s in). Asad has a cooler glow and a blue speech bubble.
+- All dialogue is in the `LN` object in `index.html` (search for `what each of them says`). Gaja is the fiery one, Asad is the gentle one. Add or edit lines freely.
+- Opening caption: "And tonight's feature: Gaja & Asad." (`.s-cap .c2`).
