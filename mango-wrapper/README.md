@@ -135,5 +135,6 @@ In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout wi
 - Sort and status chips work on both sections.
 
 ## Travel
-- Places not yet visited (Planning / Not Visited) are **passports**. The cover shows the name, type tags and a status seal (gold = Planning, outlined = Someday). On hover the cover opens and the cover image (or first non-NSFW image in the page) spans both pages, with an ink stamp for the status.
+- Places not yet visited (Planning / Not Visited) are **passports**. The cover shows a large circle with the entry image as a preview, plus the name, type tags and a status seal (gold = Planning, outlined = Someday). On hover the cover opens and the cover image (or first non-NSFW image in the page) spans both pages, with an ink stamp for the status.
 - **Visited** places are **postcards**: sepia/greyscale photo that turns to colour on hover, with the name, tags and a VISITED postmark always visible. On hover the card just lifts toward the viewer (no flip).
+- Travel has the same sort and show/hide chips as Activities. Status ↑ puts passports first, Status ↓ puts postcards first.
