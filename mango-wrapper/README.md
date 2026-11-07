@@ -128,3 +128,8 @@ In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout wi
 - Tried places are slightly tilted till receipts (grayscale photo, ratings, total, "PAID · TRIED IT" stamp). Want-to-try places are leather-bound menus with a round photo window.
 - Same sort and show/hide chips as the other sections, plus sorting by Gaja's or Asad's stars (unrated last).
 - Hover (mouse) over a receipt and its photo turns to colour. Hover over a leather menu and it opens like a book, with the cover photo running across both pages (it is nudged sideways so it stays on screen). On touch screens and narrow windows the menus stay closed and tapping opens the page.
+
+## Shows and Movies visuals
+- **Shows** use DVD cases (a disc slides out on hover), slightly overlapping and rotated.
+- **Movies** use VHS sleeves (a cassette slides up out of the top on hover), also overlapping and rotated. Stickers: Watched = "BE KIND REWIND", Watching = "NOW PLAYING", Not Watched = "NEW RELEASE". Touch devices (no hover) keep the tape tucked in.
+- Sort and status chips work on both sections.

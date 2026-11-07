@@ -444,6 +444,28 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
  .dvw:hover .dsc,.dvw:focus-visible .dsc{transform:translateX(58%) rotate(250deg)}
  .dvw:hover .dvc,.dvw:focus-visible .dvc{transform:translateX(-9%) rotateX(var(--rx,0deg)) rotateY(-10deg)}
 }
+/* VHS sleeves */
+.vhs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:92px 4px;padding:90px clamp(30px,5vw,56px) 14px 4px}
+.vw{position:relative;display:block;width:120%;aspect-ratio:11/20;text-decoration:none;color:#fff;z-index:var(--z,1);transform:translateY(var(--dy,0)) rotate(var(--j,0deg));transition:transform .3s var(--ease)}
+.vw:hover,.vw:focus-visible{z-index:300;transform:translateY(-3px) rotate(0deg)}
+.vtp{position:absolute;left:8%;right:8%;top:0;height:64%;background:linear-gradient(#2a2a2e,#151518);border-radius:6px;box-shadow:0 0 0 2px #0c0c0e,0 6px 14px rgba(0,0,0,.5);transform:translateY(4%);transition:transform .55s cubic-bezier(.2,.8,.2,1);z-index:0}
+.vlb{position:absolute;left:7%;right:7%;top:6%;height:24%;background:#f3eee0;border-radius:3px;padding:5px 8px;color:#222;overflow:hidden}
+.vlb small{display:block;font:700 8px var(--sans);letter-spacing:.14em;color:#666}
+.vlb b{display:block;font:italic 700 clamp(12px,1.2vw,15px)/1.1 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vlb i{position:absolute;left:0;right:0;bottom:0;height:7px;background:var(--c)}
+.slv{position:absolute;inset:0;background:#0d0d10;border-radius:3px;border:2px solid #0d0d10;box-shadow:-5px 8px 18px rgba(0,0,0,.6);overflow:hidden;z-index:2}
+.vpz{position:absolute;left:0;right:0;top:0;bottom:15%;overflow:hidden}
+.vpz .thumb{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.vsk{position:absolute;left:7px;top:9px;z-index:4;font:800 9px var(--sans);letter-spacing:.08em;padding:3px 7px;border-radius:3px;transform:rotate(-4deg);box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.vsk.g{background:#8fe0b4;color:#06301a}.vsk.y{background:#ffd36b;color:#3a1a00}.vsk.p{background:#d4183a;color:#fff}
+.slv .nsfw{position:absolute;right:7px;top:9px;z-index:4;margin:0}
+.vft{position:absolute;left:0;right:0;bottom:0;height:15%;background:#0d0d10;border-top:4px solid var(--c);display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 8px;z-index:3}
+.vft b{font:800 clamp(10px,1vw,12px)/1.05 var(--serif);text-transform:uppercase;letter-spacing:.02em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.vft span{font:900 11px var(--sans);border:2px solid #fff;padding:0 4px;border-radius:3px;flex:none}
+.slv .glare{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(circle at var(--gx,30%) var(--gy,20%),rgba(255,255,255,.26),transparent 55%);mix-blend-mode:screen;opacity:0;transition:opacity .25s}
+.vw:hover .glare{opacity:1}
+@media(hover:hover) and (pointer:fine){.vw:hover .vtp,.vw:focus-visible .vtp{transform:translateY(-34%)}}
+@media(max-width:640px){.vhs{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:70px 4px;padding-top:50px}.vlb small{font-size:6px}.vsk{font-size:7px}}
 @media(max-width:640px){.dvds{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}.dvc .dtop{font-size:7px}}
 /* books: face-out shelves, leaning and overlapping */
 .bkcase{border:3px solid var(--line);border-radius:10px;background:linear-gradient(#26121d,#1a0c14);padding:26px 18px 0;box-shadow:inset 0 0 70px rgba(0,0,0,.6);overflow:hidden}
@@ -857,12 +879,12 @@ async function fetchThumbs(ids){
 async function loadThumbs(){
   if(demo||!DATA||thumbBusy)return;
   if(Date.now()-thumbsAt>20*60*1000){for(const k in extraCover)delete extraCover[k];thumbsAt=Date.now()}
-  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.food||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
+  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.food||[]),...(DATA.shows||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
   if(!need.length)return;
   thumbBusy=true;
   const ch=await fetchThumbs(need);
   thumbBusy=false;
-  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));renderFood();observe();settleThumbs($('#food'));renderMovies();renderBooks();observe();settleThumbs($('#movies'));settleThumbs($('#books'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
+  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));renderFood();observe();settleThumbs($('#food'));renderShows();renderMovies();renderBooks();observe();settleThumbs($('#shows'));settleThumbs($('#movies'));settleThumbs($('#books'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
   if(need.length>=48)setTimeout(loadThumbs,400);
 }
 const hwHash=(str)=>{let h=7;for(const c of String(str))h=(h*31+c.charCodeAt(0))%233280;return h};
@@ -936,21 +958,24 @@ function renderTravel(){
    `<div class="grid">${T.map(t=>{const s=st[t.status]||st['Not Visited'];return `<a class="pass ${cls[t.status]||''} reveal" href="${href(t)}">${thumb(t)}<span class="pn">${esc(t.name)}</span><div>${tags(t.tags)}${nsfwTag(t)}</div><span class="stamp ${s[1]}">${s[0]}</span></a>`}).join('')||'<div class="empty panel">No trips yet!</div>'}</div>`;
 }
 const HORROR=/horror|haunt|ring|omen|conjur|silent hill|cabin|jennifer|it$|monster|hannibal|midnight mass|scream|hereditary|widow/i;
-function renderPosters(id,title,sub,all){
-  const items=applyView(id,all);
-  const st={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
+const WSTAT={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
+const EMPTYQ=(n)=>`<div class="empty panel" style="grid-column:1/-1">${n?'Everything is hidden. Tap a chip above to bring some back.':'Nothing queued!'}</div>`;
+/* Shows: DVD cases with a disc that slides out */
+function renderShows(){
+  const all=DATA.shows||[],items=applyView('shows',all),st=WSTAT;
   const done=all.filter(i=>i.status==='Watched').length;
-  $('#'+id).innerHTML=head(id,title,sub,meter(done,all.length,'Watched'))+filterBar(id,all,items.length)+
-   `<div class="grid posters">${items.map(i=>{const s=st[i.status]||st['Not Watched'];
-     return `<a class="arc ${HORROR.test(i.name)?'horror':'shoujo'} reveal" href="${href(i)}">${thumb(i)}<span class="stamp ${s[1]}">${s[0]}</span><div class="in"><div class="t">${esc(i.name)}</div>${nsfwTag(i)}</div></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${all.length?'Everything is hidden. Tap a chip above to bring some back.':'Nothing queued!'}</div>`}</div>`;
+  $('#shows').innerHTML=head('shows','Shows','What we’re watching, and what’s waiting.',meter(done,all.length,'Watched'))+filterBar('shows',all,items.length)+
+   `<div class="dvds reveal">${items.map((i,n)=>{const s=st[i.status]||st['Not Watched'],h=hue(i.name);
+     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||EMPTYQ(all.length)}</div>`;
 }
+/* Movies: VHS sleeves, the cassette slides up out of the top on hover */
 function renderMovies(){
-  const all=DATA.movies,items=applyView('movies',all);
-  const st={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
+  const all=DATA.movies||[],items=applyView('movies',all);
+  const sk={Watched:['BE KIND REWIND','g'],Watching:['NOW PLAYING','y'],'Not Watched':['NEW RELEASE','p']};
   const done=all.filter(i=>i.status==='Watched').length;
   $('#movies').innerHTML=head('movies','The Screening Room','Movie nights, past and planned.',meter(done,all.length,'Watched'))+filterBar('movies',all,items.length)+
-   `<div class="dvds reveal">${items.map((i,n)=>{const s=st[i.status]||st['Not Watched'],h=hue(i.name);
-     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${all.length?'Everything is hidden. Tap a chip above to bring some back.':'Nothing queued!'}</div>`}</div>`;
+   `<div class="vhs reveal">${items.map((i,n)=>{const k=sk[i.status]||sk['Not Watched'],h=hue(i.name),c=`hsl(${h} 75% 62%)`;
+     return `<a class="vw" href="${href(i)}" aria-label="${esc(i.name)}" style="--c:${c};--z:${n+1};--j:${(((n*53)%7)-3)*.55}deg;--dy:${((n*29)%5)*3-6}px"><span class="vtp" aria-hidden="true"><span class="vlb"><small>VHS · HI-FI</small><b>${esc(i.name)}</b><i></i></span></span><span class="slv"><span class="vpz" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(i)}</span><span class="vsk ${k[1]}">${k[0]}</span>${nsfwTag(i)}<span class="vft"><b>${esc(i.name)}</b><span>VHS</span></span><span class="glare"></span></span></a>`}).join('')||EMPTYQ(all.length)}</div>`;
 }
 let bkPer=0;
 function renderBooks(){
@@ -965,7 +990,7 @@ function renderBooks(){
 let bkW=0;addEventListener('resize',()=>{clearTimeout(bkW);bkW=setTimeout(()=>{if(!DATA)return;const w=$('#books').clientWidth,bw=w<640?104:150,ov=w<640?18:26;if(Math.max(2,Math.floor((Math.max(300,w)-64-bw)/(bw-ov))+1)!==bkPer){renderBooks();observe();settleThumbs($('#books'))}},200)});
 // shared hover tilt for DVD cases and books
 document.addEventListener('pointermove',e=>{
-  if(e.pointerType==='touch')return;const d=e.target.closest&&e.target.closest('.dvw,.bk,.pol');if(!d)return;
+  if(e.pointerType==='touch')return;const d=e.target.closest&&e.target.closest('.dvw,.vw,.bk,.pol');if(!d)return;
   const r=d.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
   d.style.setProperty('--gx',(x*100).toFixed(0)+'%');d.style.setProperty('--gy',(y*100).toFixed(0)+'%');d.style.setProperty('--rx',((.5-y)*10).toFixed(1)+'deg');d.style.setProperty('--ry',((x-.5)*14).toFixed(1)+'deg');
 },{passive:true});
@@ -977,7 +1002,7 @@ function renderTicket(){
 }
 function render(){
   renderTicket();renderDates();renderMemories();renderActivities();renderFood();renderTravel();
-  renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows);
+  renderShows();
   renderMovies();
   renderBooks();observe();settleThumbs(document);loadThumbs();
 }
@@ -1031,7 +1056,7 @@ document.addEventListener('click',e=>{
     if(t.dataset.h){const k=t.dataset.h,hide=!v.hide.has(k);hide?v.hide.add(k):v.hide.delete(k);say(T('toggle',k.slice(2),!hide))}
     else if(t.dataset.sort){v.sort=t.dataset.sort;say(T('sort',v.sort))}
     else if('reset' in t.dataset)v.hide.clear();
-    ({activities:renderActivities,food:renderFood,shows:()=>renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows),movies:renderMovies,books:renderBooks})[sec]();observe();settleThumbs($('#'+sec));return}
+    ({activities:renderActivities,food:renderFood,shows:renderShows,movies:renderMovies,books:renderBooks})[sec]();observe();settleThumbs($('#'+sec));return}
 });
 
 /* ============ SUB-PAGES ============ */
@@ -1222,8 +1247,8 @@ const LN={
    activities:['Filter by tag, it makes this so much easier!','Can’t decide? Tap me, then the laptop. I’ll pick for you, and I’m very passionate about it.'],
    food:['Receipts are places we’ve tried. The leather menus are the ones I’m dying to go to!','Sort by my stars or Asad’s, whichever you like!'],
    travel:['Stamped places are ones we’ve been to. Let’s fill up the rest.','Planning is the fun part. Dreaming counts too.'],
-   shows:['Open a show to see its notes.','Cursed shows glow red. Cozy ones glow pink.'],
-   movies:['Horror for Asad, romance for me. I’ll sit through every jump scare for him.','Tap me, then the clapper, for a surprise movie pick.'],
+   shows:['Open a show to see its notes.','Hover over a case and the disc slides out!'],
+   movies:['Horror for Asad, romance for me. I’ll sit through every jump scare for him.','Hover over a tape and it slides out of its sleeve. Tap me, then the clapper, for a surprise movie pick.'],
    books:['Tap a book to open the notes.','Everything here updates from Notion.'],resources:['Extra goodies live down here.']}},
  a:{name:'Asad',
   welcome:['Hi, welcome in. Tap me if you’d like some tricks.'],back:['Welcome back. I saved you a seat.','Hi again. I’m glad you’re here.'],
@@ -1244,7 +1269,7 @@ const LN={
    activities:['Use the tags to narrow it down, no rush.','Stuck? Tap me, then the little screen. I’ll pick something gentle.'],
    food:['Receipts are places we’ve tried, and the menus are ones we’d like to.','Every one of these is another meal with Gaja.'],
    travel:['Stamped ones we’ve been to. The blank ones are waiting for us.','Wherever we go, I’m just glad we go together.'],
-   shows:['Open a show to read the notes.','Cursed ones glow red, cozy ones glow pink.'],
+   shows:['Open a show to read the notes.','Hover over a case and you’ll see the disc slide out.'],
    movies:['Horror’s my comfort food. Gaja lets me hold her hand through the scary parts.','Tap me, then the clapper, and I’ll find tonight’s movie.'],
    books:['Tap a book to read the notes.','It all updates from Notion on its own.'],resources:['A few extras live down here.']}}
 };
