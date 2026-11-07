@@ -127,3 +127,4 @@ In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout wi
 - Reads the Food database (`DB_FOOD` env var overrides the id). Fields used: Name, Status (Tried It / Want to Try It), Gaja's Rating and Asad's Rating (⭐ selects), Cost (CAD), cover image (or the first non-NSFW photo in the page) and the NSFW checkbox.
 - Tried places are slightly tilted till receipts (grayscale photo, ratings, total, "PAID · TRIED IT" stamp). Want-to-try places are leather-bound menus with a round photo window.
 - Same sort and show/hide chips as the other sections, plus sorting by Gaja's or Asad's stars (unrated last).
+- Hover (mouse) over a receipt and its photo turns to colour. Hover over a leather menu and it opens like a book, with the cover photo running across both pages (it is nudged sideways so it stays on screen). On touch screens and narrow windows the menus stay closed and tapping opens the page.
