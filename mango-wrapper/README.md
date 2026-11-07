@@ -113,3 +113,12 @@ Every past date is a taped polaroid with a handwritten title and date (the Cavea
 - The cursor companion swaps between them every 40–70 seconds (first swap about 25 s in). Asad has a cooler glow and a blue speech bubble.
 - All dialogue is in the `LN` object in `index.html` (search for `what each of them says`). Gaja is the fiery one, Asad is the gentle one. Add or edit lines freely.
 - Opening caption: "And tonight's feature: Gaja & Asad." (`.s-cap .c2`).
+
+## NSFW sections inside pages
+In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout with the 🔞 icon). Guests never receive those blocks, since `api/page.js` strips them and their children on the server, and `api/thumbs.js` never uses their images as thumbnails. VIPs see them in a red hatched box with an NSFW badge.
+
+## Sorting and filtering (Activities, Shows, Movies, Books)
+- **Sort:** Notion order (default), Status ↑ (not started first, done last) or Status ↓. The status order is set in `ORDER` in `index.html`. Ties keep Notion's order.
+- **Show/hide chips:** one chip per status and per tag. Tap to hide that group (the chip goes dashed and struck through), tap again to show it. Mix freely. An entry is hidden if its status is hidden or any of its tags is hidden. "Show all" resets.
+- Books have no Status in Notion, so they only get tag chips (they appear once you add tags). Activities also keeps the "Debrief written" only-filter.
+- The settings last until the page is reloaded. The Done/progress meters always count everything.

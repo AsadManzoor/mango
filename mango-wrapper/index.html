@@ -320,6 +320,10 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .chip.on{background:var(--rose);color:var(--night)}
 .chip:active{transform:scale(.97)}
 @media(hover:hover) and (pointer:fine){.chip:hover{background:var(--plum2)}.chip.on:hover{background:var(--rose)}}
+.chip.off{opacity:.55;text-decoration:line-through;border-style:dashed}
+.fbar{display:flex;flex-wrap:wrap;gap:10px 26px;margin-bottom:18px;align-items:center}.fg{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fl{font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--rose);opacity:.75;margin-right:2px}
+.fcount{font:600 13px var(--sans);opacity:.7;margin-left:auto}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;align-items:center}.fsep{width:2px;height:22px;background:var(--line);margin:0 4px}
 
 /* arch cards: memories, posters, travel */
@@ -501,6 +505,11 @@ a.mention:active{transform:scale(.98)}
 @media(hover:hover) and (pointer:fine){.linkcard:hover{transform:translateY(-3px)}}
 details.tg{border:2px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--plum);max-width:760px}
 details.tg summary{cursor:pointer;font-weight:700}
+.nsfwblk{border-color:var(--blood)!important;background:repeating-linear-gradient(135deg,rgba(255,45,85,.10) 0 10px,rgba(255,45,85,.04) 10px 20px),var(--plum)!important;position:relative;box-shadow:0 0 0 3px rgba(255,45,85,.12)}
+.nsfwblk>summary{display:flex;align-items:center;gap:10px}
+.nsfwblk>summary em{font:600 13px var(--sans);font-style:normal;opacity:.8}
+.nsfwblk .nsfw{flex:none;margin:0;white-space:nowrap;align-self:flex-start}.callout.nsfwblk .nsfw{margin-top:4px}
+details.nsfwblk[open]>summary{border-bottom:1px dashed var(--blood);padding-bottom:10px}
 details.tg>div{margin-top:12px}
 .todo{display:flex;gap:10px;align-items:flex-start}
 .todo i{flex:none;width:18px;height:18px;border:2px solid var(--rose);border-radius:4px;margin-top:5px;display:grid;place-items:center;font-style:normal;font-size:13px;line-height:1}
@@ -814,14 +823,38 @@ function renderMemories(){
    `<div class="pols reveal">${past.map((e,n)=>{const h=hue(e.name);
      return `<a class="pol" href="${href(e)}" aria-label="${esc(e.name)}, ${esc(rng(e))}" style="--z:${n+1};--r:${(((n*47)%9)-4)*1.5}deg;--dy:${((n*29)%5)*4-8}px;--tr:${n%2?4:-5}deg"><span class="tape${n%3===1?' g':''}" aria-hidden="true"></span><div class="ph" style="background:linear-gradient(150deg,hsl(${h} 50% 42%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}${nsfwTag(e)}</div><div class="cap" aria-hidden="true"><span class="pt">${hw(e.name)}</span><span class="pd">${hw(polDate(e))}</span></div><span class="glare"></span></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
 }
+/* ---- sort + show/hide chips for Activities, Shows, Movies and Books ---- */
+const VIEWS={};['activities','shows','movies','books'].forEach(k=>VIEWS[k]={sort:'notion',hide:new Set()});
+const ORDER={activities:['Might Do','Must Do','In progress','Done'],shows:['Not Watched','Watching','Watched'],movies:['Not Watched','Watching','Watched']};
+const DEFST={activities:'Must Do',shows:'Not Watched',movies:'Not Watched'};
+const stOf=(sec,i)=>i.status||DEFST[sec]||null;
+function applyView(sec,items){
+  const v=VIEWS[sec],ord=ORDER[sec];
+  let out=items.filter(i=>{const st=stOf(sec,i);return !(st&&v.hide.has('s:'+st))&&!(i.tags||[]).some(t=>v.hide.has('t:'+t))});
+  if(ord&&v.sort!=='notion'){const rk=i=>{const k=ord.indexOf(stOf(sec,i));return k<0?ord.length:k},dir=v.sort==='asc'?1:-1;
+    out=out.map((i,n)=>[i,n]).sort((a,b)=>(rk(a[0])-rk(b[0]))*dir||a[1]-b[1]).map(x=>x[0])}
+  return out}
+function filterBar(sec,items,shown,extra=''){
+  const v=VIEWS[sec],ord=ORDER[sec];
+  const sts=ord?[...ord,...new Set(items.map(i=>stOf(sec,i)).filter(x=>x&&!ord.includes(x)))]:[];
+  const tg=[...new Set(items.flatMap(i=>i.tags||[]))];
+  if(!sts.length&&!tg.length&&!extra)return '';
+  const chip=(k,l)=>{const on=!v.hide.has(k);return `<button type="button" class="chip${on?' on':' off'}" aria-pressed="${on}" data-sec="${sec}" data-h="${esc(k)}" title="${on?'Tap to hide':'Tap to show'}: ${esc(l)}">${esc(l)}</button>`};
+  const sb=(m,l,t)=>`<button type="button" class="chip${v.sort===m?' on':''}" aria-pressed="${v.sort===m}" data-sec="${sec}" data-sort="${m}" title="${t}">${l}</button>`;
+  return `<div class="fbar" role="group" aria-label="Sort and filter">`+
+   (ord?`<div class="fg"><span class="fl">Sort</span>${sb('notion','Notion order','The order from Notion')}${sb('asc','Status ↑','Not started first, done last')}${sb('desc','Status ↓','Done first, not started last')}</div>`:'')+
+   (sts.length?`<div class="fg"><span class="fl">Status</span>${sts.map(x=>chip('s:'+x,x)).join('')}</div>`:'')+
+   (tg.length?`<div class="fg"><span class="fl">Tags</span>${tg.map(x=>chip('t:'+x,x)).join('')}</div>`:'')+extra+
+   (v.hide.size?`<button type="button" class="chip" data-sec="${sec}" data-reset>Show all</button>`:'')+
+   `<span class="fcount" aria-live="polite">${shown===items.length?`${items.length} entries`:`Showing ${shown} of ${items.length}`}</span></div>`}
 function renderActivities(){
-  const A=DATA.activities, all=['All',...new Set(A.flatMap(a=>a.tags))];
+  const A=DATA.activities;
   const ST={'Must Do':['MUST DO','st-must'],'Might Do':['MIGHT DO','st-might'],'In progress':['IN PROGRESS','st-prog'],'Done':['DONE','st-done']};
-  const list=A.filter(a=>(actFilter==='All'||a.tags.includes(actFilter))&&(!dbOnly||a.hasDebrief));
+  const list=applyView('activities',A).filter(a=>!dbOnly||a.hasDebrief);
   const cards=list.map(a=>{const s=ST[a.status||'Must Do']||ST['Must Do'];const h=hue(a.name);
-    return `<a class="card agc reveal" href="${href(a)}"><div class="agt" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(a)}<span class="stamp ${s[1]}">${s[0]}</span></div><p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${nsfwTag(a)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing here</div>';
+    return `<a class="card agc reveal" href="${href(a)}"><div class="agt" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(a)}<span class="stamp ${s[1]}">${s[0]}</span></div><p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${nsfwTag(a)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${A.length?'Everything is hidden. Tap a chip above to bring some back.':'Nothing here yet'}</div>`;
   const done=A.filter(a=>a.status==='Done').length;
-  $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`<div class="filters" role="group" aria-label="Filter activities">${all.map(f=>`<button type="button" class="chip${f===actFilter?' on':''}" aria-pressed="${f===actFilter}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}<span class="fsep" aria-hidden="true"></span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div><div class="act-grid">${cards}</div>`;
+  $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`${filterBar('activities',A,list.length,`<div class="fg"><span class="fl">Only</span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div>`)}<div class="act-grid">${cards}</div>`;
 }
 function renderTravel(){
   const T=DATA.travel;
@@ -831,30 +864,31 @@ function renderTravel(){
    `<div class="grid">${T.map(t=>{const s=st[t.status]||st['Not Visited'];return `<a class="pass ${cls[t.status]||''} reveal" href="${href(t)}">${thumb(t)}<span class="pn">${esc(t.name)}</span><div>${tags(t.tags)}${nsfwTag(t)}</div><span class="stamp ${s[1]}">${s[0]}</span></a>`}).join('')||'<div class="empty panel">No trips yet!</div>'}</div>`;
 }
 const HORROR=/horror|haunt|ring|omen|conjur|silent hill|cabin|jennifer|it$|monster|hannibal|midnight mass|scream|hereditary|widow/i;
-function renderPosters(id,title,sub,items){
+function renderPosters(id,title,sub,all){
+  const items=applyView(id,all);
   const st={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
-  const done=items.filter(i=>i.status==='Watched').length;
-  $('#'+id).innerHTML=head(id,title,sub,meter(done,items.length,'Watched'))+
+  const done=all.filter(i=>i.status==='Watched').length;
+  $('#'+id).innerHTML=head(id,title,sub,meter(done,all.length,'Watched'))+filterBar(id,all,items.length)+
    `<div class="grid posters">${items.map(i=>{const s=st[i.status]||st['Not Watched'];
-     return `<a class="arc ${HORROR.test(i.name)?'horror':'shoujo'} reveal" href="${href(i)}">${thumb(i)}<span class="stamp ${s[1]}">${s[0]}</span><div class="in"><div class="t">${esc(i.name)}</div>${nsfwTag(i)}</div></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing queued!</div>'}</div>`;
+     return `<a class="arc ${HORROR.test(i.name)?'horror':'shoujo'} reveal" href="${href(i)}">${thumb(i)}<span class="stamp ${s[1]}">${s[0]}</span><div class="in"><div class="t">${esc(i.name)}</div>${nsfwTag(i)}</div></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${all.length?'Everything is hidden. Tap a chip above to bring some back.':'Nothing queued!'}</div>`}</div>`;
 }
 function renderMovies(){
-  const items=DATA.movies;
+  const all=DATA.movies,items=applyView('movies',all);
   const st={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
-  const done=items.filter(i=>i.status==='Watched').length;
-  $('#movies').innerHTML=head('movies','The Screening Room','Movie nights, past and planned.',meter(done,items.length,'Watched'))+
+  const done=all.filter(i=>i.status==='Watched').length;
+  $('#movies').innerHTML=head('movies','The Screening Room','Movie nights, past and planned.',meter(done,all.length,'Watched'))+filterBar('movies',all,items.length)+
    `<div class="dvds reveal">${items.map((i,n)=>{const s=st[i.status]||st['Not Watched'],h=hue(i.name);
-     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Nothing queued!</div>'}</div>`;
+     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${all.length?'Everything is hidden. Tap a chip above to bring some back.':'Nothing queued!'}</div>`}</div>`;
 }
 let bkPer=0;
 function renderBooks(){
   const el=$('#books'),W=Math.max(300,el.clientWidth||1000);
   const bw=W<640?104:150, ov=W<640?18:26;
   const per=Math.max(2,Math.floor((W-64-bw)/(bw-ov))+1);bkPer=per;
-  const B=DATA.books,rows=[];for(let i=0;i<B.length;i+=per)rows.push(B.slice(i,i+per));
+  const BA=DATA.books,B=applyView('books',BA),rows=[];for(let i=0;i<B.length;i+=per)rows.push(B.slice(i,i+per));
   const html=rows.map((row,ri)=>`<div class="bkrow" style="height:${Math.round(bw*1.5)+30}px">${row.map((b,k)=>{const n=ri*per+k,h=hue(b.name),w=bw+((n*17)%14)-7,ht=Math.round(bw*1.38+((n*37)%30));
     return `<a class="bk" href="${href(b)}" aria-label="${esc(b.name)}" title="${esc(b.name)}" style="--cv:linear-gradient(150deg,hsl(${h} 50% 36%),hsl(${(h+50)%360} 45% 14%));width:${w}px;height:${ht}px;margin-left:${k?-ov:0}px;--z:${k+1};--r:${(((n*53)%7)-3)*.9}deg">${thumb(b)}<span class="ct"><b>${esc(b.name)}</b></span>${nsfwTag(b)}<span class="glare"></span></a>`}).join('')}</div><div class="bkboard"></div>`).join('');
-  el.innerHTML=head('books','Book Club','Our shelf. Tap a book to open the notes.')+`<div class="bkcase reveal">${html||'<div class="empty" style="padding-bottom:26px">The shelf is empty…</div>'}</div>`;
+  el.innerHTML=head('books','Book Club','Our shelf. Tap a book to open the notes.')+filterBar('books',BA,B.length)+`<div class="bkcase reveal">${html||`<div class="empty" style="padding-bottom:26px">${BA.length?'Every book is hidden. Tap a tag above to bring some back.':'The shelf is empty…'}</div>`}</div>`;
 }
 let bkW=0;addEventListener('resize',()=>{clearTimeout(bkW);bkW=setTimeout(()=>{if(!DATA)return;const w=$('#books').clientWidth,bw=w<640?104:150,ov=w<640?18:26;if(Math.max(2,Math.floor((Math.max(300,w)-64-bw)/(bw-ov))+1)!==bkPer){renderBooks();observe();settleThumbs($('#books'))}},200)});
 // shared hover tilt for DVD cases and books
@@ -921,7 +955,11 @@ document.addEventListener('click',e=>{
   if(t.dataset.day){selDay=selDay===t.dataset.day?null:t.dataset.day;renderDates();observe();if(selDay){say(T('day'));settleThumbs($('#dates'));loadThumbs()}return}
   if('clear' in t.dataset){selDay=null;renderDates();observe();return}
   if('db' in t.dataset){dbOnly=!dbOnly;renderActivities();observe();settleThumbs($('#activities'));say(T('db',dbOnly));return}
-  if(t.dataset.f){actFilter=t.dataset.f;renderActivities();observe();settleThumbs($('#activities'));say(T('filter',actFilter));return}
+  if(t.dataset.sec){const sec=t.dataset.sec,v=VIEWS[sec];
+    if(t.dataset.h){const k=t.dataset.h,hide=!v.hide.has(k);hide?v.hide.add(k):v.hide.delete(k);say(T('toggle',k.slice(2),!hide))}
+    else if(t.dataset.sort){v.sort=t.dataset.sort;say(T('sort',v.sort))}
+    else if('reset' in t.dataset)v.hide.clear();
+    ({activities:renderActivities,shows:()=>renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows),movies:renderMovies,books:renderBooks})[sec]();observe();settleThumbs($('#'+sec));return}
 });
 
 /* ============ SUB-PAGES ============ */
@@ -1000,11 +1038,11 @@ function blockHtml(b){
     case 'heading_2':return `<h3>${rt(b.text)}</h3>`;
     case 'heading_3':return `<h4>${rt(b.text)}</h4>`;
     case 'quote':return `<blockquote>${rt(b.text)}</blockquote>`;
-    case 'callout':return `<div class="callout">${b.icon?`<span class="ic" aria-hidden="true">${esc(b.icon)}</span>`:''}<div>${rt(b.text)}${b.children?blocksHtml(b.children):''}</div></div>`;
+    case 'callout':if(b.nsfw)return `<div class="callout nsfwblk"><span class="nsfw">NSFW</span><div>${plainText(b.text).trim().toLowerCase()==='nsfw'?'':rt(b.text)}${b.children?blocksHtml(b.children):''}</div></div>`;return `<div class="callout">${b.icon?`<span class="ic" aria-hidden="true">${esc(b.icon)}</span>`:''}<div>${rt(b.text)}${b.children?blocksHtml(b.children):''}</div></div>`;
     case 'divider':return '<hr>';
     case 'code':return `<pre><code>${esc(plainText(b.text))}</code></pre>`;
     case 'to_do':return `<div class="todo"><i aria-hidden="true">${b.checked?'✓':''}</i><span>${rt(b.text)}</span></div>`;
-    case 'toggle':return `<details class="tg"><summary>${rt(b.text)||'More'}</summary><div class="blocks">${blocksHtml(b.children||[])}</div></details>`;
+    case 'toggle':if(b.nsfw)return `<details class="tg nsfwblk"><summary><span class="nsfw">NSFW</span><em>Tap to open this section</em></summary><div class="blocks">${blocksHtml(b.children||[])}</div></details>`;return `<details class="tg"><summary>${rt(b.text)||'More'}</summary><div class="blocks">${blocksHtml(b.children||[])}</div></details>`;
     case 'image':if(!b.url)return '';{const cap=plainText(b.caption);
       const tgt=imageTarget(b,cap);
       if(tgt)return `<a class="dbr" href="${esc(tgt.h)}"${tgt.ext?' target="_blank" rel="noopener noreferrer"':''}><img src="${esc(b.url)}" alt="" referrerpolicy="no-referrer" loading="lazy"><span><b>${esc(cap||'Open the debrief')}</b><small>${tgt.label}</small></span></a>`;
@@ -1098,7 +1136,7 @@ const LN={
   photos:n=>n>3?`${n} photos?! Look how happy we are. Tap any to see it bigger.`:'Aww, look at this one. I love it so much.',
   nophotos:'Empty page! Go add some photos in Notion.',day:'Tap a date to open its photos and notes.',
   db:on=>on?'Only the ones with a debrief. We worked hard on those.':'All activities. Everything, everywhere.',
-  filter:f=>f==='All'?'Everything, everywhere.':`Just the “${f}” ones. Pick one, I’m excited!`,
+  toggle:(l,on)=>on?`“${l}” is back!`:`Hiding “${l}”. Just say the word and it’s back.`,sort:m=>m==='notion'?'Back to Notion’s order.':'Sorted by status. Nice and tidy!',
   idle:['Still there? Hello? I’m right here!','I found a petal. Keep it?','Yuki’s getting restless. Say something, please!','Psst, tap me for ideas.','Asad is the kindest person I know. I will defend that forever.','If anyone is unkind to Asad, they’ll hear from me. Politely, but loudly.','I’m so proud of him. He works so hard on everything he does.'],
   zz:'…zzz…',menu:'I’ll hold still for 10 seconds. Pick one!',
   next:(n,cd)=>n?`Next up: “${n}”, ${cd}. I can’t wait!`:'Nothing on the calendar. Plan something!',
@@ -1119,7 +1157,7 @@ const LN={
   photos:n=>n>3?`${n} photos. I love looking at these. Tap any to see it bigger.`:'Aw, look at this one. I could stare at it all day.',
   nophotos:'Nothing here yet. Maybe we can add some in Notion.',day:'Tap a date to open its photos and notes, whenever you’re ready.',
   db:on=>on?'Just the ones we wrote debriefs for.':'Back to all of them.',
-  filter:f=>f==='All'?'Everything, everywhere.':`Just the “${f}” ones.`,
+  toggle:(l,on)=>on?`Bringing “${l}” back.`:`I’ll tuck “${l}” away for now.`,sort:m=>m==='notion'?'Back to the order in Notion.':'Sorted by status, whenever you’re ready.',
   idle:['Still there? No rush, I’m happy to wait.','Julie’s fallen asleep on my head again.','I should stretch. Or lift something. Or both.','Tap me if you want ideas.','Yes, I’m missing a tooth. I was a rowdy kid. I still smile anyway.','I’ve been sketching in my head. The VFX brain never really turns off.','Muay Thai later. I’ll try to be gentle with the bag.','Thinking about my next sketch. Or Gaja. Mostly Gaja.'],
   zz:'…zzz…',menu:'I’ll stay right here for ten seconds. Pick one whenever you’re ready.',
   next:(n,cd)=>n?`Next up: “${n}”, ${cd}. I’m looking forward to it.`:'The calendar’s empty. Maybe we could plan something together?',

@@ -98,14 +98,25 @@ function shape(b) {
   }
 }
 
-async function tree(id, token, depth) {
+// A toggle titled "NSFW" (or a callout with the 🔞 icon) marks a hidden section of a page.
+const isNsfwBlock = (b) => {
+  const d = b[b.type] || {};
+  if (b.type === 'toggle') return plain(d.rich_text).trim().toLowerCase() === 'nsfw';
+  if (b.type === 'callout') return (d.icon && d.icon.type === 'emoji' && d.icon.emoji === '🔞') || plain(d.rich_text).trim().toLowerCase() === 'nsfw';
+  return false;
+};
+
+async function tree(id, token, depth, vip) {
   const list = await children(id, token);
   const done = await Promise.all(
     list.map(async (b) => {
       if (SKIP.has(b.type)) return null;
+      const hidden = isNsfwBlock(b);
+      if (hidden && !vip) return null; // never sent to guests, children are not even fetched
       const s = shape(b);
       if (!s) return null;
-      if (b.has_children && depth < MAX_DEPTH) s.children = await tree(b.id, token, depth + 1);
+      if (hidden) s.nsfw = true;
+      if (b.has_children && depth < MAX_DEPTH) s.children = await tree(b.id, token, depth + 1, vip);
       // Google Maps links become real embedded maps
       if (s.type === 'link' && s.url) { const m = await mapFor(s.url); if (m) s.map = m; }
       return s;
@@ -125,7 +136,7 @@ module.exports = async (req, res) => {
     const page = await pr.json();
     const meta = normalise(page);
     if (meta.nsfw && !isVip(req)) { res.status(404).json({ error: 'Not found' }); return; }
-    const blocks = await tree(id, token, 0);
+    const blocks = await tree(id, token, 0, isVip(req));
     res.setHeader('Cache-Control', 's-maxage=20, stale-while-revalidate=40');
     res.status(200).json({
       id: meta.id,

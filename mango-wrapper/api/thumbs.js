@@ -9,6 +9,12 @@ async function firstImage(id, token, budget) {
   if (!r.ok) return null;
   const j = await r.json();
   for (const b of j.results) {
+    // never use an image from an NSFW toggle/callout as a thumbnail
+    if (b.type === 'callout' || b.type === 'toggle') {
+      const d = b[b.type] || {};
+      const t = (d.rich_text || []).map((r) => r.plain_text).join('').trim().toLowerCase();
+      if (t === 'nsfw' || (d.icon && d.icon.emoji === '🔞')) continue;
+    }
     if (b.type === 'image') { const u = fileUrl(b.image); if (u) return u; }
     if (b.has_children && ['column_list', 'column', 'callout', 'toggle', 'synced_block', 'quote'].includes(b.type)) {
       const u = await firstImage(b.id, token, budget);
