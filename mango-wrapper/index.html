@@ -320,6 +320,36 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .chip.on{background:var(--rose);color:var(--night)}
 .chip:active{transform:scale(.97)}
 @media(hover:hover) and (pointer:fine){.chip:hover{background:var(--plum2)}.chip.on:hover{background:var(--rose)}}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:34px 26px;align-items:start;justify-items:center;padding:10px 4px 6px}
+.fcard{display:block;text-decoration:none;color:inherit;rotate:var(--r,0deg);transition:rotate .3s var(--ease),translate .3s var(--ease),scale .3s var(--ease)}
+.fcard .nsfw{position:absolute;z-index:4;margin:0;left:12px;top:12px}
+@media(hover:hover) and (pointer:fine){.fcard:hover{rotate:0deg;translate:0 -6px;scale:1.03}}
+.fcard.done{filter:drop-shadow(0 12px 12px rgba(0,0,0,.5))}
+.fcard:focus-visible{outline:3px solid var(--rose);outline-offset:6px;border-radius:8px}
+.fph{position:relative;overflow:hidden}
+.fph .thumb{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+/* tried: till receipt */
+.fr{position:relative;width:230px;background:#f7f5ef;color:#222;font:12px/1.5 'DejaVu Sans Mono','Courier New',ui-monospace,monospace;padding:26px 16px 26px;clip-path:polygon(0 8px,4% 0,8% 8px,12% 0,16% 8px,20% 0,24% 8px,28% 0,32% 8px,36% 0,40% 8px,44% 0,48% 8px,52% 0,56% 8px,60% 0,64% 8px,68% 0,72% 8px,76% 0,80% 8px,84% 0,88% 8px,92% 0,96% 8px,100% 0,100% calc(100% - 8px),96% 100%,92% calc(100% - 8px),88% 100%,84% calc(100% - 8px),80% 100%,76% calc(100% - 8px),72% 100%,68% calc(100% - 8px),64% 100%,60% calc(100% - 8px),56% 100%,52% calc(100% - 8px),48% 100%,44% calc(100% - 8px),40% 100%,36% calc(100% - 8px),32% 100%,28% calc(100% - 8px),24% 100%,20% calc(100% - 8px),16% 100%,12% calc(100% - 8px),8% 100%,4% calc(100% - 8px),0 100%)}
+.fr .fph{height:130px;margin:2px 0 8px;background-blend-mode:multiply}
+.fr .fph .thumb{filter:grayscale(1) contrast(1.3) brightness(1.05)}
+.fr .fph .thumb:not(.ld){filter:grayscale(1) blur(5px)}
+.fr .nsfw{left:auto;right:6px;top:6px}
+.fr h3{font:800 15px/1.2 'DejaVu Sans Mono','Courier New',ui-monospace,monospace;text-align:center;text-transform:uppercase;letter-spacing:.03em;color:#222;margin:0}
+.fr .fsub{text-align:center;font-size:10px;margin-bottom:6px;letter-spacing:.1em}
+.fr hr{border:0;border-top:2px dashed #888;margin:7px 0}
+.fr .ln{display:flex;justify-content:space-between}.fr .ln span:last-child{letter-spacing:1px}.fr .tot{font-weight:800;font-size:14px}
+.fr .fbarc{height:26px;margin-top:10px;background:repeating-linear-gradient(90deg,#222 0 2px,transparent 2px 4px,#222 4px 5px,transparent 5px 8px,#222 8px 11px,transparent 11px 13px)}
+.fr .fstp{display:block;text-align:center;margin:8px auto 0;width:max-content;border:3px solid #c01832;color:#c01832;font:800 13px 'DejaVu Sans Mono','Courier New',monospace;padding:2px 10px;transform:rotate(-5deg);letter-spacing:.08em}
+/* want to try: leather-bound menu */
+.fm{position:relative;width:236px;height:360px;border-radius:4px 14px 14px 4px;background:linear-gradient(100deg,#3a0b16 0,#5a1224 8%,#4a0f1e 100%);box-shadow:0 14px 26px rgba(0,0,0,.6),inset 0 0 0 2px #2a0710;padding:22px 20px 16px 28px;color:var(--gold);text-align:center}
+.fm .stitch{position:absolute;left:13px;top:0;bottom:0;width:2px;background:repeating-linear-gradient(#e7b755 0 6px,transparent 6px 12px);opacity:.7}
+.fm:after{content:"";position:absolute;inset:10px 10px 10px 21px;border:1.5px solid rgba(255,211,107,.55);border-radius:3px;pointer-events:none}
+.fm .fph{width:132px;height:132px;border-radius:50%;margin:10px auto 14px;border:3px solid var(--gold);box-shadow:0 0 0 5px #4a0f1e,0 0 0 6.5px rgba(255,211,107,.6)}
+.fm .nsfw{left:36px;top:16px}
+.fm h3{font:700 17px/1.15 var(--serif);letter-spacing:.12em;text-transform:uppercase;text-shadow:0 1px 0 #000;color:var(--gold);margin:0;min-height:40px;display:flex;align-items:center;justify-content:center}
+.fm .sm{font:600 10px var(--sans);letter-spacing:.28em;margin:8px 0 10px;opacity:.85}
+.fm .rt{font:700 13px var(--serif);margin:3px 0}.fm .rt span{opacity:.8;margin-right:6px;font-style:italic}.fm .rt.dim{opacity:.45}
+.fm .pr{position:absolute;left:28px;right:10px;bottom:22px;font:700 14px var(--serif);letter-spacing:.1em}
 .chip.off{opacity:.55;text-decoration:line-through;border-style:dashed}
 .fbar{display:flex;flex-wrap:wrap;gap:10px 26px;margin-bottom:18px;align-items:center}.fg{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .fl{font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--rose);opacity:.75;margin-right:2px}
@@ -623,7 +653,7 @@ body.ready #gaja.here{opacity:1}
 <header class="top">
   <a class="logo" href="#top" translate="no">Mango Shake <b>×</b> Boy Wonder</a>
   <nav class="tabs" id="tabs" aria-label="Chapters">
-    <a href="#dates">Dates</a><a href="#memories">Memories</a><a href="#activities">Activities</a><a href="#travel">Travel</a><a href="#shows">Shows</a><a href="#movies">Movies</a><a href="#books">Books</a>
+    <a href="#dates">Dates</a><a href="#memories">Memories</a><a href="#activities">Activities</a><a href="#food">Food</a><a href="#travel">Travel</a><a href="#shows">Shows</a><a href="#movies">Movies</a><a href="#books">Books</a>
   </nav>
   <span class="sync" id="sync" role="status">Syncing…</span>
 </header>
@@ -650,6 +680,7 @@ body.ready #gaja.here{opacity:1}
     <section class="chapter" id="dates" aria-labelledby="h-dates"></section>
     <section class="chapter" id="memories" aria-labelledby="h-memories"></section>
     <section class="chapter" id="activities" aria-labelledby="h-activities"></section>
+    <section class="chapter" id="food" aria-labelledby="h-food"></section>
     <section class="chapter" id="travel" aria-labelledby="h-travel"></section>
     <section class="chapter" id="shows" aria-labelledby="h-shows"></section>
     <section class="chapter" id="movies" aria-labelledby="h-movies"></section>
@@ -709,6 +740,7 @@ const iso=(d)=>{const t=new Date();t.setDate(t.getDate()+d);return t.toISOString
 const DEMO={fetchedAt:new Date().toISOString(),errors:[],banner:null,
  dates:[{id:'d1',name:'Haunted house night',date:iso(4),tags:['Together']},{id:'d2',name:'Anime con (Gaja goes solo)',date:iso(11),tags:['Apart']},{id:'d3',name:'Sushi + Studio Ghibli',date:iso(16),tags:['Potential']},{id:'d4',name:'Pumpkin carving',date:iso(-3),tags:['Together']},{id:'d5',name:'Cabin weekend',date:iso(30),dateEnd:iso(32),tags:['Together']}],
  activities:[{id:'a1',name:'Escape room: haunted asylum',status:'Must Do',tags:['Public Activity'],cost:45},{id:'a2',name:'Cook mango sticky rice',status:'Might Do',tags:['Food','Personal Activity'],cost:20},{id:'a3',name:'Sticker-making night',status:'In progress',tags:['Personal Activity'],cost:15},{id:'a4',name:'Ramen crawl',status:'Done',tags:['Food'],cost:60,hasDebrief:true}],
+ food:[{id:'f1',name:'Biryani House',status:'Tried It',cost:42,rateG:5,rateA:4},{id:'f2',name:'Tiny Ramen Bar',status:'Want to Try It',cost:25},{id:'f3',name:'Salem Seafood Shack',status:'Tried It',cost:55,rateG:3,rateA:5}],
  travel:[{id:'t1',name:'Kyoto',status:'Planning',tags:['AirBnB']},{id:'t2',name:'Salem, MA',status:'Not Visited',tags:['Town']},{id:'t3',name:'Niagara Falls',status:'Visited',tags:['Day Use Hotel']}],
  shows:[{id:'s1',name:'Fruits Basket',status:'Watched',tags:[]},{id:'s2',name:'Hannibal',status:'Watching',tags:[]},{id:'s3',name:'Ouran High School Host Club',status:'Not Watched',tags:[]}],
  movies:[{id:'m1',name:'Your Name',status:'Watched',tags:[]},{id:'m2',name:'Hereditary',status:'Watched',tags:[]},{id:'m3',name:'Perfect Blue',status:'Not Watched',tags:[]},{id:'m4',name:'Scream',status:'Watching',tags:[]}],
@@ -731,7 +763,7 @@ const fmtCd=(n)=>n===0?'today!':n===1?'tomorrow':n>1?`in ${n} days`:`${-n}d ago`
 const monShort=(d)=>new Intl.DateTimeFormat(undefined,{month:'short'}).format(d);
 const money=(n)=>new Intl.NumberFormat(undefined,{style:'currency',currency:'CAD',maximumFractionDigits:0}).format(n);
 const cleanName=(s)=>String(s??'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
-const LISTS=['dates','activities','travel','shows','movies','books'];
+const LISTS=['dates','activities','food','travel','shows','movies','books'];
 const dayKey=(d)=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const REL=['Together','Apart','Potential'];
 const relTag=(e)=>REL.find(x=>(e.tags||[]).includes(x))||'';
@@ -805,7 +837,7 @@ async function fetchThumbs(ids){
 async function loadThumbs(){
   if(demo||!DATA||thumbBusy)return;
   if(Date.now()-thumbsAt>20*60*1000){for(const k in extraCover)delete extraCover[k];thumbsAt=Date.now()}
-  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
+  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.food||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
   if(!need.length)return;
   thumbBusy=true;
   const ch=await fetchThumbs(need);
@@ -824,14 +856,15 @@ function renderMemories(){
      return `<a class="pol" href="${href(e)}" aria-label="${esc(e.name)}, ${esc(rng(e))}" style="--z:${n+1};--r:${(((n*47)%9)-4)*1.5}deg;--dy:${((n*29)%5)*4-8}px;--tr:${n%2?4:-5}deg"><span class="tape${n%3===1?' g':''}" aria-hidden="true"></span><div class="ph" style="background:linear-gradient(150deg,hsl(${h} 50% 42%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}${nsfwTag(e)}</div><div class="cap" aria-hidden="true"><span class="pt">${hw(e.name)}</span><span class="pd">${hw(polDate(e))}</span></div><span class="glare"></span></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
 }
 /* ---- sort + show/hide chips for Activities, Shows, Movies and Books ---- */
-const VIEWS={};['activities','shows','movies','books'].forEach(k=>VIEWS[k]={sort:'notion',hide:new Set()});
-const ORDER={activities:['Might Do','Must Do','In progress','Done'],shows:['Not Watched','Watching','Watched'],movies:['Not Watched','Watching','Watched']};
-const DEFST={activities:'Must Do',shows:'Not Watched',movies:'Not Watched'};
+const VIEWS={};['activities','food','shows','movies','books'].forEach(k=>VIEWS[k]={sort:'notion',hide:new Set()});
+const ORDER={activities:['Might Do','Must Do','In progress','Done'],food:['Want to Try It','Tried It'],shows:['Not Watched','Watching','Watched'],movies:['Not Watched','Watching','Watched']};
+const DEFST={activities:'Must Do',food:'Want to Try It',shows:'Not Watched',movies:'Not Watched'};
 const stOf=(sec,i)=>i.status||DEFST[sec]||null;
 function applyView(sec,items){
   const v=VIEWS[sec],ord=ORDER[sec];
   let out=items.filter(i=>{const st=stOf(sec,i);return !(st&&v.hide.has('s:'+st))&&!(i.tags||[]).some(t=>v.hide.has('t:'+t))});
-  if(ord&&v.sort!=='notion'){const rk=i=>{const k=ord.indexOf(stOf(sec,i));return k<0?ord.length:k},dir=v.sort==='asc'?1:-1;
+  if(v.sort==='rg'||v.sort==='ra'){const f=v.sort==='rg'?'rateG':'rateA';out=out.map((i,n)=>[i,n]).sort((a,b)=>((b[0][f]==null?-1:b[0][f])-(a[0][f]==null?-1:a[0][f]))||a[1]-b[1]).map(x=>x[0])}
+  else if(ord&&v.sort!=='notion'){const rk=i=>{const k=ord.indexOf(stOf(sec,i));return k<0?ord.length:k},dir=v.sort==='asc'?1:-1;
     out=out.map((i,n)=>[i,n]).sort((a,b)=>(rk(a[0])-rk(b[0]))*dir||a[1]-b[1]).map(x=>x[0])}
   return out}
 function filterBar(sec,items,shown,extra=''){
@@ -842,7 +875,7 @@ function filterBar(sec,items,shown,extra=''){
   const chip=(k,l)=>{const on=!v.hide.has(k);return `<button type="button" class="chip${on?' on':' off'}" aria-pressed="${on}" data-sec="${sec}" data-h="${esc(k)}" title="${on?'Tap to hide':'Tap to show'}: ${esc(l)}">${esc(l)}</button>`};
   const sb=(m,l,t)=>`<button type="button" class="chip${v.sort===m?' on':''}" aria-pressed="${v.sort===m}" data-sec="${sec}" data-sort="${m}" title="${t}">${l}</button>`;
   return `<div class="fbar" role="group" aria-label="Sort and filter">`+
-   (ord?`<div class="fg"><span class="fl">Sort</span>${sb('notion','Notion order','The order from Notion')}${sb('asc','Status ↑','Not started first, done last')}${sb('desc','Status ↓','Done first, not started last')}</div>`:'')+
+   (ord?`<div class="fg"><span class="fl">Sort</span>${sb('notion','Notion order','The order from Notion')}${sb('asc','Status ↑','Not started first, done last')}${sb('desc','Status ↓','Done first, not started last')}${sec==='food'?sb('rg','Gaja’s ★','Gaja’s highest rating first')+sb('ra','Asad’s ★','Asad’s highest rating first'):''}</div>`:'')+
    (sts.length?`<div class="fg"><span class="fl">Status</span>${sts.map(x=>chip('s:'+x,x)).join('')}</div>`:'')+
    (tg.length?`<div class="fg"><span class="fl">Tags</span>${tg.map(x=>chip('t:'+x,x)).join('')}</div>`:'')+extra+
    (v.hide.size?`<button type="button" class="chip" data-sec="${sec}" data-reset>Show all</button>`:'')+
@@ -855,6 +888,19 @@ function renderActivities(){
     return `<a class="card agc reveal" href="${href(a)}"><div class="agt" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(a)}<span class="stamp ${s[1]}">${s[0]}</span></div><p class="nm">${esc(a.name)}</p><div class="meta">${tags(a.tags)}${nsfwTag(a)}${a.cost>0?`<span class="num">${esc(money(a.cost))}</span>`:''}${a.hasDebrief?'<span>Debrief written</span>':''}</div></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${A.length?'Everything is hidden. Tap a chip above to bring some back.':'Nothing here yet'}</div>`;
   const done=A.filter(a=>a.status==='Done').length;
   $('#activities').innerHTML=head('activities','Activities','Everything we want to do, and everything we’ve done.',meter(done,A.length,'Done'))+`${filterBar('activities',A,list.length,`<div class="fg"><span class="fl">Only</span><button type="button" class="chip${dbOnly?' on':''}" aria-pressed="${dbOnly}" data-db>Debrief written</button></div>`)}<div class="act-grid">${cards}</div>`;
+}
+/* ---- Food: tried places are till receipts, wish-list places are leather-bound menus ---- */
+const stars=(n)=>n==null?'· · · · ·':'★'.repeat(n)+'☆'.repeat(5-n);
+function renderFood(){
+  const all=DATA.food||[],F=applyView('food',all);
+  const tried=all.filter(i=>stOf('food',i)==='Tried It').length;
+  const card=(i,n)=>{
+    const h=hue(i.name),bg=`linear-gradient(150deg,hsl(${h} 55% 40%),hsl(${(h+60)%360} 45% 14%))`,r=(((n*37)%7)-3)*.75;
+    const done=stOf('food',i)==='Tried It',cost=i.cost>0?i.cost:null;
+    if(done)return `<a class="fcard done reveal" href="${href(i)}" aria-label="${esc(i.name)}, tried" style="--r:${r}deg"><div class="fr"><div class="fph" style="background:${bg}">${thumb(i)}${nsfwTag(i)}</div><h3>${esc(i.name)}</h3><div class="fsub">THANK YOU FOR DINING!</div><hr><div class="ln"><span>GAJA</span><span>${stars(i.rateG)}</span></div><div class="ln"><span>ASAD</span><span>${stars(i.rateA)}</span></div><hr><div class="ln tot"><span>TOTAL</span><span>${cost?'$'+cost.toFixed(2):'——'}</span></div><span class="fstp">PAID · TRIED IT</span><div class="fbarc" aria-hidden="true"></div></div></a>`;
+    return `<a class="fcard reveal" href="${href(i)}" aria-label="${esc(i.name)}, want to try" style="--r:${r}deg"><div class="fm"><span class="stitch" aria-hidden="true"></span><div class="fph" style="background:${bg}">${thumb(i)}</div>${nsfwTag(i)}<h3>${esc(i.name)}</h3><div class="sm">✦ WANT TO TRY ✦</div><div class="rt${i.rateG==null?' dim':''}"><span>Gaja</span>${i.rateG==null?'— — —':stars(i.rateG)}</div><div class="rt${i.rateA==null?' dim':''}"><span>Asad</span>${i.rateA==null?'— — —':stars(i.rateA)}</div><div class="pr">${cost?'$'+(cost%1?cost.toFixed(2):cost)+' CAD':''}</div></div></a>`};
+  $('#food').innerHTML=head('food','Food','Places we’ve tried, and places we’re dying to.',meter(tried,all.length,'Tried'))+filterBar('food',all,F.length)+
+   `<div class="fgrid">${F.map(card).join('')||`<div class="empty panel" style="grid-column:1/-1">${all.length?'Everything is hidden. Tap a chip above to bring some back.':'No food places yet!'}</div>`}</div>`;
 }
 function renderTravel(){
   const T=DATA.travel;
@@ -904,7 +950,7 @@ function renderTicket(){
   else{t.href='#dates';t.innerHTML='Next up<span class="big">Nothing yet</span><span>Add a date in Notion</span>'}
 }
 function render(){
-  renderTicket();renderDates();renderMemories();renderActivities();renderTravel();
+  renderTicket();renderDates();renderMemories();renderActivities();renderFood();renderTravel();
   renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows);
   renderMovies();
   renderBooks();observe();settleThumbs(document);loadThumbs();
@@ -959,7 +1005,7 @@ document.addEventListener('click',e=>{
     if(t.dataset.h){const k=t.dataset.h,hide=!v.hide.has(k);hide?v.hide.add(k):v.hide.delete(k);say(T('toggle',k.slice(2),!hide))}
     else if(t.dataset.sort){v.sort=t.dataset.sort;say(T('sort',v.sort))}
     else if('reset' in t.dataset)v.hide.clear();
-    ({activities:renderActivities,shows:()=>renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows),movies:renderMovies,books:renderBooks})[sec]();observe();settleThumbs($('#'+sec));return}
+    ({activities:renderActivities,food:renderFood,shows:()=>renderPosters('shows','Shows','What we’re watching, and what’s waiting.',DATA.shows),movies:renderMovies,books:renderBooks})[sec]();observe();settleThumbs($('#'+sec));return}
 });
 
 /* ============ SUB-PAGES ============ */
@@ -1148,6 +1194,7 @@ const LN={
   tips:{dates:['Pink days have plans. Tap one, then open the date for photos.','Rose chips are together, red are apart, dashed are maybes. Easy!'],
    memories:['These are the dates we’ve lived. Tap one and relive it.'],
    activities:['Filter by tag, it makes this so much easier!','Can’t decide? Tap me, then the laptop. I’ll pick for you, and I’m very passionate about it.'],
+   food:['Receipts are places we’ve tried. The leather menus are the ones I’m dying to go to!','Sort by my stars or Asad’s, whichever you like!'],
    travel:['Stamped places are ones we’ve been to. Let’s fill up the rest.','Planning is the fun part. Dreaming counts too.'],
    shows:['Open a show to see its notes.','Cursed shows glow red. Cozy ones glow pink.'],
    movies:['Horror for Asad, romance for me. I’ll sit through every jump scare for him.','Tap me, then the clapper, for a surprise movie pick.'],
@@ -1169,6 +1216,7 @@ const LN={
   tips:{dates:['Pink days have plans. Take your time and tap one to see the photos.','Rose is together, red is apart, dashed is maybe. Hopefully more rose.'],
    memories:['Every one of these is a day I got to spend with Gaja.','Tap one to look back. Go slow with it.'],
    activities:['Use the tags to narrow it down, no rush.','Stuck? Tap me, then the little screen. I’ll pick something gentle.'],
+   food:['Receipts are places we’ve tried, and the menus are ones we’d like to.','Every one of these is another meal with Gaja.'],
    travel:['Stamped ones we’ve been to. The blank ones are waiting for us.','Wherever we go, I’m just glad we go together.'],
    shows:['Open a show to read the notes.','Cursed ones glow red, cozy ones glow pink.'],
    movies:['Horror’s my comfort food. Gaja lets me hold her hand through the scary parts.','Tap me, then the clapper, and I’ll find tonight’s movie.'],

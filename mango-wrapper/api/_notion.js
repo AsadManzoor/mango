@@ -39,6 +39,13 @@ function normalise(page) {
         out.date = prop.date ? prop.date.start : null;
         out.dateEnd = prop.date ? prop.date.end : null;
         break;
+      case 'select': {
+        // Food ratings: "Gaja's Rating" / "Asad's Rating" hold one to five ⭐
+        const k = key.toLowerCase(), n = prop.select ? (prop.select.name.match(/⭐/g) || []).length : null;
+        if (k.includes('rating') && k.includes('gaja')) out.rateG = n;
+        if (k.includes('rating') && k.includes('asad')) out.rateA = n;
+        break;
+      }
       case 'number': if (key.toLowerCase().startsWith('cost')) out.cost = prop.number; break;
       case 'checkbox':
         if (key === 'Has Debrief') out.hasDebrief = prop.checkbox;

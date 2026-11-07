@@ -122,3 +122,8 @@ In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout wi
 - **Show/hide chips:** one chip per status and per tag. Tap to hide that group (the chip goes dashed and struck through), tap again to show it. Mix freely. An entry is hidden if its status is hidden or any of its tags is hidden. "Show all" resets.
 - Books have no Status in Notion, so they only get tag chips (they appear once you add tags). Activities also keeps the "Debrief written" only-filter.
 - The settings last until the page is reloaded. The Done/progress meters always count everything.
+
+## Food section
+- Reads the Food database (`DB_FOOD` env var overrides the id). Fields used: Name, Status (Tried It / Want to Try It), Gaja's Rating and Asad's Rating (⭐ selects), Cost (CAD), cover image (or the first non-NSFW photo in the page) and the NSFW checkbox.
+- Tried places are slightly tilted till receipts (grayscale photo, ratings, total, "PAID · TRIED IT" stamp). Want-to-try places are leather-bound menus with a round photo window.
+- Same sort and show/hide chips as the other sections, plus sorting by Gaja's or Asad's stars (unrated last).

@@ -6,6 +6,7 @@ const { headers, nfetch, fileUrl, normalise, isVip } = require('./_notion');
 const DBS = {
   dates: process.env.DB_DATES || '3f788828e93080a4b4c3f76f9922946b',
   activities: process.env.DB_ACTIVITIES || '40588828e93080f4ad06c4cde5af1742',
+  food: process.env.DB_FOOD || '41188828e930806d9475e335175aae4d',
   travel: process.env.DB_TRAVEL || '40588828e93080d1a00af76e6f7b428a',
   shows: process.env.DB_SHOWS || '3f288828e93080259671f3214fd1b5f9',
   movies: process.env.DB_MOVIES || '3f288828e930801b94a0c56c5cb25d78',
