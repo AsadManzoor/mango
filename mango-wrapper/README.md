@@ -133,3 +133,7 @@ In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout wi
 - **Shows** use DVD cases (a disc slides out on hover), slightly overlapping and rotated.
 - **Movies** use VHS sleeves (a cassette slides up out of the top on hover), also overlapping and rotated. Stickers: Watched = "BE KIND REWIND", Watching = "NOW PLAYING", Not Watched = "NEW RELEASE". Touch devices (no hover) keep the tape tucked in.
 - Sort and status chips work on both sections.
+
+## Travel
+- Places not yet visited (Planning / Not Visited) are **passports**. The cover shows the name, type tags and a status seal (gold = Planning, outlined = Someday). On hover the cover opens and the cover image (or first non-NSFW image in the page) spans both pages, with an ink stamp for the status.
+- **Visited** places are **postcards**: sepia/greyscale photo that turns to colour on hover, with the name, tags and a VISITED postmark always visible. On hover the card just lifts toward the viewer (no flip).

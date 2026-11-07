@@ -465,6 +465,65 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .slv .glare{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(circle at var(--gx,30%) var(--gy,20%),rgba(255,255,255,.26),transparent 55%);mix-blend-mode:screen;opacity:0;transition:opacity .25s}
 .vw:hover .glare{opacity:1}
 @media(hover:hover) and (pointer:fine){.vw:hover .vtp,.vw:focus-visible .vtp{transform:translateY(-34%)}}
+/* travel: passports (to go) and postcards (been) */
+.tsub{font:800 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--rose);opacity:.75;margin:26px 4px 10px}
+.ppgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:34px 26px;align-items:start;justify-items:center;padding:10px 4px 14px}
+.pcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:34px 0;align-items:start;justify-items:start;padding:14px 48px 30px 4px}
+.tcrd{display:block;text-decoration:none;color:inherit;rotate:var(--r,0deg);transition:rotate .35s var(--ease),translate .35s var(--ease),scale .35s var(--ease)}
+.tcrd:focus-visible{outline:3px solid var(--rose);outline-offset:6px;border-radius:8px}
+.tcrd .nsfw{position:absolute;z-index:6;margin:0}
+/* passport */
+.ppw{position:relative;width:220px;height:310px;perspective:1500px;transition:translate .6s var(--ease)}
+.ppc{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:left center;transition:transform .8s var(--ease)}
+.ppf,.ppk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:4px 12px 12px 4px}
+.ppf{background:linear-gradient(100deg,hsl(340 60% 14%) 0,hsl(340 55% 25%) 8%,hsl(340 58% 19%) 100%);box-shadow:0 14px 26px rgba(0,0,0,.6),inset 0 0 0 2px rgba(0,0,0,.35);padding:34px 18px 18px 26px;color:var(--gold);text-align:center}
+.tcrd.pp.some .ppf{background:linear-gradient(100deg,hsl(226 45% 12%) 0,hsl(226 42% 22%) 8%,hsl(226 44% 16%) 100%)}
+.ppf .stitch{position:absolute;left:12px;top:0;bottom:0;width:2px;background:repeating-linear-gradient(#e7b755 0 6px,transparent 6px 12px);opacity:.6}
+.ppf:after{content:"";position:absolute;inset:10px 10px 10px 20px;border:1.5px solid rgba(255,211,107,.5);border-radius:3px;pointer-events:none}
+.ppf .nsfw{left:30px;top:16px}
+.ppf .em{width:62px;height:62px;margin:2px auto 8px;border:2px solid var(--gold);border-radius:50%;display:grid;place-content:center;font:900 24px var(--serif)}
+.ppf small{font:700 9px var(--sans);letter-spacing:.38em;display:block;opacity:.9}
+.ppf h3{font:700 19px/1.15 var(--serif);color:var(--gold);margin:12px 0 8px;min-height:44px;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 0 #000;overflow-wrap:anywhere}
+.ppf .ptg{font:600 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;opacity:.85;min-height:14px}
+.ppf .seal{position:absolute;left:30px;right:16px;bottom:24px;border:2px solid var(--gold);border-radius:3px;padding:5px 0;font:800 12px var(--sans);letter-spacing:.3em}
+.tcrd.pp.plan .ppf .seal{background:var(--gold);color:#3a0b16}
+.ppk{transform:rotateY(180deg);background:#f1e4c6;color:#3b1a1f;overflow:hidden;box-shadow:inset -16px 0 18px -12px rgba(0,0,0,.35)}
+.ppg{position:absolute;inset:0;background:#f6ecd6;color:#3b1a1f;border-radius:4px 12px 12px 4px;overflow:hidden;box-shadow:0 14px 26px rgba(0,0,0,.55),inset 16px 0 18px -12px rgba(0,0,0,.35)}
+.ppic{position:relative;height:190px;overflow:hidden;border-bottom:3px double #7d1d2f}
+.ppbig{position:absolute;top:0;left:0;width:440px;height:100%;background-size:cover;background-position:center}
+.ppg .ppbig{left:-220px}
+.ppin{padding:14px 18px;text-align:left}
+.ppin small{display:block;font:700 8px var(--sans);letter-spacing:.2em;color:#8a6b5a;margin-top:8px}.ppin small:first-child{margin-top:0}
+.ppin b{font:700 14px/1.2 var(--serif);display:block}
+.ppg .ppin{text-align:center}.ppg .go{font:italic 600 13px var(--serif);margin-top:10px;color:#6b3a3f}
+.pst{display:inline-block;margin-top:6px;border:3px solid #1c3b8a;color:#1c3b8a;border-radius:50%;padding:18px 14px;font:900 12px var(--sans);letter-spacing:.16em;transform:rotate(-9deg);opacity:.85}
+.tcrd.pp.plan .pst{border-color:#b5651d;color:#b5651d;border-radius:8px;padding:12px 14px}
+.tcrd.pp.some .pst{border:3px dashed #8a7b9a;color:#8a7b9a;border-radius:8px;padding:12px 14px}
+@media(hover:hover) and (pointer:fine){.tcrd.pp:hover{translate:0 -6px}}
+@media(hover:hover) and (pointer:fine) and (min-width:560px){
+ .tcrd.pp:hover,.tcrd.pp:focus-visible{z-index:30;position:relative;rotate:0deg;translate:0 -6px}
+ .tcrd.pp:hover .ppc,.tcrd.pp:focus-visible .ppc{transform:rotateY(-180deg)}
+ .tcrd.pp:hover .ppw,.tcrd.pp:focus-visible .ppw{translate:var(--sx,110px) 0}
+}
+/* postcard */
+.pcw{position:relative;width:calc(100% + 40px);aspect-ratio:3/2;z-index:var(--z,1);translate:0 var(--dy,0);filter:drop-shadow(0 10px 12px rgba(0,0,0,.5))}
+.pcf{position:absolute;inset:0;background:#f4ecdc;border-radius:5px;padding:9px;overflow:hidden}
+.tph{position:absolute;inset:9px;overflow:hidden;border-radius:2px}
+.tph .thumb{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;filter:grayscale(.85) sepia(.45) contrast(1.05);transition:opacity .35s var(--ease),filter .5s var(--ease)}
+.tph .thumb:not(.ld){filter:grayscale(1) blur(5px)}
+.tph:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 38%,rgba(20,6,18,.82));pointer-events:none}
+.tgr{position:absolute;left:22px;top:20px;font:700 9px var(--sans);letter-spacing:.3em;color:#fff;text-shadow:0 1px 4px #000a}
+.tnm{position:absolute;left:22px;right:56px;bottom:34px;font:900 italic 25px/1.05 var(--serif);color:#ffe9a8;text-shadow:2px 2px 0 #c2185b,0 4px 10px #0008;max-height:2.1em;overflow:hidden}
+.ttg{position:absolute;left:22px;right:56px;bottom:15px;display:flex;flex-wrap:nowrap;overflow:hidden}
+.pcf .tag{border-color:#fff;color:#fff;background:#0006;font-size:10px;padding:1px 8px;margin:0 4px 0 0;white-space:nowrap}
+.pcf .nsfw{position:static;margin:0 4px 0 0}
+.tstp{position:absolute;right:56px;top:16px;width:34px;height:42px;background:repeating-linear-gradient(45deg,#f6d9e2 0 5px,#e8a8bb 5px 10px);border:3px solid #fff;outline:2px dashed #e2a3b5;outline-offset:-5px;box-shadow:0 1px 3px #0005}
+.tpm{position:absolute;right:88px;top:20px;width:68px;height:68px;border:2px solid #fff;border-radius:50%;display:grid;place-content:center;text-align:center;font:800 9px var(--sans);letter-spacing:.08em;color:#fff;transform:rotate(-14deg);opacity:.9}.tpm i{font-style:normal}
+@media(hover:hover) and (pointer:fine){
+ .pcw:hover,.pcw:focus-visible{z-index:60;rotate:0deg;scale:1.1;translate:0 -10px;filter:drop-shadow(0 26px 26px rgba(0,0,0,.65))}
+ .pcw:hover .tph .thumb,.pcw:focus-visible .tph .thumb{filter:none}
+}
+@media(max-width:640px){.pcgrid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));padding-right:44px}.tnm{font-size:21px}}
 @media(max-width:640px){.vhs{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:70px 4px;padding-top:50px}.vlb small{font-size:6px}.vsk{font-size:7px}}
 @media(max-width:640px){.dvds{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}.dvc .dtop{font-size:7px}}
 /* books: face-out shelves, leaning and overlapping */
@@ -879,12 +938,12 @@ async function fetchThumbs(ids){
 async function loadThumbs(){
   if(demo||!DATA||thumbBusy)return;
   if(Date.now()-thumbsAt>20*60*1000){for(const k in extraCover)delete extraCover[k];thumbsAt=Date.now()}
-  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.food||[]),...(DATA.shows||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
+  const need=[...new Set([...dayEvents(selDay),...memPast(),...(DATA.activities||[]),...(DATA.food||[]),...(DATA.travel||[]),...(DATA.shows||[]),...(DATA.movies||[]),...(DATA.books||[])].filter(e=>!e.cover).map(e=>idk(e.id)))].filter(id=>!(id in extraCover)).slice(0,48);
   if(!need.length)return;
   thumbBusy=true;
   const ch=await fetchThumbs(need);
   thumbBusy=false;
-  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));renderFood();observe();settleThumbs($('#food'));renderShows();renderMovies();renderBooks();observe();settleThumbs($('#shows'));settleThumbs($('#movies'));settleThumbs($('#books'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
+  if(ch){renderMemories();observe();settleThumbs($('#memories'));renderActivities();observe();settleThumbs($('#activities'));renderFood();observe();settleThumbs($('#food'));renderTravel();observe();settleThumbs($('#travel'));renderShows();renderMovies();renderBooks();observe();settleThumbs($('#shows'));settleThumbs($('#movies'));settleThumbs($('#books'));if(selDay){renderDates();observe();settleThumbs($('#dates'))}}
   if(need.length>=48)setTimeout(loadThumbs,400);
 }
 const hwHash=(str)=>{let h=7;for(const c of String(str))h=(h*31+c.charCodeAt(0))%233280;return h};
@@ -950,13 +1009,28 @@ document.addEventListener('pointerover',e=>{
   const r=c.getBoundingClientRect(),L=r.left+(r.width-236)/2,lo=244-L,hi=innerWidth-244-L;
   let sx=118;if(sx<lo)sx=lo;if(sx>hi)sx=hi;c.style.setProperty('--sx',Math.round(sx)+'px');
 },{passive:true});
+/* ---- Travel: passports for places still to go, postcards for places we've been ---- */
 function renderTravel(){
-  const T=DATA.travel;
-  const cls={Visited:'st-v'};
-  const st={Visited:['VISITED','st-done'],Planning:['PLANNING','st-prog'],'Not Visited':['SOMEDAY','st-must']};
-  $('#travel').innerHTML=head('travel','Travel Passport','Places we’ve stayed, and places we’re dreaming of.',meter(T.filter(t=>t.status==='Visited').length,T.length,'Stamped'))+
-   `<div class="grid">${T.map(t=>{const s=st[t.status]||st['Not Visited'];return `<a class="pass ${cls[t.status]||''} reveal" href="${href(t)}">${thumb(t)}<span class="pn">${esc(t.name)}</span><div>${tags(t.tags)}${nsfwTag(t)}</div><span class="stamp ${s[1]}">${s[0]}</span></a>`}).join('')||'<div class="empty panel">No trips yet!</div>'}</div>`;
+  const T=DATA.travel||[];
+  const sl={Planning:'PLANNING','Not Visited':'SOMEDAY',Visited:'VISITED'};
+  const go=T.filter(t=>t.status!=='Visited'),been=T.filter(t=>t.status==='Visited');
+  const pp=(i,n)=>{
+    const h=hue(i.name),bg=`linear-gradient(150deg,hsl(${h} 55% 40%),hsl(${(h+60)%360} 45% 14%))`,r=(((n*37)%7)-3)*.8,plan=i.status==='Planning',lab=sl[i.status]||'SOMEDAY';
+    const cv=coverOf(i),big=`<span class="ppbig" style="background-image:${cv?`url('${esc(cv)}'),`:''}${bg}"></span>`,tg=(i.tags||[]).map(esc).join(' · ');
+    return `<a class="tcrd pp ${plan?'plan':'some'} reveal" href="${href(i)}" aria-label="${esc(i.name)}, ${lab.toLowerCase()}" style="--r:${r}deg"><div class="ppw"><div class="ppg"><div class="ppic">${big}</div><div class="ppin"><span class="pst">${lab}</span><div class="go">Open the full page ➜</div></div></div><div class="ppc"><div class="ppf"><span class="stitch" aria-hidden="true"></span>${nsfwTag(i)}<div class="em" aria-hidden="true">✦</div><small>PASSPORT</small><h3>${esc(i.name)}</h3><div class="ptg">${tg}</div><div class="seal">${lab}</div></div><div class="ppk"><div class="ppic">${big}</div><div class="ppin"><small>PLACE OF STAY</small><b>${esc(i.name)}</b>${tg?`<small>TYPE</small><b>${tg}</b>`:''}</div></div></div></div></a>`};
+  const pc=(i,n)=>{
+    const h=hue(i.name),bg=`linear-gradient(150deg,hsl(${h} 55% 40%),hsl(${(h+60)%360} 45% 14%))`,r=(((n*53)%7)-3)*.9,dy=((n*29)%5)*3-6;
+    return `<a class="tcrd pcw reveal" href="${href(i)}" aria-label="${esc(i.name)}, visited" style="--r:${r}deg;--dy:${dy}px;--z:${n+1}"><span class="pcf"><span class="tph" style="background:${bg}">${thumb(i)}</span><span class="tgr">GREETINGS FROM</span><b class="tnm">${esc(i.name)}</b><span class="ttg">${tags(i.tags)}${nsfwTag(i)}</span><span class="tstp" aria-hidden="true"></span><span class="tpm" aria-hidden="true"><i>VISITED</i><i>✓</i></span></span></a>`};
+  const empty=T.length?'':'<div class="empty panel">No trips yet!</div>';
+  $('#travel').innerHTML=head('travel','Travel Passport','Places we’ve stayed, and places we’re dreaming of.',meter(been.length,T.length,'Stamped'))+empty+
+   (go.length?`<div class="tsub">Next adventures</div><div class="ppgrid">${go.map(pp).join('')}</div>`:'')+
+   (been.length?`<div class="tsub">Postcards from where we’ve been</div><div class="pcgrid">${been.map(pc).join('')}</div>`:'');
 }
+document.addEventListener('pointerover',e=>{
+  const c=e.pointerType!=='touch'&&e.target.closest&&e.target.closest('.tcrd.pp');if(!c)return;
+  const r=c.getBoundingClientRect(),L=r.left+(r.width-220)/2,lo=228-L,hi=innerWidth-228-L;
+  let sx=110;if(sx<lo)sx=lo;if(sx>hi)sx=hi;c.style.setProperty('--sx',Math.round(sx)+'px');
+},{passive:true});
 const HORROR=/horror|haunt|ring|omen|conjur|silent hill|cabin|jennifer|it$|monster|hannibal|midnight mass|scream|hereditary|widow/i;
 const WSTAT={Watched:['WATCHED','st-done'],Watching:['NOW','st-prog'],'Not Watched':['TO WATCH','st-must']};
 const EMPTYQ=(n)=>`<div class="empty panel" style="grid-column:1/-1">${n?'Everything is hidden. Tap a chip above to bring some back.':'Nothing queued!'}</div>`;
@@ -1458,6 +1532,22 @@ function loop(){
   if(Math.abs(hairNow-(loop.hv||0))>.15){loop.hv=hairNow;compRig.style.setProperty('--hair',hairNow.toFixed(2)+'deg')}
   requestAnimationFrame(loop)
 }
+const ENTRY='.dvw,.vw,.bk,.pol,.fcard,.tcrd,.card,.agc,.upc';
+// where can the companion stand so she doesn't cover the entry under the cursor (opened menus/passports and lifted postcards are allowed for)?
+function avoid(el,dx,dy){
+  const r=el.getBoundingClientRect(),m=14,fine=matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>=560;
+  let L=r.left-m,R=r.right+m,T=r.top-m,B=r.bottom+m;
+  if(fine&&el.matches('.tcrd.pp')){const c=(r.left+r.right)/2;L=Math.min(L,c-228-m);R=Math.max(R,c+228+m)}
+  else if(fine&&el.matches('.fcard.menu')){const c=(r.left+r.right)/2;L=Math.min(L,c-244-m);R=Math.max(R,c+244+m)}
+  else if(el.matches('.pcw')){const w=r.width*.06,h=r.height*.06;L-=w;R+=w;T-=h;B+=h}
+  const w=gw,h=gh,cx=(a,b)=>Math.max(4,Math.min(innerWidth-w-4,a)),cy=(a)=>Math.max(70,Math.min(innerHeight-h-4,a));
+  const hit=(x,y)=>x<R&&x+w>L&&y<B&&y+h>T;
+  if(!hit(dx,dy))return null;
+  const c=[[R,dy],[L-w,dy],[dx,B],[dx,T-h]].map(([x,y])=>[cx(x),cy(y)]).filter(([x,y])=>!hit(x,y));
+  if(!c.length)return null;
+  c.sort((a,b)=>Math.hypot(a[0]-dx,a[1]-dy)-Math.hypot(b[0]-dx,b[1]-dy));
+  return c[0];
+}
 let lastPetal=0;
 addEventListener('pointermove',e=>{
   idleT=Date.now();wake();if(e.pointerType==='touch')return;
@@ -1465,7 +1555,10 @@ addEventListener('pointermove',e=>{
   compRig.style.setProperty('--lx',Math.max(-1.2,Math.min(1.2,(e.clientX-(gx+gw/2))/gw*2.4)).toFixed(2));compRig.style.setProperty('--ly',Math.max(-.8,Math.min(.8,(e.clientY-(gy+gh*.3))/gh*1.6)).toFixed(2));
   lookHero(e);
   if(e.target.closest&&e.target.closest('#mx')){const r=$('#mx').getBoundingClientRect();tx=r.left+8;ty=Math.max(70,r.top-gh-6);return}
-  tx=e.clientX+28;ty=e.clientY-gh*.35;
+  const dx=e.clientX+28,dyy=e.clientY-gh*.35;tx=dx;ty=dyy;
+  // stay out of the way of whatever entry is being hovered, so it can be read
+  const en=started&&G.classList.contains('here')&&e.target.closest&&e.target.closest(ENTRY);
+  if(en){const sp=avoid(en,dx,dyy);if(sp){tx=sp[0];ty=sp[1]}}
   if(!reduce&&started&&Date.now()>=hold&&G.classList.contains('here')&&e.timeStamp-lastPetal>110){lastPetal=e.timeStamp;trail(e.clientX,e.clientY)}
 });
 const PET=['#ffb8cf','#ff8fb1','#d4183a','#ffd9e6'];
