@@ -526,6 +526,14 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
  .pcw:hover .tph .thumb,.pcw:focus-visible .tph .thumb{filter:none}
 }
 @media(max-width:640px){.pcgrid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));padding-right:44px}.tnm{font-size:21px}}
+/* small star-rating badge (Shows, Movies, Books, Travel) */
+.rtb{position:absolute;z-index:4;display:inline-flex;flex-direction:column;gap:1px;font:700 9px/1.25 var(--sans);letter-spacing:.05em;color:#ffd36b;background:rgba(15,6,14,.74);padding:3px 6px;border-radius:5px;pointer-events:none;box-shadow:0 1px 5px rgba(0,0,0,.5)}
+.rtb b{color:#fff;opacity:.8;margin-right:4px;font-weight:800}.rtb i{font-style:normal;opacity:.28}
+.dvc .rtb{left:22px;top:54px}.dvc .nsfw{top:84px}
+.slv .rtb{left:7px;top:34px}.slv .nsfw{top:62px;right:auto;left:7px}
+.bk .rtb{left:17px;top:32px}.bk .nsfw{z-index:5}
+.ppf .rtb.row{position:absolute;left:30px;right:16px;bottom:62px;flex-direction:row;justify-content:center;gap:10px;background:none;box-shadow:none;padding:0;font-size:10px}
+.pcf .rtb{left:22px;top:36px}
 @media(max-width:640px){.vhs{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:70px 4px;padding-top:50px}.vlb small{font-size:6px}.vsk{font-size:7px}}
 @media(max-width:640px){.dvds{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}.dvc .dtop{font-size:7px}}
 /* books: face-out shelves, leaning and overlapping */
@@ -994,6 +1002,10 @@ function renderActivities(){
 }
 /* ---- Food: tried places are till receipts, wish-list places are leather-bound menus ---- */
 const stars=(n)=>n==null?'· · · · ·':'★'.repeat(n)+'☆'.repeat(5-n);
+/* small “G ★★★★☆ / A ★★★★★” badge shared by Shows, Movies, Books and Travel; shows nothing until someone has rated */
+const rateBadge=(i,cls='')=>{if(!i||(i.rateG==null&&i.rateA==null))return '';
+  const row=(w,n)=>n==null?'':`<span><b>${w}</b>${'★'.repeat(n)}<i>${'★'.repeat(5-n)}</i></span>`;
+  return `<span class="rtb ${cls}" role="img" aria-label="${[i.rateG!=null?`Gaja ${i.rateG} of 5 stars`:'',i.rateA!=null?`Asad ${i.rateA} of 5 stars`:''].filter(Boolean).join(', ')}">${row('G',i.rateG)}${row('A',i.rateA)}</span>`};
 function renderFood(){
   const all=DATA.food||[],F=applyView('food',all);
   const tried=all.filter(i=>stOf('food',i)==='Tried It').length;
@@ -1019,10 +1031,10 @@ function renderTravel(){
   const pp=(i,n)=>{
     const h=hue(i.name),bg=`linear-gradient(150deg,hsl(${h} 55% 40%),hsl(${(h+60)%360} 45% 14%))`,r=(((n*37)%7)-3)*.8,plan=i.status==='Planning',lab=sl[i.status]||'SOMEDAY';
     const cv=coverOf(i),big=`<span class="ppbig" style="background-image:${cv?`url('${esc(cv)}'),`:''}${bg}"></span>`,tg=(i.tags||[]).map(esc).join(' · ');
-    return `<a class="tcrd pp ${plan?'plan':'some'} reveal" href="${href(i)}" aria-label="${esc(i.name)}, ${lab.toLowerCase()}" style="--r:${r}deg"><div class="ppw"><div class="ppg"><div class="ppic">${big}</div><div class="ppin"><span class="pst">${lab}</span><div class="go">Open the full page ➜</div></div></div><div class="ppc"><div class="ppf"><span class="stitch" aria-hidden="true"></span>${nsfwTag(i)}<div class="em" aria-hidden="true" style="background:${bg}">✦${thumb(i)}</div><small>PASSPORT</small><h3>${esc(i.name)}</h3><div class="ptg">${tg}</div><div class="seal">${lab}</div></div><div class="ppk"><div class="ppic">${big}</div><div class="ppin"><small>PLACE OF STAY</small><b>${esc(i.name)}</b>${tg?`<small>TYPE</small><b>${tg}</b>`:''}</div></div></div></div></a>`};
+    return `<a class="tcrd pp ${plan?'plan':'some'} reveal" href="${href(i)}" aria-label="${esc(i.name)}, ${lab.toLowerCase()}" style="--r:${r}deg"><div class="ppw"><div class="ppg"><div class="ppic">${big}</div><div class="ppin"><span class="pst">${lab}</span><div class="go">Open the full page ➜</div></div></div><div class="ppc"><div class="ppf"><span class="stitch" aria-hidden="true"></span>${nsfwTag(i)}<div class="em" aria-hidden="true" style="background:${bg}">✦${thumb(i)}</div><small>PASSPORT</small><h3>${esc(i.name)}</h3><div class="ptg">${tg}</div>${rateBadge(i,"row")}<div class="seal">${lab}</div></div><div class="ppk"><div class="ppic">${big}</div><div class="ppin"><small>PLACE OF STAY</small><b>${esc(i.name)}</b>${tg?`<small>TYPE</small><b>${tg}</b>`:''}</div></div></div></div></a>`};
   const pc=(i,n)=>{
     const h=hue(i.name),bg=`linear-gradient(150deg,hsl(${h} 55% 40%),hsl(${(h+60)%360} 45% 14%))`,r=(((n*53)%7)-3)*.9,dy=((n*29)%5)*3-6;
-    return `<a class="tcrd pcw reveal" href="${href(i)}" aria-label="${esc(i.name)}, visited" style="--r:${r}deg;--dy:${dy}px;--z:${n+1}"><span class="pcf"><span class="tph" style="background:${bg}">${thumb(i)}</span><span class="tgr">GREETINGS FROM</span><b class="tnm">${esc(i.name)}</b><span class="ttg">${tags(i.tags)}${nsfwTag(i)}</span><span class="tstp" aria-hidden="true"></span><span class="tpm" aria-hidden="true"><i>VISITED</i><i>✓</i></span></span></a>`};
+    return `<a class="tcrd pcw reveal" href="${href(i)}" aria-label="${esc(i.name)}, visited" style="--r:${r}deg;--dy:${dy}px;--z:${n+1}"><span class="pcf"><span class="tph" style="background:${bg}">${thumb(i)}</span><span class="tgr">GREETINGS FROM</span><b class="tnm">${esc(i.name)}</b>${rateBadge(i)}<span class="ttg">${tags(i.tags)}${nsfwTag(i)}</span><span class="tstp" aria-hidden="true"></span><span class="tpm" aria-hidden="true"><i>VISITED</i><i>✓</i></span></span></a>`};
   const GO=`<div class="tsub">Next adventures</div><div class="ppgrid">${go.map(pp).join('')}</div>`,B=been.length?`<div class="tsub">Postcards from where we’ve been</div><div class="pcgrid">${been.map(pc).join('')}</div>`:'';
   const empty=T.length?'':`<div class="empty panel">${TA.length?'Everything is hidden. Tap a chip above to bring some back.':'No trips yet!'}</div>`;
   $('#travel').innerHTML=head('travel','Travel Passport','Places we’ve stayed, and places we’re dreaming of.',meter(TA.filter(t=>t.status==='Visited').length,TA.length,'Stamped'))+filterBar('travel',TA,T.length)+empty+
@@ -1042,7 +1054,7 @@ function renderShows(){
   const done=all.filter(i=>i.status==='Watched').length;
   $('#shows').innerHTML=head('shows','Shows','What we’re watching, and what’s waiting.',meter(done,all.length,'Watched'))+filterBar('shows',all,items.length)+
    `<div class="dvds reveal">${items.map((i,n)=>{const s=st[i.status]||st['Not Watched'],h=hue(i.name);
-     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||EMPTYQ(all.length)}</div>`;
+     return `<a class="dvw" href="${href(i)}" aria-label="${esc(i.name)}" style="--z:${n+1};--j:${(((n*53)%7)-3)*.45}deg;--dy:${((n*29)%5)*3-6}px"><span class="dsc" aria-hidden="true"></span><span class="dvc"><span class="dtop"><span>DVD</span><span>HD</span></span><span class="dface" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))"><span class="ph"></span>${thumb(i)}<span class="ttl">${esc(i.name)}</span></span><span class="stamp ${s[1]}">${s[0]}</span>${rateBadge(i)}${nsfwTag(i)}<span class="glare"></span></span></a>`}).join('')||EMPTYQ(all.length)}</div>`;
 }
 /* Movies: VHS sleeves, the cassette slides up out of the top on hover */
 function renderMovies(){
@@ -1051,7 +1063,7 @@ function renderMovies(){
   const done=all.filter(i=>i.status==='Watched').length;
   $('#movies').innerHTML=head('movies','The Screening Room','Movie nights, past and planned.',meter(done,all.length,'Watched'))+filterBar('movies',all,items.length)+
    `<div class="vhs reveal">${items.map((i,n)=>{const k=sk[i.status]||sk['Not Watched'],h=hue(i.name),c=`hsl(${h} 75% 62%)`;
-     return `<a class="vw" href="${href(i)}" aria-label="${esc(i.name)}" style="--c:${c};--z:${n+1};--j:${(((n*53)%7)-3)*.55}deg;--dy:${((n*29)%5)*3-6}px"><span class="vtp" aria-hidden="true"><span class="vlb"><small>VHS · HI-FI</small><b>${esc(i.name)}</b><i></i></span></span><span class="slv"><span class="vpz" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(i)}</span><span class="vsk ${k[1]}">${k[0]}</span>${nsfwTag(i)}<span class="vft"><b>${esc(i.name)}</b><span>VHS</span></span><span class="glare"></span></span></a>`}).join('')||EMPTYQ(all.length)}</div>`;
+     return `<a class="vw" href="${href(i)}" aria-label="${esc(i.name)}" style="--c:${c};--z:${n+1};--j:${(((n*53)%7)-3)*.55}deg;--dy:${((n*29)%5)*3-6}px"><span class="vtp" aria-hidden="true"><span class="vlb"><small>VHS · HI-FI</small><b>${esc(i.name)}</b><i></i></span></span><span class="slv"><span class="vpz" style="background:linear-gradient(160deg,hsl(${h} 55% 38%),hsl(${(h+60)%360} 45% 16%))">${thumb(i)}</span><span class="vsk ${k[1]}">${k[0]}</span>${rateBadge(i)}${nsfwTag(i)}<span class="vft"><b>${esc(i.name)}</b><span>VHS</span></span><span class="glare"></span></span></a>`}).join('')||EMPTYQ(all.length)}</div>`;
 }
 let bkPer=0;
 function renderBooks(){
@@ -1060,7 +1072,7 @@ function renderBooks(){
   const per=Math.max(2,Math.floor((W-64-bw)/(bw-ov))+1);bkPer=per;
   const BA=DATA.books,B=applyView('books',BA),rows=[];for(let i=0;i<B.length;i+=per)rows.push(B.slice(i,i+per));
   const html=rows.map((row,ri)=>`<div class="bkrow" style="height:${Math.round(bw*1.5)+30}px">${row.map((b,k)=>{const n=ri*per+k,h=hue(b.name),w=bw+((n*17)%14)-7,ht=Math.round(bw*1.38+((n*37)%30));
-    return `<a class="bk" href="${href(b)}" aria-label="${esc(b.name)}" title="${esc(b.name)}" style="--cv:linear-gradient(150deg,hsl(${h} 50% 36%),hsl(${(h+50)%360} 45% 14%));width:${w}px;height:${ht}px;margin-left:${k?-ov:0}px;--z:${k+1};--r:${(((n*53)%7)-3)*.9}deg">${thumb(b)}<span class="ct"><b>${esc(b.name)}</b></span>${nsfwTag(b)}<span class="glare"></span></a>`}).join('')}</div><div class="bkboard"></div>`).join('');
+    return `<a class="bk" href="${href(b)}" aria-label="${esc(b.name)}" title="${esc(b.name)}" style="--cv:linear-gradient(150deg,hsl(${h} 50% 36%),hsl(${(h+50)%360} 45% 14%));width:${w}px;height:${ht}px;margin-left:${k?-ov:0}px;--z:${k+1};--r:${(((n*53)%7)-3)*.9}deg">${thumb(b)}<span class="ct"><b>${esc(b.name)}</b></span>${rateBadge(b)}${nsfwTag(b)}<span class="glare"></span></a>`}).join('')}</div><div class="bkboard"></div>`).join('');
   el.innerHTML=head('books','Book Club','Our shelf. Tap a book to open the notes.')+filterBar('books',BA,B.length)+`<div class="bkcase reveal">${html||`<div class="empty" style="padding-bottom:26px">${BA.length?'Every book is hidden. Tap a tag above to bring some back.':'The shelf is empty…'}</div>`}</div>`;
 }
 let bkW=0;addEventListener('resize',()=>{clearTimeout(bkW);bkW=setTimeout(()=>{if(!DATA)return;const w=$('#books').clientWidth,bw=w<640?104:150,ov=w<640?18:26;if(Math.max(2,Math.floor((Math.max(300,w)-64-bw)/(bw-ov))+1)!==bkPer){renderBooks();observe();settleThumbs($('#books'))}},200)});
