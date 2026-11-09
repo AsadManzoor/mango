@@ -141,3 +141,6 @@ In Notion, wrap sensitive content in a **toggle titled `NSFW`** (or a callout wi
 
 ## Ratings on Shows, Movies, Books and Travel
 If an entry has "Gaja's Rating" and/or "Asad's Rating" (⭐ select properties, same as Food), a small dark badge ("G ★★★★☆ / A ★★★★★") appears on it: under the status sticker on DVD cases and VHS sleeves, near the top-left of a book, above the status seal on passports and under "GREETINGS FROM" on postcards. Unrated entries show no badge.
+
+## Notion links are VIP-only
+Guests never see the "Open in Notion" button or any link that goes to notion.so / notion.site / notion.com. The server also leaves the page's Notion address out of the data it sends to guests. Links to other pages that appear in the wrapper still work for everyone, and ordinary web links are unaffected. VIPs see everything as before.

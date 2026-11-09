@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
   const errors = [];
   keys.forEach((k, i) => {
     const s = settled[i];
-    if (s.status === 'fulfilled') data[k] = s.value.map(normalise).filter((x) => vip || !x.nsfw);
+    if (s.status === 'fulfilled') data[k] = s.value.map((p) => normalise(p)).filter((x) => vip || !x.nsfw).map((x) => { if (!vip) delete x.url; return x; }); // Notion links are VIP-only
     else { data[k] = []; errors.push(`${k}: ${s.reason.message}`); }
   });
   const m = settled[keys.length];

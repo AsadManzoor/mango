@@ -141,7 +141,7 @@ module.exports = async (req, res) => {
     res.status(200).json({
       id: meta.id,
       title: clean(meta.name),
-      url: page.url,
+      url: isVip(req) ? page.url : null, // the Notion link is for VIPs only
       cover: meta.cover || null,
       icon: page.icon && page.icon.type === 'emoji' ? page.icon.emoji : null,
       nsfw: !!meta.nsfw,
