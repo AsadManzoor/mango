@@ -144,3 +144,13 @@ If an entry has "Gaja's Rating" and/or "Asad's Rating" (⭐ select properties, s
 
 ## Notion links are VIP-only
 Guests never see the "Open in Notion" button or any link that goes to notion.so / notion.site / notion.com. The server also leaves the page's Notion address out of the data it sends to guests. Links to other pages that appear in the wrapper still work for everyone, and ordinary web links are unaffected. VIPs see everything as before.
+
+## Day counters and the Arcade
+- **Day counters** (opening page, under the buttons): days since your first date (the oldest non-"Potential" date in Dates) and days until the next upcoming date. If a date is happening now it shows its name instead.
+- **Arcade tab** (after Books), four games built from your own Notion entries:
+  - **Date Night Gacha**: turn the crank for one unfinished activity, one "Want to Try It" food place and one unwatched movie or show. Names link to their pages.
+  - **Memory Match**: pairs of photos from your dates, activities, food and travel entries (needs at least 3 entries with a cover image or photo).
+  - **Mango Catch**: 30 seconds; mouse, touch or arrow keys. Mangoes +10, hearts +25 and +2s, green mangoes −20, eight mangoes fill the shake for +50.
+  - **Yuki & Julie's Pocket Pets**: feed, pet and nap. Love and tummy drop slowly over real time.
+- High scores and pet stats are stored in each person's own browser (localStorage), so Gaja and Asad each have their own.
+- New files: `assets/pet-yuki.webp` and `assets/pet-julie.webp` (cropped sprites).

@@ -8,7 +8,7 @@
 <title>Mango Shake × Boy Wonder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Maru+Gothic:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Maru+Gothic:wght@400;500;700&family=Caveat:wght@500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --night:#150b13;--plum:#2a1424;--plum2:#3a1a30;--line:#5a2d4a;
@@ -534,6 +534,90 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .bk .rtb{left:17px;top:32px}.bk .nsfw{z-index:5}
 .ppf .rtb.row{position:absolute;left:30px;right:16px;bottom:62px;flex-direction:row;justify-content:center;gap:10px;background:none;box-shadow:none;padding:0;font-size:10px}
 .pcf .rtb{left:22px;top:36px}
+/* ===== day counters (hero) ===== */
+.days{display:flex;flex-wrap:wrap;gap:18px 34px;margin-top:30px;align-items:flex-end}
+.dc .fl{display:flex;gap:4px}
+.dc .fl span{width:38px;height:54px;border-radius:7px;background:linear-gradient(#3a1a30 0 49%,#12080f 49% 51%,#2f1427 51%);color:var(--gold);font:800 36px/54px var(--serif);text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.55),inset 0 0 0 1.5px rgba(255,255,255,.09)}
+.dc.sm .fl span{width:30px;height:44px;font-size:28px;line-height:44px;color:var(--rose)}
+.dc p{margin:9px 0 0;font:700 14px/1.3 var(--sans);color:var(--rose);max-width:26ch}
+.dc p small{display:block;font-weight:400;color:var(--mute);font-size:13px}
+.dc .nowtxt{font:800 22px/1.2 var(--serif);color:var(--gold)}
+@media(max-width:640px){.dc .fl span{width:32px;height:46px;font-size:30px;line-height:46px}.dc.sm .fl span{width:26px;height:38px;font-size:24px;line-height:38px}.days{gap:16px 24px}}
+/* ===== arcade ===== */
+.axgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:30px 26px;align-items:start}
+.axw{border:3px solid var(--rose);border-radius:14px;overflow:hidden;background:#12080f;box-shadow:0 14px 30px rgba(0,0,0,.6)}
+.axw>header{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:linear-gradient(#ffd9e6,#ff9dbd);color:#5a0b2a;font:800 14px var(--sans)}
+.axw>header i{display:flex;gap:5px}.axw>header i:before,.axw>header i:after{content:"";width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid #a3275a}
+.axs{position:relative;min-height:340px;overflow:hidden;background:radial-gradient(circle at 50% 120%,#5a1d44,#1a0c17 70%)}
+.axh{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;gap:8px;padding:10px 14px;font:700 12px var(--px);color:var(--gold);z-index:5;pointer-events:none}
+:root{--px:'Silkscreen',ui-monospace,'DejaVu Sans Mono',monospace}
+.gel{font:800 15px var(--sans);color:#4a2a00;border:2px solid #fff;border-radius:999px;padding:9px 24px;cursor:pointer;background:linear-gradient(#fff 0,#fff1c2 12%,#ffd36b 52%,#f5b83a 53%,#ffe39a 100%);box-shadow:0 3px 0 #9a6a10,0 6px 12px rgba(0,0,0,.45)}
+.gel:active{transform:translateY(2px);box-shadow:0 1px 0 #9a6a10}
+.gel.pk{color:#5a0b2a;background:linear-gradient(#fff 0,#ffd9e6 12%,#ff9dbd 52%,#ff7fa8 53%,#ffc1d6 100%);box-shadow:0 3px 0 #a3275a,0 6px 12px rgba(0,0,0,.45)}
+.axempty{margin:0;padding:60px 28px;text-align:center;color:var(--mute);position:absolute;inset:0;display:grid;place-content:center}
+/* gacha */
+.axs.gc{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:18px 26px;padding:44px 20px 20px}
+.axhint{position:absolute;left:16px;top:12px;font:700 11px var(--px);color:var(--rose)}
+.axm{width:210px;flex:none;position:relative}
+.dome{height:170px;border-radius:105px 105px 10px 10px;border:4px solid #ffe3ec;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.33),rgba(255,255,255,.06) 40%,rgba(255,157,189,.14));position:relative;overflow:hidden}
+.dome.shake{animation:axsh .7s}
+@keyframes axsh{20%{translate:-4px 2px}40%{translate:4px -2px}60%{translate:-3px 1px}80%{translate:3px 0}}
+.axcap{position:absolute;width:42px;height:42px;border-radius:50%;background:linear-gradient(var(--k) 0 48%,#3b1a2a 48% 52%,#fff 52%);box-shadow:inset -5px -6px 8px rgba(0,0,0,.2),inset 4px 4px 6px rgba(255,255,255,.4);rotate:var(--a,0deg)}
+.gbody{height:124px;background:linear-gradient(90deg,#b3123a,#ff5f8d 45%,#d4183a);border-radius:6px 6px 14px 14px;border:4px solid #ffe3ec;border-top:0;position:relative}
+.gbody b{position:absolute;left:0;right:0;top:8px;text-align:center;font:700 11px var(--px);color:#fff}
+.crank{position:absolute;left:28px;top:36px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffd36b 40%,#b98718);border:3px solid #fff;padding:0;cursor:pointer}
+.crank:after{content:"";position:absolute;left:8px;right:8px;top:24px;height:10px;border-radius:5px;background:#7a5208}
+.crank.t{animation:axcr .9s cubic-bezier(.4,1.6,.5,1)}
+@keyframes axcr{to{transform:rotate(360deg)}}
+.chute{position:absolute;right:24px;top:44px;width:70px;height:58px;border-radius:8px 8px 30px 30px;background:#2a0912;box-shadow:inset 0 6px 10px #000;overflow:hidden}
+.chute .axcap{left:14px;top:-50px;transition:top .5s cubic-bezier(.5,0,.6,1.3)}
+.chute.d .axcap{top:12px}
+.slip{flex:1 1 230px;max-width:300px;background:#fbf3df;color:#3b1a2a;padding:16px 18px 20px;rotate:2deg;box-shadow:0 10px 18px rgba(0,0,0,.6);clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),96% 100%,92% calc(100% - 7px),88% 100%,84% calc(100% - 7px),80% 100%,76% calc(100% - 7px),72% 100%,68% calc(100% - 7px),64% 100%,60% calc(100% - 7px),56% 100%,52% calc(100% - 7px),48% 100%,44% calc(100% - 7px),40% 100%,36% calc(100% - 7px),32% 100%,28% calc(100% - 7px),24% 100%,20% calc(100% - 7px),16% 100%,12% calc(100% - 7px),8% 100%,4% calc(100% - 7px),0 100%);transition:opacity .35s,translate .35s}
+.slip.h{opacity:0;translate:0 12px}
+.slip h4{font:800 19px var(--serif);margin:0 0 8px;color:#3b1a2a}
+.slip p{font-size:14px;line-height:1.3;margin:0 0 7px;color:#3b1a2a}.slip p b{font:700 10px var(--px);display:block;color:#b3123a}
+.slip a{color:#3b1a2a;text-decoration-color:#b3123a;text-underline-offset:3px}
+/* memory */
+.axs.mm{display:grid;place-content:center;padding:44px 14px 22px}
+.mmb{display:grid;grid-template-columns:repeat(4,minmax(0,84px));gap:12px;justify-content:center;perspective:900px}
+.mc{height:96px;position:relative;transform-style:preserve-3d;transition:transform .5s;border:0;background:none;padding:0;cursor:pointer}
+.mc.f{transform:rotateY(180deg)}
+.mc>span{position:absolute;inset:0;border-radius:6px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.mc .bk{background:repeating-linear-gradient(45deg,#3a1a30 0 8px,#4a2140 8px 16px);border:2px solid var(--rose);display:grid;place-content:center;color:var(--rose);font-size:22px}
+.mc .ft{transform:rotateY(180deg);background:#f4ecdc;padding:5px 5px 17px;display:block}
+.mc .ft i{display:block;height:100%;background-size:cover;background-position:center;border-radius:2px}
+.mc .ft em{position:absolute;left:3px;right:3px;bottom:2px;font:700 8px/1.1 var(--sans);font-style:normal;color:#3b1a2a;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc.ok .ft{box-shadow:0 0 0 3px var(--gold),0 0 18px var(--gold)}
+.axov{position:absolute;inset:0;background:rgba(18,8,15,.86);display:grid;place-content:center;justify-items:center;gap:14px;text-align:center;z-index:6;padding:20px}
+.axov[hidden]{display:none}
+.axov h4{font:900 34px/1 var(--serif);color:var(--gold);text-shadow:3px 3px 0 var(--blood),0 8px 16px #000;margin:0;rotate:-3deg}
+.axov p{margin:0;color:var(--mute);font-size:14px;max-width:32ch}
+.axov small{font:700 11px var(--px);color:var(--mute)}
+/* mango catch */
+.axs.mg{min-height:0;aspect-ratio:480/330}
+.axs.mg canvas{display:block;width:100%;height:100%;outline-offset:-4px}
+.axs.mg.playing canvas{touch-action:none;cursor:none}
+.ldb{width:210px;height:16px;border:2px solid var(--rose);border-radius:999px;padding:2px}.ldb i{display:block;height:100%;width:100%;border-radius:999px;background:repeating-linear-gradient(-45deg,#ff7fa8 0 8px,#ffc1d6 8px 16px)}
+/* pocket pets */
+.axs.pp{display:grid;place-content:center;padding:30px 0}
+.egg{position:relative;width:250px;height:290px;border-radius:50% 50% 46% 46%/56% 56% 44% 44%;background:radial-gradient(circle at 32% 22%,#fff,#ffc1d6 22%,#ff7fa8 60%,#d6457a);box-shadow:inset -10px -14px 22px rgba(0,0,0,.2),0 14px 24px rgba(0,0,0,.6)}
+.lcd{position:absolute;left:36px;right:36px;top:52px;height:150px;border-radius:14px;background:#d9e8c4;border:5px solid #7a2a55;overflow:hidden;box-shadow:inset 0 0 14px rgba(0,0,0,.3);background-image:linear-gradient(transparent 0 3px,rgba(0,0,0,.04) 3px 4px);background-size:100% 4px;color:#3d4d2e;font:700 10px/1.35 var(--px)}
+.lcd .st{position:absolute;left:7px;top:5px;right:7px}
+.lcd img{position:absolute;bottom:8px;filter:grayscale(1) contrast(1.25) sepia(.55) hue-rotate(35deg) brightness(.95);animation:axbob .9s steps(1) infinite}
+.lcd .y{left:14px;height:62px}.lcd .j{right:6px;height:76px;animation-delay:.45s}
+@keyframes axbob{50%{translate:0 -4px}}
+.lcd.hop img{animation:axhop .5s ease-out}
+@keyframes axhop{40%{translate:0 -16px}}
+.lcd.zz img{animation:none;opacity:.55}
+.lcd .fx{position:absolute;color:#d4183a;font-size:18px;opacity:0;animation:axup 1.1s ease-out forwards;pointer-events:none}
+@keyframes axup{0%{opacity:1;translate:0 0}100%{opacity:0;translate:0 -50px}}
+.eb{position:absolute;left:0;right:0;bottom:34px;display:flex;justify-content:center;gap:14px}
+.eb button{width:40px;height:40px;border-radius:50%;border:2px solid #fff;background:radial-gradient(circle at 35% 30%,#fff,#ffd36b 45%,#c98f1a);box-shadow:0 3px 0 #7a5208;cursor:pointer;font:800 15px var(--sans);color:#5a3a00;padding:0}
+.eb button:nth-child(2){translate:0 10px}
+.eb button:active{box-shadow:0 1px 0 #7a5208;margin-top:2px}
+.ebl{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:26px;font:700 9px var(--px);color:#fff}
+.axs.pp .pl{position:absolute;left:14px;bottom:10px;font:700 11px var(--px);color:var(--rose)}
+@media(max-width:520px){.axs.gc{padding-top:40px}.slip{max-width:none}.mmb{gap:9px}.mc{height:88px}}
 @media(max-width:640px){.vhs{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:70px 4px;padding-top:50px}.vlb small{font-size:6px}.vsk{font-size:7px}}
 @media(max-width:640px){.dvds{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}.dvc .dtop{font-size:7px}}
 /* books: face-out shelves, leaning and overlapping */
@@ -764,7 +848,7 @@ body.ready #gaja.here{opacity:1}
 <header class="top">
   <a class="logo" href="#top" translate="no">Mango Shake <b>×</b> Boy Wonder</a>
   <nav class="tabs" id="tabs" aria-label="Chapters">
-    <a href="#dates">Dates</a><a href="#memories">Memories</a><a href="#activities">Activities</a><a href="#food">Food</a><a href="#travel">Travel</a><a href="#shows">Shows</a><a href="#movies">Movies</a><a href="#books">Books</a>
+    <a href="#dates">Dates</a><a href="#memories">Memories</a><a href="#activities">Activities</a><a href="#food">Food</a><a href="#travel">Travel</a><a href="#shows">Shows</a><a href="#movies">Movies</a><a href="#books">Books</a><a href="#arcade">Arcade</a>
   </nav>
   <span class="sync" id="sync" role="status">Syncing…</span>
 </header>
@@ -781,6 +865,7 @@ body.ready #gaja.here{opacity:1}
           <span class="b">Boy Wonder</span></h1>
         <p class="lede">Our dates, our movie nights and our someday trips. One volume, two kinds of love story.</p>
         <div class="btns"><a class="btn primary" href="#dates">Open the next chapter</a><a class="btn ghost" href="#memories">Revisit our memories</a></div>
+        <div class="days" id="days"></div>
       </div>
       <div class="stage" id="stage">
         <div class="arch"><span class="moon"></span><div class="hero-duo"><div class="hero-who" id="heroGaja" role="img" aria-label="Gaja, with Yuki the mouse on her head, holding her laptop and phone"></div><div class="hero-who" id="heroAsad" role="img" aria-label="Asad, with Julie the cat on his beanie, holding his phone and a cylinder"></div></div></div>
@@ -796,6 +881,7 @@ body.ready #gaja.here{opacity:1}
     <section class="chapter" id="shows" aria-labelledby="h-shows"></section>
     <section class="chapter" id="movies" aria-labelledby="h-movies"></section>
     <section class="chapter" id="books" aria-labelledby="h-books"></section>
+    <section class="chapter" id="arcade" aria-labelledby="h-arcade"></section>
     <section class="chapter" id="resources" aria-labelledby="h-resources">
       <div class="ch-head"><h2 id="h-resources">Resources</h2></div>
       <div class="res"><a class="btn ghost" href="https://www.youtube.com/playlist?list=PLJsLTgbjEQyAYbuBPqzcxDx29xhlWKRh2" target="_blank" rel="noopener noreferrer">GSA &amp; AV Club: Reading List ↗</a></div>
@@ -1088,11 +1174,168 @@ function renderTicket(){
   if(up){t.href=href(up);t.innerHTML=`Next up<span class="big">${esc(up.name)}${nsfwTag(up)}</span><span class="num">${esc(rng(up))} · ${esc(cdText(up))}</span>`}
   else{t.href='#dates';t.innerHTML='Next up<span class="big">Nothing yet</span><span>Add a date in Notion</span>'}
 }
+/* ============ DAY COUNTERS (hero) ============ */
+let daysAnimated=false;
+const flipHtml=(n,min)=>String(n).padStart(min,'0').split('').map(c=>`<span>${c}</span>`).join('');
+function renderDays(){
+  const box=$('#days');if(!box||!DATA)return;
+  const past=DATA.dates.filter(d=>d.date&&daysUntil(d.date)<=0&&relTag(d)!=='Potential').sort((a,b)=>a.date.localeCompare(b.date))[0];
+  const up=DATA.dates.filter(d=>d.date&&daysUntil(d.dateEnd||d.date)>=0&&relTag(d)!=='Potential').sort((a,b)=>a.date.localeCompare(b.date))[0];
+  let h='';
+  if(past){const n=-daysUntil(past.date),when=parseD(past.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    h+=`<div class="dc" role="group" aria-label="${n} day${n===1?'':'s'} since our first date"><div class="fl" aria-hidden="true" data-n="${n}" data-min="3">${flipHtml(n,3)}</div><p>day${n===1?'':'s'} since our first date<small>${esc(when)}</small></p></div>`}
+  if(up){const st=daysUntil(up.date);
+    if(st>0)h+=`<div class="dc sm" role="group" aria-label="${st} day${st===1?'':'s'} until ${esc(up.name)}"><div class="fl" aria-hidden="true" data-n="${st}" data-min="2">${flipHtml(st,2)}</div><p>day${st===1?'':'s'} until ${esc(up.name)}<small>${esc(rng(up))}</small></p></div>`;
+    else h+=`<div class="dc"><div class="nowtxt">${esc(up.name)}</div><p>${daysUntil(up.dateEnd||up.date)===0&&st===0&&!up.dateEnd?'is today!':'is happening now'}</p></div>`}
+  box.innerHTML=h;
+  if(!daysAnimated&&h&&!reduce){daysAnimated=true;$$('.fl',box).forEach(f=>{const n=+f.dataset.n,min=+f.dataset.min,t0=performance.now();(function s(t){const k=Math.min(1,(t-t0)/1100),e=1-Math.pow(1-k,3);f.innerHTML=flipHtml(Math.round(n*e),min);if(k<1)requestAnimationFrame(s)})(t0)})}
+}
+/* ============ ARCADE ============ */
+const lsGet=(k)=>{try{return localStorage.getItem(k)}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const shuffle=(a)=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const rand=(a)=>a[Math.random()*a.length|0];
+let arcadeBuilt=false;
+function axw(title,cls,inner){return `<div class="axw reveal" role="group" aria-label="${esc(title)}"><header><span>${esc(title)}</span><i aria-hidden="true"></i></header><div class="axs ${cls}">${inner}</div></div>`}
+function renderArcade(){
+  const el=$('#arcade');if(!el||!DATA)return;
+  if(!arcadeBuilt){
+    arcadeBuilt=true;
+    const caps=[[10,112,'#ff7fa8',20],[52,120,'#ffd36b',-30],[96,116,'#8fe0b4',60],[140,120,'#9ec5ff',10],[30,78,'#9ec5ff',-50],[74,82,'#ff7fa8',140],[118,80,'#ffd36b',80],[152,84,'#8fe0b4',-20],[54,44,'#8fe0b4',30],[98,46,'#ff7fa8',-70],[128,50,'#9ec5ff',100]].map(c=>`<span class="axcap" style="left:${c[0]}px;top:${c[1]}px;--k:${c[2]};--a:${c[3]}deg"></span>`).join('');
+    const gacha=`<div class="axhint">Turn the gold crank</div><div class="axm"><div class="dome" id="gcDome">${caps}</div><div class="gbody"><b>one turn = one date</b><button type="button" class="crank" id="gcCrank" aria-label="Turn the crank to get tonight’s plan"></button><div class="chute" id="gcChute" aria-hidden="true"><span class="axcap" style="--k:#ffd36b"></span></div></div></div><div class="slip h" id="gcSlip" aria-live="polite"></div>`;
+    const memory=`<div class="axh"><span id="mmMoves">Moves 0</span><span id="mmPairs">Pairs 0</span><span id="mmBest"></span></div><div class="mmb" id="mmBoard"></div><div class="axov" id="mmWin" hidden><h4>All matched!</h4><p id="mmWinTxt"></p><button type="button" class="gel" id="mmAgain">Play again</button></div>`;
+    const mango=`<div class="axh"><span id="mgScore">Score 0</span><span id="mgTime">0:30</span><span id="mgBest"></span></div><canvas id="mgCv" tabindex="0" aria-label="Mango Catch. Move the mouse, drag, or use the arrow keys to move Julie and catch the falling mangoes."></canvas><div class="axov" id="mgTitle"><h4>Mango<br>Catch</h4><div class="ldb" aria-hidden="true"><i></i></div><p>Move Julie to catch mangoes and fill the shake. Hearts add time. Dodge the green ones.</p><button type="button" class="gel" id="mgPlay">Play</button><small>Mouse, touch or arrow keys</small></div><div class="axov" id="mgOver" hidden><h4>Time’s up!</h4><p id="mgOverTxt"></p><button type="button" class="gel" id="mgAgain">Play again</button></div>`;
+    const pets=`<div class="egg"><div class="lcd" id="pLcd"><div class="st" id="pSt" aria-live="polite"></div><img class="y" src="assets/pet-yuki.webp" alt="Yuki the mouse"><img class="j" src="assets/pet-julie.webp" alt="Julie the cat"></div><div class="eb"><button type="button" id="pFeed" aria-label="Feed them a mango">A</button><button type="button" id="pPet" aria-label="Pet them">B</button><button type="button" id="pNap" aria-label="Nap time">C</button></div><div class="ebl"><span>feed</span><span>pet</span><span>nap</span></div></div><div class="pl">Yuki &amp; Julie need you</div>`;
+    el.innerHTML=head('arcade','Arcade','Four little games, made from our own stuff.')+`<div class="axgrid">${axw('Date Night Gacha','gc',gacha)}${axw('Memory Match','mm',memory)}${axw('Mango Catch','mg',mango)}${axw('Yuki & Julie’s Pocket Pets','pp',pets)}</div>`;
+    gachaInit();memoryInit();mangoInit();petsInit();
+  }
+  memoryDeal(false);
+}
+/* ---- Date Night Gacha ---- */
+function gachaInit(){
+  const slip=$('#gcSlip'),crank=$('#gcCrank'),chute=$('#gcChute'),dome=$('#gcDome');let busy=false;
+  const line=(l,i,none)=>`<p><b>${l}</b>${i?`<a href="${href(i)}">${esc(i.name)}</a>`:none}</p>`;
+  crank.onclick=()=>{
+    if(busy||!DATA)return;busy=true;slip.classList.add('h');chute.classList.remove('d');
+    crank.classList.remove('t');dome.classList.remove('shake');void crank.offsetWidth;crank.classList.add('t');dome.classList.add('shake');
+    const doP=(DATA.activities||[]).filter(x=>x.status!=='Done'),eatAll=DATA.food||[],eatP=eatAll.filter(x=>x.status==='Want to Try It'),watchP=[...(DATA.movies||[]),...(DATA.shows||[])].filter(x=>x.status!=='Watched');
+    const d=rand(doP.length?doP:[null]),e=rand(eatP.length?eatP:eatAll.length?eatAll:[null]),w=rand(watchP.length?watchP:[null]);
+    setTimeout(()=>chute.classList.add('d'),700);
+    setTimeout(()=>{slip.innerHTML=`<h4>Tonight’s plan</h4>${line('Do',d,'Nothing queued')}${line('Eat',e,'Nothing queued')}${line('Watch',w,'Nothing queued')}`;slip.classList.remove('h');busy=false;if(typeof say==='function'&&started&&!onPage)say(who==='g'?'Ooh, that’s a good one. I’m in!':'That sounds perfect to me.',3500)},1500);
+  };
+}
+/* ---- Memory Match ---- */
+const MM={first:null,lock:false,moves:0,found:0,n:0,started:false};
+function memoryInit(){
+  $('#mmBoard').addEventListener('click',e=>{
+    const c=e.target.closest('.mc');if(!c||MM.lock||c.classList.contains('f'))return;
+    c.classList.add('f');c.setAttribute('aria-label',c.dataset.name);MM.started=true;
+    if(!MM.first){MM.first=c;return}
+    const a=MM.first;MM.first=null;MM.moves++;$('#mmMoves').textContent='Moves '+MM.moves;
+    if(a.dataset.k===c.dataset.k){a.classList.add('ok');c.classList.add('ok');MM.found++;$('#mmPairs').textContent=`Pairs ${MM.found} / ${MM.n}`;if(MM.found===MM.n)memoryWin()}
+    else{MM.lock=true;setTimeout(()=>{a.classList.remove('f');c.classList.remove('f');a.setAttribute('aria-label','Memory card');c.setAttribute('aria-label','Memory card');MM.lock=false},850)}
+  });
+  $('#mmAgain').onclick=()=>memoryDeal(true);
+}
+function memoryDeal(force){
+  const box=$('#mmBoard');if(!box||!DATA)return;
+  if(!force&&MM.started&&box.children.length)return; // don't reshuffle a game in progress when data refreshes
+  const seen=new Set(),pool=[...memPast(),...(DATA.activities||[]),...(DATA.food||[]),...(DATA.travel||[])].filter(x=>{const c=coverOf(x);if(!c||seen.has(c))return false;seen.add(c);return true});
+  $('#mmWin').hidden=true;MM.first=null;MM.lock=false;MM.moves=0;MM.found=0;MM.started=false;
+  const best=+(lsGet('ax_mm_best')||0);$('#mmBest').textContent=best?'Best '+best:'';$('#mmMoves').textContent='Moves 0';
+  if(pool.length<3){box.innerHTML='<p class="axempty">Add cover images to a few dates and the cards show up here.</p>';MM.n=0;$('#mmPairs').textContent='';return}
+  const picks=shuffle(pool).slice(0,6);MM.n=picks.length;$('#mmPairs').textContent=`Pairs 0 / ${MM.n}`;
+  const deck=shuffle([...picks,...picks]);
+  box.innerHTML=deck.map(it=>`<button type="button" class="mc" data-k="${esc(idk(it.id))}" data-name="${esc(it.name)}" aria-label="Memory card"><span class="bk" aria-hidden="true">✦</span><span class="ft"><i style="background-image:url('${esc(coverOf(it))}')"></i><em>${esc(it.name)}</em></span></button>`).join('');
+}
+function memoryWin(){
+  const best=+(lsGet('ax_mm_best')||0),rec=!best||MM.moves<best;if(rec)lsSet('ax_mm_best',String(MM.moves));
+  $('#mmBest').textContent='Best '+(rec?MM.moves:best);
+  $('#mmWinTxt').textContent=`All ${MM.n} pairs in ${MM.moves} moves.${rec?' New best!':''}`;
+  setTimeout(()=>{$('#mmWin').hidden=false;$('#mmAgain').focus({preventScroll:true})},700);
+}
+/* ---- Mango Catch ---- */
+function mangoInit(){
+  const cv=$('#mgCv'),ctx=cv.getContext('2d'),W=480,H=330,dpr=Math.min(2,devicePixelRatio||1),stage=cv.parentElement;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  const cat=new Image();cat.src='assets/pet-julie.webp';
+  let state='title',px=W/2,items=[],pops=[],score=0,time=30,spawn=0,elapsed=0,fill=0,last=0,raf=0,vis=true,kL=0,kR=0,best=+(lsGet('ax_mg_best')||0);
+  const CW=112,CH=Math.round(112*328/429),FLOOR=H-12;
+  const $s=$('#mgScore'),$t=$('#mgTime'),$b=$('#mgBest');
+  const hud=()=>{$s.textContent='Score '+score;$t.textContent='0:'+String(Math.max(0,Math.ceil(time))).padStart(2,'0');$b.textContent=best?'Best '+best:''};
+  function mango(x,y,r,rot,bad){ctx.save();ctx.translate(x,y);ctx.rotate(rot);const g=ctx.createRadialGradient(-5,-6,2,0,0,r*1.2);
+    if(bad){g.addColorStop(0,'#a8c96f');g.addColorStop(1,'#4a6a2a')}else{g.addColorStop(0,'#ffe27a');g.addColorStop(.55,'#ffb52e');g.addColorStop(1,'#f0752b')}
+    ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(0,0,r*.85,r,0,0,7);ctx.fill();
+    ctx.fillStyle='#5fbf6a';ctx.beginPath();ctx.ellipse(r*.35,-r*.95,r*.42,r*.2,-.6,0,7);ctx.fill();
+    if(bad){ctx.fillStyle='rgba(40,50,20,.55)';[[-5,2],[4,-5],[3,7]].forEach(p=>{ctx.beginPath();ctx.arc(p[0],p[1],2.4,0,7);ctx.fill()})}
+    ctx.restore()}
+  function draw(){
+    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a0c17');g.addColorStop(1,'#4a1b3b');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(255,255,255,.07)';for(let i=0;i<26;i++){ctx.fillRect((i*97)%W,(i*53)%(H-60),2,2)}
+    ctx.fillStyle='#2a1424';ctx.fillRect(0,FLOOR,W,H-FLOOR);ctx.fillStyle='#5a2d4a';ctx.fillRect(0,FLOOR,W,2);
+    // shake glass (top right)
+    const gx=W-52,gy=36,gw=34,gh=64;ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(gx,gy,gw,gh);
+    ctx.fillStyle='#ffb52e';const fh=gh*fill/8;ctx.fillRect(gx,gy+gh-fh,gw,fh);
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.lineTo(gx+gw,gy);ctx.stroke();
+    ctx.strokeStyle='#d4183a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(gx+22,gy-22);ctx.lineTo(gx+14,gy+gh-6);ctx.stroke();
+    for(const it of items){if(it.t==='h'){ctx.fillStyle='#ff7fa8';ctx.font='bold 30px sans-serif';ctx.textAlign='center';ctx.fillText('♥',it.x,it.y+10)}else mango(it.x,it.y,15,it.rot,it.t==='b')}
+    const cy=FLOOR-CH+8;if(cat.complete&&cat.naturalWidth)ctx.drawImage(cat,px-CW/2,cy,CW,CH);else{ctx.fillStyle='#c9a06a';ctx.fillRect(px-CW/2,cy,CW,CH)}
+    ctx.textAlign='center';ctx.font='bold 16px sans-serif';for(const p of pops){ctx.globalAlpha=Math.max(0,p.l);ctx.fillStyle=p.c;ctx.fillText(p.s,p.x,p.y)}ctx.globalAlpha=1;
+  }
+  function update(dt){
+    elapsed+=dt;time-=dt;
+    if(kL||kR)px=Math.max(40,Math.min(W-40,px+(kR-kL)*330*dt));
+    spawn-=dt;if(spawn<=0){spawn=Math.max(.42,.95-elapsed*.012);const r=Math.random();items.push({x:24+Math.random()*(W-110),y:-20,vy:(115+elapsed*3.5)*(.9+Math.random()*.3),rot:Math.random()*6,t:r<.12?'h':r<.22?'b':'m'})}
+    for(let i=items.length-1;i>=0;i--){const it=items[i];it.y+=it.vy*dt;it.rot+=dt;
+      const top=FLOOR-CH+14;
+      if(it.y>top&&it.y<top+34&&Math.abs(it.x-px)<CW*.45){
+        if(it.t==='m'){score+=10;fill++;pops.push({x:it.x,y:it.y-14,l:1,s:'+10',c:'#ffd36b'});if(fill>=8){fill=0;score+=50;pops.push({x:W/2,y:H/2,l:1.6,s:'SHAKE! +50',c:'#ff9dbd'})}}
+        else if(it.t==='h'){score+=25;time=Math.min(45,time+2);pops.push({x:it.x,y:it.y-14,l:1,s:'+2s',c:'#ff7fa8'})}
+        else{score=Math.max(0,score-20);pops.push({x:it.x,y:it.y-14,l:1,s:'-20',c:'#a8c96f'})}
+        items.splice(i,1);continue}
+      if(it.y>H+20)items.splice(i,1)}
+    for(let i=pops.length-1;i>=0;i--){pops[i].y-=30*dt;pops[i].l-=dt*1.1;if(pops[i].l<=0)pops.splice(i,1)}
+    if(time<=0)finish();
+  }
+  function tick(t){
+    if(state!=='play'||!vis||document.hidden){raf=0;return}
+    const dt=last?Math.min(.05,(t-last)/1000):0;last=t;update(dt);draw();hud();if(state==='play')raf=requestAnimationFrame(tick);else raf=0}
+  const kick=()=>{if(state==='play'&&!raf){last=0;raf=requestAnimationFrame(tick)}};
+  function start(){state='play';items=[];pops=[];score=0;time=30;spawn=.4;elapsed=0;fill=0;last=0;px=W/2;stage.classList.add('playing');$('#mgTitle').hidden=true;$('#mgOver').hidden=true;hud();cv.focus({preventScroll:true});kick()}
+  function finish(){state='over';stage.classList.remove('playing');const rec=score>best;if(rec){best=score;lsSet('ax_mg_best',String(best))}hud();draw();$('#mgOverTxt').textContent=`You scored ${score}.${rec&&score>0?' New best!':''}`;$('#mgOver').hidden=false;$('#mgAgain').focus({preventScroll:true})}
+  $('#mgPlay').onclick=start;$('#mgAgain').onclick=start;
+  const mv=e=>{const r=cv.getBoundingClientRect();px=Math.max(40,Math.min(W-40,(e.clientX-r.left)/r.width*W))};
+  cv.addEventListener('pointermove',e=>{if(state==='play')mv(e)});cv.addEventListener('pointerdown',e=>{if(state==='play')mv(e)});
+  cv.addEventListener('keydown',e=>{if(state!=='play')return;if(e.key==='ArrowLeft'||e.key==='a'){kL=1;e.preventDefault()}if(e.key==='ArrowRight'||e.key==='d'){kR=1;e.preventDefault()}});
+  cv.addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='a')kL=0;if(e.key==='ArrowRight'||e.key==='d')kR=0});
+  cv.addEventListener('blur',()=>{kL=kR=0});
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)kick()},{threshold:.15}).observe(stage);
+  document.addEventListener('visibilitychange',kick);
+  hud();draw();cat.onload=()=>{if(state!=='play')draw()};
+}
+/* ---- Pocket Pets ---- */
+function petsInit(){
+  const lcd=$('#pLcd'),st=$('#pSt');
+  let S={love:3,full:3,t:Date.now()};try{const j=JSON.parse(lsGet('ax_pets')||'null');if(j&&typeof j.love==='number')S=j}catch(e){}
+  const save=()=>lsSet('ax_pets',JSON.stringify(S));
+  const decay=()=>{const n=Math.floor((Date.now()-S.t)/(20*60*1000));if(n>0){S.love=Math.max(0,S.love-n);S.full=Math.max(0,S.full-n);S.t=Date.now();save()}};
+  let msg='',sleeping=false;
+  const bar=(n,a,b)=>a.repeat(n)+b.repeat(5-n);
+  function show(){
+    const mood=sleeping?'zzz...':msg||(S.full<=1?'so hungry':S.love<=1?'feeling lonely':S.love>=4&&S.full>=3?'so happy':'doing okay');
+    st.innerHTML=`${bar(S.love,'♥','♡')} love<br>${bar(S.full,'◆','◇')} tummy<br>${esc(mood)}`;lcd.classList.toggle('zz',sleeping)}
+  function fx(ch,n=3){for(let i=0;i<n;i++){const b=document.createElement('b');b.className='fx';b.textContent=ch;b.style.left=(30+Math.random()*100)+'px';b.style.top=(70+Math.random()*30)+'px';b.style.animationDelay=i*.15+'s';lcd.append(b);setTimeout(()=>b.remove(),1500)}
+    lcd.classList.remove('hop');void lcd.offsetWidth;lcd.classList.add('hop');setTimeout(()=>lcd.classList.remove('hop'),600)}
+  const say2=(m,ms=2200)=>{msg=m;show();setTimeout(()=>{if(msg===m){msg='';show()}},ms)};
+  $('#pFeed').onclick=()=>{if(sleeping)return;decay();if(S.full>=5){say2('too full!');return}S.full++;S.love=Math.min(5,S.love+(S.love<5?0:0));S.t=Date.now();save();fx('◆');say2('yum!')};
+  $('#pPet').onclick=()=>{if(sleeping)return;decay();S.love=Math.min(5,S.love+1);S.t=Date.now();save();fx('♥');say2(S.love>=5?'so loved!':'purr purr')};
+  $('#pNap').onclick=()=>{if(sleeping)return;sleeping=true;show();fx('z',3);setTimeout(()=>{sleeping=false;decay();S.love=Math.min(5,S.love+1);S.t=Date.now();save();say2('good nap!')},4000)};
+  decay();show();setInterval(()=>{if(!sleeping){decay();show()}},60000);
+}
 function render(){
-  renderTicket();renderDates();renderMemories();renderActivities();renderFood();renderTravel();
+  renderTicket();renderDays();renderDates();renderMemories();renderActivities();renderFood();renderTravel();
   renderShows();
   renderMovies();
-  renderBooks();observe();settleThumbs(document);loadThumbs();
+  renderBooks();renderArcade();observe();settleThumbs(document);loadThumbs();
 }
 
 /* ============ REVEAL + CHAPTER TRACKING ============ */
@@ -1339,7 +1582,7 @@ const LN={
    travel:['Stamped places are ones we’ve been to. Let’s fill up the rest.','Planning is the fun part. Dreaming counts too.'],
    shows:['Open a show to see its notes.','Hover over a case and the disc slides out!'],
    movies:['Horror for Asad, romance for me. I’ll sit through every jump scare for him.','Hover over a tape and it slides out of its sleeve. Tap me, then the clapper, for a surprise movie pick.'],
-   books:['Tap a book to open the notes.','Everything here updates from Notion.'],resources:['Extra goodies live down here.']}},
+   books:['Tap a book to open the notes.','Everything here updates from Notion.'],arcade:['Welcome to the arcade! Everything here is made from our own dates and photos.','Try the gacha when we can’t decide what to do tonight.'],resources:['Extra goodies live down here.']}},
  a:{name:'Asad',
   welcome:['Hi, welcome in. Tap me if you’d like some tricks.'],back:['Welcome back. I saved you a seat.','Hi again. I’m glad you’re here.'],
   photos:n=>n>3?`${n} photos. I love looking at these. Tap any to see it bigger.`:'Aw, look at this one. I could stare at it all day.',
@@ -1361,7 +1604,7 @@ const LN={
    travel:['Stamped ones we’ve been to. The blank ones are waiting for us.','Wherever we go, I’m just glad we go together.'],
    shows:['Open a show to read the notes.','Hover over a case and you’ll see the disc slide out.'],
    movies:['Horror’s my comfort food. Gaja lets me hold her hand through the scary parts.','Tap me, then the clapper, and I’ll find tonight’s movie.'],
-   books:['Tap a book to read the notes.','It all updates from Notion on its own.'],resources:['A few extras live down here.']}}
+   books:['Tap a book to read the notes.','It all updates from Notion on its own.'],arcade:['Welcome to the arcade. Everything here is made from our own memories.','Maybe the gacha can pick tonight’s plan for us.'],resources:['A few extras live down here.']}}
 };
 const T=(k,...a)=>{const v=LN[who][k];return typeof v==='function'?v(...a):Array.isArray(v)?pick(v):v};
 function loadGaja(){return Promise.all(GL.map(n=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=gsrc(n)})))}
@@ -1548,7 +1791,7 @@ function loop(){
   if(Math.abs(hairNow-(loop.hv||0))>.15){loop.hv=hairNow;compRig.style.setProperty('--hair',hairNow.toFixed(2)+'deg')}
   requestAnimationFrame(loop)
 }
-const ENTRY='.dvw,.vw,.bk,.pol,.fcard,.tcrd,.card,.agc,.upc';
+const ENTRY='.dvw,.vw,.bk,.pol,.fcard,.tcrd,.card,.agc,.upc,.axw';
 // where can the companion stand so she doesn't cover the entry under the cursor (opened menus/passports and lifted postcards are allowed for)?
 function avoid(el,dx,dy){
   const r=el.getBoundingClientRect(),m=14,fine=matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>=560;
