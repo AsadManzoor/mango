@@ -723,6 +723,8 @@ a.mention:active{transform:scale(.98)}
 .photo figcaption{font-size:14px;color:var(--mute);margin-top:6px}
 .video{position:relative;aspect-ratio:16/9;border:2px solid var(--rose);border-radius:8px;overflow:hidden;background:#000;max-width:860px}
 .video iframe,.video video{position:absolute;inset:0;width:100%;height:100%;border:0}
+figure.video{margin:14px 0 4px}
+.drvl{margin:4px 0 14px;font-size:.78rem;opacity:.75}
 .linkcard{display:flex;align-items:center;gap:14px;text-decoration:none;border:2px solid var(--rose);border-radius:8px;padding:14px 18px;background:var(--plum);max-width:560px;transition:transform .2s var(--ease)}
 .linkcard b{display:block;font:800 18px var(--serif);color:var(--rose)}
 .linkcard small{color:var(--mute);overflow-wrap:anywhere}
@@ -1448,6 +1450,10 @@ function rt(arr){return (arr||[]).map(r=>{if(r.m){const x=mention(r);return r.b?
 const plainText=(arr)=>(arr||[]).map(r=>r.t).join('');
 function ytId(u){try{const x=new URL(u);if(x.hostname==='youtu.be')return x.pathname.slice(1);if(/youtube\.com$/.test(x.hostname)){if(x.pathname==='/watch')return x.searchParams.get('v');const m=x.pathname.match(/^\/(embed|shorts|live)\/([\w-]{6,})/);if(m)return m[2]}}catch(e){}return null}
 function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return u}}
+// Google Drive file links (videos, mostly) become an inline player via Drive's /preview page.
+function driveId(u){try{const x=new URL(u);if(!/^(drive|docs)\.google\.com$/.test(x.hostname))return null;let m=x.pathname.match(/\/file\/(?:u\/\d+\/)?d\/([\w-]{10,})/);if(m)return m[1];if(/^\/(open|uc)$/.test(x.pathname)){const i=x.searchParams.get('id');if(i&&/^[\w-]{10,}$/.test(i))return i}}catch(e){}return null}
+function driveHtml(id,u,title){return `<figure class="video drv"><iframe src="https://drive.google.com/file/d/${esc(id)}/preview" title="${esc(title||'Video')}" loading="lazy" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe></figure><p class="drvl"><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">Video not loading? Open it in Google Drive ↗</a></p>`}
+function driveEmbeds(arr){const seen={};let o='';(arr||[]).forEach(r=>{const id=r.h&&driveId(r.h);if(id&&!seen[id]){seen[id]=1;o+=driveHtml(id,r.h,'Video')}});return o}
 function blocksHtml(list){
   let out='';
   for(let i=0;i<list.length;i++){
@@ -1463,7 +1469,7 @@ function blocksHtml(list){
 }
 function blockHtml(b){
   switch(b.type){
-    case 'paragraph':return `<p>${rt(b.text)}</p>`+(b.children?blocksHtml(b.children):'');
+    case 'paragraph':return `<p>${rt(b.text)}</p>`+driveEmbeds(b.text)+(b.children?blocksHtml(b.children):'');
     case 'heading_1':return `<h2>${rt(b.text)}</h2>`;
     case 'heading_2':return `<h3>${rt(b.text)}</h3>`;
     case 'heading_3':return `<h4>${rt(b.text)}</h4>`;
@@ -1481,8 +1487,9 @@ function blockHtml(b){
     case 'video':{if(!b.url)return '';const y=ytId(b.url);
       if(y)return `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(y)}" title="${esc(plainText(b.caption)||'Video')}" loading="lazy" allow="accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
       if(!b.external)return `<div class="video"><video controls playsinline preload="metadata" src="${esc(b.url)}"></video></div>`;
+      {const d=driveId(b.url);if(d)return driveHtml(d,b.url,plainText(b.caption)||'Video')}
       return linkCard(b.url,'Watch the video')}
-    case 'link':if(b.url&&isNotion(b.url)&&!isVipU())return '';if(b.map&&b.map.embed&&b.url)return mapHtml(b);return b.url?linkCard(b.url,/maps\.|goo\.gl\/maps|google\.[^/]+\/maps/i.test(b.url)?'Open the map':'Open link',plainText(b.caption)):'';
+    case 'link':if(b.url&&isNotion(b.url)&&!isVipU())return '';{const d=b.url&&driveId(b.url);if(d)return driveHtml(d,b.url,plainText(b.caption)||'Video')}if(b.map&&b.map.embed&&b.url)return mapHtml(b);return b.url?linkCard(b.url,/maps\.|goo\.gl\/maps|google\.[^/]+\/maps/i.test(b.url)?'Open the map':'Open link',plainText(b.caption)):'';
     case 'file':return b.url?linkCard(b.url,b.name||'Download file'):'';
     case 'table':return `<div class="tbl"><table>${(b.children||[]).map((r,ri)=>`<tr>${(r.cells||[]).map(c=>`<${ri===0&&b.header?'th':'td'}>${rt(c)}</${ri===0&&b.header?'th':'td'}>`).join('')}</tr>`).join('')}</table></div>`;
     case 'column_list':{const cols=(b.children||[]);return `<div class="cols" style="--n:${Math.min(Math.max(cols.length,1),4)}">${cols.map(c=>`<div class="col-b">${blocksHtml(c.children||[])}</div>`).join('')}</div>`}

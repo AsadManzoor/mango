@@ -154,3 +154,6 @@ Guests never see the "Open in Notion" button or any link that goes to notion.so 
   - **Yuki & Julie's Pocket Pets**: feed, pet and nap. Love and tummy drop slowly over real time.
 - High scores and pet stats are stored in each person's own browser (localStorage), so Gaja and Asad each have their own.
 - New files: `assets/pet-yuki.webp` and `assets/pet-julie.webp` (cropped sprites).
+
+## Google Drive videos
+Drive links (`drive.google.com/file/d/…`, `open?id=…`, `uc?id=…`) in a video, embed or bookmark block, or pasted as a link in a paragraph, now play inline through Drive's preview player, with a small "Open it in Google Drive" fallback link. The file must be shared as "Anyone with the link" or Drive will show a sign-in screen.
