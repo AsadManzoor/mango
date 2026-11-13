@@ -724,6 +724,10 @@ a.mention:active{transform:scale(.98)}
 .video{position:relative;aspect-ratio:16/9;border:2px solid var(--rose);border-radius:8px;overflow:hidden;background:#000;max-width:860px}
 .video iframe,.video video{position:absolute;inset:0;width:100%;height:100%;border:0}
 figure.video{margin:14px 0 4px}
+.vfile{margin:14px 0}
+.vfile .video{max-width:100%}
+.vfile figcaption{font-size:.85rem;margin-top:6px}
+.vfb{display:inline-block;margin-top:4px;font-size:.78rem;opacity:.75}
 .drvl{margin:4px 0 14px;font-size:.78rem;opacity:.75}
 .linkcard{display:flex;align-items:center;gap:14px;text-decoration:none;border:2px solid var(--rose);border-radius:8px;padding:14px 18px;background:var(--plum);max-width:560px;transition:transform .2s var(--ease)}
 .linkcard b{display:block;font:800 18px var(--serif);color:var(--rose)}
@@ -1450,6 +1454,9 @@ function rt(arr){return (arr||[]).map(r=>{if(r.m){const x=mention(r);return r.b?
 const plainText=(arr)=>(arr||[]).map(r=>r.t).join('');
 function ytId(u){try{const x=new URL(u);if(x.hostname==='youtu.be')return x.pathname.slice(1);if(/youtube\.com$/.test(x.hostname)){if(x.pathname==='/watch')return x.searchParams.get('v');const m=x.pathname.match(/^\/(embed|shorts|live)\/([\w-]{6,})/);if(m)return m[2]}}catch(e){}return null}
 function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return u}}
+// Direct video files hosted anywhere (e.g. an .mp4 on a shop's CDN) play in a normal <video> player.
+function isVideoFile(u){try{return /\.(mp4|m4v|webm|mov|ogv)$/i.test(new URL(u).pathname)}catch(e){return false}}
+function vimeoId(u){try{const x=new URL(u);if(/(^|\.)vimeo\.com$/.test(x.hostname)){const m=x.pathname.match(/^\/(?:video\/)?(\d{5,})/);if(m)return m[1]}}catch(e){}return null}
 // Google Drive file links (videos, mostly) become an inline player via Drive's /preview page.
 function driveId(u){try{const x=new URL(u);if(!/^(drive|docs)\.google\.com$/.test(x.hostname))return null;let m=x.pathname.match(/\/file\/(?:u\/\d+\/)?d\/([\w-]{10,})/);if(m)return m[1];if(/^\/(open|uc)$/.test(x.pathname)){const i=x.searchParams.get('id');if(i&&/^[\w-]{10,}$/.test(i))return i}}catch(e){}return null}
 function driveHtml(id,u,title){return `<figure class="video drv"><iframe src="https://drive.google.com/file/d/${esc(id)}/preview" title="${esc(title||'Video')}" loading="lazy" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe></figure><p class="drvl"><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">Video not loading? Open it in Google Drive ↗</a></p>`}
@@ -1488,6 +1495,8 @@ function blockHtml(b){
       if(y)return `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(y)}" title="${esc(plainText(b.caption)||'Video')}" loading="lazy" allow="accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
       if(!b.external)return `<div class="video"><video controls playsinline preload="metadata" src="${esc(b.url)}"></video></div>`;
       {const d=driveId(b.url);if(d)return driveHtml(d,b.url,plainText(b.caption)||'Video')}
+      {const v=vimeoId(b.url);if(v)return `<div class="video"><iframe src="https://player.vimeo.com/video/${esc(v)}" title="${esc(plainText(b.caption)||'Video')}" loading="lazy" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen></iframe></div>`}
+      if(isVideoFile(b.url))return `<figure class="vfile"><div class="video"><video controls playsinline preload="metadata" src="${esc(b.url)}"></video></div>${b.caption&&b.caption.length?`<figcaption>${rt(b.caption)}</figcaption>`:''}<a class="vfb" href="${esc(b.url)}" target="_blank" rel="noopener noreferrer">Video not playing? Open it ↗</a></figure>`;
       return linkCard(b.url,'Watch the video')}
     case 'link':if(b.url&&isNotion(b.url)&&!isVipU())return '';{const d=b.url&&driveId(b.url);if(d)return driveHtml(d,b.url,plainText(b.caption)||'Video')}if(b.map&&b.map.embed&&b.url)return mapHtml(b);return b.url?linkCard(b.url,/maps\.|goo\.gl\/maps|google\.[^/]+\/maps/i.test(b.url)?'Open the map':'Open link',plainText(b.caption)):'';
     case 'file':return b.url?linkCard(b.url,b.name||'Download file'):'';
