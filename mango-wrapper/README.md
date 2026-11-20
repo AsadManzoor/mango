@@ -157,3 +157,7 @@ Guests never see the "Open in Notion" button or any link that goes to notion.so 
 
 ## Google Drive videos
 Drive links (`drive.google.com/file/d/…`, `open?id=…`, `uc?id=…`) in a video, embed or bookmark block, or pasted as a link in a paragraph, now play inline through Drive's preview player, with a small "Open it in Google Drive" fallback link. The file must be shared as "Anyone with the link" or Drive will show a sign-in screen.
+
+## After Dark (NSFW entry pages)
+
+Opening an NSFW entry (VIPs only) switches the page to the "Noir Rose" look: near-black page, blush text, a slow 7s heartbeat glow at the edges, hand-stitched lace that draws itself along the top (under the header) and bottom edges every 7s, a soft shimmer sweeping across the lace, and a very faint static floral veil at the top. Leaving the entry restores the normal theme. It's all in `index.html` (search "After Dark"); `prefers-reduced-motion` shows the lace fully drawn and still.

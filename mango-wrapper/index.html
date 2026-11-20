@@ -826,6 +826,31 @@ body.ready #gaja.here{opacity:1}
 @media(max-width:900px){.hero{grid-template-columns:1fr;gap:20px}.arch{inset:34px 26px 104px}.hbubble{top:-2px;font-size:14px;padding:10px 14px;max-width:62%}.ticket{max-width:78%;padding:11px 18px}.ticket .big{font-size:23px}.stage{height:min(560px,120vw);max-width:520px;margin:0 auto;width:100%}}
 @media(max-width:640px){#gaja{--gs:90px}header.top .sync{display:none}header.top{padding:8px 12px}header.top .logo{font-size:16px}.chapter{padding-top:48px}.meter .bar{width:90px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+/* ===== After Dark: NSFW entry pages (Noir Rose lace) ===== */
+body{transition:background-color .9s ease}
+body.ad{--night:#050203;--plum:#0d0508;--plum2:#140a0e;--line:rgba(232,185,176,.28);--rose:#e8b9b0;--rosed:#d79a9a;--paper:#f3e6ea;--mute:#bda2a8;--bloodl:#d9647a}
+body.ad:before{opacity:.25}
+body.ad .panel{background:rgba(24,8,13,.72)}
+#ad{position:fixed;inset:0;z-index:25;pointer-events:none;display:none;overflow:hidden}
+body.ad #ad{display:block;animation:adin 1.4s ease both}
+@keyframes adin{from{opacity:0}to{opacity:1}}
+#ad .adp{position:absolute;inset:0;box-shadow:inset 0 0 110px 4px #7a2236;opacity:.2;animation:adbeat 7s ease-in-out infinite}
+@keyframes adbeat{0%,100%{opacity:.12}18%{opacity:.3}30%{opacity:.18}44%{opacity:.26}62%{opacity:.12}}
+#ad .adv{position:absolute;left:0;right:0;top:var(--hh,64px);height:55vh;opacity:.085;-webkit-mask:linear-gradient(180deg,#000 0,#000 30%,transparent 100%);mask:linear-gradient(180deg,#000 0,#000 30%,transparent 100%)}
+#ad .adv svg{display:block;width:100%;height:100%}
+#ad .adl{position:absolute;left:0;width:100%;height:36px;overflow:hidden}
+#ad .adl.t{top:var(--hh,64px)}
+#ad .adl.b{bottom:0;transform:scaleY(-1)}
+#ad .adl svg{position:absolute;left:0;top:0;display:block}
+#ad .lacepath{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:addraw 7s ease-in-out infinite}
+#ad .adb .lacepath{stroke:rgba(232,185,176,.7)}
+#ad .adh .lacepath{stroke:#fff1ec}
+#ad .l2{animation-delay:.45s}#ad .l3{animation-delay:.9s}
+@keyframes addraw{0%{stroke-dashoffset:1;opacity:1}28%,78%{stroke-dashoffset:0;opacity:1}92%{stroke-dashoffset:0;opacity:0}100%{stroke-dashoffset:1;opacity:0}}
+#ad .adh{-webkit-mask:linear-gradient(90deg,transparent,#000 50%,transparent) -60% 0/40% 100% no-repeat;mask:linear-gradient(90deg,transparent,#000 50%,transparent) -60% 0/40% 100% no-repeat;animation:adsw 9s ease-in-out infinite}
+#ad .adl.b .adh{animation-delay:4.5s}
+@keyframes adsw{0%{-webkit-mask-position:-60% 0;mask-position:-60% 0}45%,100%{-webkit-mask-position:160% 0;mask-position:160% 0}}
+@media(prefers-reduced-motion:reduce){#ad .lacepath{animation:none!important;stroke-dashoffset:0!important;opacity:1!important}#ad .adh{display:none}#ad .adp{animation:none!important;opacity:.18!important}}
 </style>
 </head>
 <body>
@@ -1404,7 +1429,27 @@ function route(){
   if(m)showPage(idk(m[1]));else showMain();
 }
 addEventListener('hashchange',route);
+/* ===== After Dark: darker page + stitched lace for NSFW entry pages ===== */
+let adEl=null,adW=0;
+function adBuild(){
+  const W=Math.max(320,innerWidth);
+  if(adEl&&Math.abs(W-adW)<40)return;adW=W;
+  const scal=(y,r,cls)=>{let d='M0 '+y;const n=Math.ceil(W/(r*2));for(let i=0;i<n;i++)d+=` a${r} ${r*.9} 0 0 0 ${r*2} 0`;return `<path class="lacepath ${cls}" pathLength="1" stroke-width="1.4" d="${d}"/>`};
+  let dr='';for(let x=15;x<W;x+=30)dr+=`M${x} 24 l0 9 m-3 0 a3 3 0 1 0 6 0 a3 3 0 1 0 -6 0 `;
+  const lace=scal(0,15,'l1')+scal(10,7.5,'l2')+`<path class="lacepath l3" pathLength="1" stroke-width="1" d="${dr}"/>`;
+  const sv=`<svg viewBox="0 0 ${W} 36" width="${W}" height="36" aria-hidden="true">${lace}</svg>`;
+  const edge=(c)=>`<div class="adl ${c}"><div class="adb">${sv}</div><div class="adh">${sv}</div></div>`;
+  const veil=`<div class="adv"><svg preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="adflo" width="56" height="56" patternUnits="userSpaceOnUse"><g fill="none" stroke="#e8b9b0" stroke-width="1" stroke-linecap="round"><circle cx="28" cy="28" r="2.2"/><ellipse id="adpet" cx="28" cy="17" rx="3.2" ry="7"/><use href="#adpet" transform="rotate(60 28 28)"/><use href="#adpet" transform="rotate(120 28 28)"/><use href="#adpet" transform="rotate(180 28 28)"/><use href="#adpet" transform="rotate(240 28 28)"/><use href="#adpet" transform="rotate(300 28 28)"/><path d="M0 0 L8 8 M56 0 L48 8 M0 56 L8 48 M56 56 L48 48" stroke-width=".8"/><circle cx="0" cy="0" r="1.6" fill="#e8b9b0"/><circle cx="56" cy="0" r="1.6" fill="#e8b9b0"/><circle cx="0" cy="56" r="1.6" fill="#e8b9b0"/><circle cx="56" cy="56" r="1.6" fill="#e8b9b0"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#adflo)"/></svg></div>`;
+  if(!adEl){adEl=document.createElement('div');adEl.id='ad';adEl.setAttribute('aria-hidden','true');document.body.appendChild(adEl);addEventListener('resize',()=>{if(document.body.classList.contains('ad'))adBuild()})}
+  adEl.innerHTML=`<div class="adp"></div>${veil}${edge('t')}${edge('b')}`;
+}
+function setAD(on){
+  const b=document.body;if(b.classList.contains('ad')===!!on)return;
+  if(on)adBuild();
+  b.classList.toggle('ad',!!on);
+}
 function showMain(){
+  setAD(false);
   const wasPage=onPage;onPage=false;
   vPage.hidden=true;vMain.hidden=false;document.title='Mango Shake × Boy Wonder';
   updateAway();
@@ -1421,6 +1466,7 @@ async function showPage(id){
   const my=++pageToken;
   vMain.hidden=true;vPage.hidden=false;window.scrollTo({top:0,behavior:'instant'});updateAway();
   const loc=locate(id), item=loc&&loc.item;
+  setAD(!!(item&&item.nsfw));
   vPage.innerHTML=`<div class="backbar"><a class="back" href="#memories" data-back>‹ Back</a></div><div style="height:44px"></div><div class="pg-head${item&&item.cover?'':' nocover'}" style="margin-top:28px">${item&&item.cover?`<div class="pg-cover"><img src="${esc(item.cover)}" alt="" referrerpolicy="no-referrer"></div>`:''}<div><h1 class="pg-title">${esc(item?item.name:'Loading…')}</h1></div></div><div class="blocks"><div class="skel" style="width:70%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:55%"></div></div>`;
   bindBack();
   if(demo){vPage.querySelector('.blocks').innerHTML=pgEmpty('Sub-pages need the live connection','This preview is showing demo data. On your real site, each item opens with its photos and notes from Notion.');return}
@@ -1528,6 +1574,7 @@ function linkCard(u,label,cap){return `<a class="linkcard" href="${esc(u)}" targ
 function countPhotos(list){let n=0;(list||[]).forEach(b=>{if(b.type==='image')n++;if(b.children)n+=countPhotos(b.children)});return n}
 function renderPage(p,kind){
   curPage={kind,title:p.title};
+  setAD(!!p.nsfw);
   document.title=`${p.title} · Mango Shake × Boy Wonder`;
   const pr=p.props||{};const st={Done:'st-done',Watched:'st-done',Visited:'st-done','In progress':'st-prog',Watching:'st-prog',Planning:'st-prog','Must Do':'st-must','Not Watched':'st-must','Not Visited':'st-must','Might Do':'st-might'};
   const meta=[pr.date?`<span class="num">${esc(rng({date:pr.date,dateEnd:pr.dateEnd}))}${parseD(pr.date).getFullYear()!==new Date().getFullYear()?', '+parseD(pr.date).getFullYear():''}</span>`:'',pr.status?`<span class="stamp ${st[pr.status]||''}">${esc(pr.status.toUpperCase())}</span>`:'',tags(pr.tags),pr.cost>0?`<span class="num">${esc(money(pr.cost))}</span>`:''].filter(Boolean).join('');
