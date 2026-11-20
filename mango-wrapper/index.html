@@ -679,11 +679,12 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 @media(hover:hover) and (pointer:fine){.spine:hover{transform:translateY(-14px) rotate(-3deg)}}
 .res{display:flex;flex-wrap:wrap;gap:14px}
 .res a{display:inline-block}
-.res a.reslink{display:flex;flex-direction:column;gap:2px;text-decoration:none;border:2px solid var(--rose);border-radius:14px;padding:10px 18px 11px;background:rgba(42,20,36,.6);color:var(--paper);max-width:100%;transition:background .16s var(--ease),transform .16s var(--ease)}
-.res a.reslink small{font:800 11px var(--sans);letter-spacing:.06em;color:var(--mute)}
-.res a.reslink b{font:700 17px/1.3 var(--sans);color:var(--rose);overflow-wrap:anywhere}
+.res a.reslink{display:inline-flex;align-items:center;gap:9px;text-decoration:none;border:1.5px solid var(--line);border-radius:12px;padding:8px 16px 8px 10px;background:rgba(255,184,207,.07);color:var(--paper);max-width:100%;font:700 16px/1.3 var(--sans);transition:background .16s var(--ease),border-color .16s var(--ease),transform .16s var(--ease)}
+.res a.reslink .ri{flex:none;width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-size:15px;line-height:1;background:rgba(255,255,255,.08);overflow:hidden}
+.res a.reslink .ri img{width:100%;height:100%;object-fit:contain;display:block}
+.res a.reslink .rt{overflow-wrap:anywhere;text-decoration:underline;text-decoration-color:rgba(255,184,207,.4);text-underline-offset:4px}
 .res a.reslink:active{transform:scale(.98)}
-@media(hover:hover) and (pointer:fine){.res a.reslink:hover{background:var(--plum2);transform:translateY(-2px)}}
+@media(hover:hover) and (pointer:fine){.res a.reslink:hover{background:var(--plum2);border-color:var(--rose);transform:translateY(-2px)}}
 footer.foot{text-align:center;padding:70px 20px 40px;color:var(--mute);font-weight:500;position:relative;z-index:1}
 footer.foot button{background:none;border:0;color:var(--rose);text-decoration:underline}
 
@@ -936,7 +937,7 @@ body.ad #ad{display:block;animation:adin 1.4s ease both}
     <section class="chapter" id="arcade" aria-labelledby="h-arcade"></section>
     <section class="chapter" id="resources" aria-labelledby="h-resources">
       <div class="ch-head"><h2 id="h-resources">Resources</h2></div>
-      <div class="res" id="resList"><a class="btn ghost" href="https://www.youtube.com/playlist?list=PLJsLTgbjEQyAYbuBPqzcxDx29xhlWKRh2" target="_blank" rel="noopener noreferrer">GSA &amp; AV Club: Reading List ↗</a></div>
+      <div class="res" id="resList"><a class="reslink" href="https://www.youtube.com/playlist?list=PLJsLTgbjEQyAYbuBPqzcxDx29xhlWKRh2" target="_blank" rel="noopener noreferrer" title="YouTube playlist"><span class="ri" aria-hidden="true">▶️</span><span class="rt">GSA &amp; AV Club: Reading List</span></a></div>
     </section>
   </main>
   <footer class="foot">Made for Gaja &amp; Asad · <button id="replay" type="button">Back to the opening</button> · <button id="switchRole" type="button">Switch Guest / VIP</button></footer>
@@ -1123,10 +1124,13 @@ function resKind(u){let x;try{x=new URL(u)}catch(e){return 'Link'}
   return h}
 function resLabel(l){const t=(l.label||'').trim();if(t&&!/^https?:\/\//i.test(t))return t;
   try{const x=new URL(l.url);return x.hostname.replace(/^www\./,'')+(x.pathname.length>1?x.pathname.replace(/\/$/,''):'')}catch(e){return l.url}}
+const resEmoji=(k)=>/YouTube/.test(k)?'▶️':/Doc$/.test(k)?'📄':/Sheet/.test(k)?'📊':/Slides/.test(k)?'🖼️':/Form/.test(k)?'📝':/Drive/.test(k)?'📁':/Spotify/.test(k)?'🎧':/Maps/.test(k)?'📍':/Notion/.test(k)?'📓':'🔗';
 function renderResources(){
   const box=$('#resList');if(!box||!DATA||!Array.isArray(DATA.resources))return; // no live list yet: keep the built-in link
   const ok=DATA.resources.filter(l=>l&&/^https?:\/\//i.test(l.url||''));
-  box.innerHTML=ok.length?ok.map(l=>`<a class="reslink" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"><small>${esc(resKind(l.url))}</small><b>${esc(resLabel(l))} ↗</b></a>`).join(''):'<div class="empty panel" style="flex:1">Links you add under “Resources” in Notion will show up here.</div>';
+  // each link is drawn like a Notion mention: small page icon + the page's own title
+  box.innerHTML=ok.length?ok.map(l=>{const k=resKind(l.url),ic=/^https?:\/\//i.test(l.icon||'')?`<img src="${esc(l.icon)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.textContent='${resEmoji(k)}'">`:resEmoji(k);
+    return `<a class="reslink" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" title="${esc(k)}"><span class="ri" aria-hidden="true">${ic}</span><span class="rt">${esc(resLabel(l))}</span><span class="sr"> (${esc(k)}, opens in a new tab)</span></a>`}).join(''):'<div class="empty panel" style="flex:1">Links you add under “Resources” in Notion will show up here.</div>';
 }
 function renderMemories(){
   const all=memPast(),past=all.filter(e=>MEMF==='all'||(e.tags||[]).includes(MEMF));

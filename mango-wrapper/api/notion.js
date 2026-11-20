@@ -63,9 +63,14 @@ async function linksOf(b, token, depth = 0) {
     // Notion splits a link into pieces when part of it is bold/italic, so glue neighbouring pieces with the same address back together
     let cur = null;
     for (const rt of (b[t].rich_text || [])) {
-      const href = rt.href || (rt.text && rt.text.link && rt.text.link.url) || null;
-      if (href && cur && cur.url === href) cur.label += rt.plain_text;
-      else if (href) { cur = { label: rt.plain_text, url: href }; found.push(cur); }
+      // A Notion "mention" holds the page title and favicon next to the address; for link mentions, plain_text is only the raw URL
+      const m = rt.type === 'mention' ? rt.mention || {} : null;
+      const lm = m && m.type === 'link_mention' ? m.link_mention || {} : null;
+      const href = rt.href || (lm && lm.href) || (m && m.link_preview && m.link_preview.url) || (rt.text && rt.text.link && rt.text.link.url) || null;
+      const label = (lm && lm.title) || rt.plain_text;
+      const icon = (lm && lm.icon_url) || null;
+      if (href && cur && cur.url === href) { if (!(lm && lm.title)) cur.label += label; }
+      else if (href) { cur = { label, url: href, ...(icon ? { icon } : {}) }; found.push(cur); }
       else cur = null;
     }
     if (!found.length) { // a bare pasted address that Notion didn't turn into a link
@@ -106,7 +111,7 @@ async function resourceLinks(token, vip) {
     for (const l of await linksOf(b, token)) {
       if (!l.url || seen.has(l.url) || (!vip && isNotionUrl(l.url))) continue; // Notion links are VIP-only, like everywhere else
       seen.add(l.url);
-      out.push({ label: clean(l.label), url: l.url });
+      out.push({ label: clean(l.label), url: l.url, ...(l.icon ? { icon: l.icon } : {}) });
     }
   }
   return out;
