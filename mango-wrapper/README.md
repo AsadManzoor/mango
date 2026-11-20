@@ -169,3 +169,7 @@ Memory Lane has a **Show** filter (All / Together / Apart, with counts) above th
 ## Shy mode (After Dark pages)
 
 On NSFW entry pages, the cursor-following Gaja and Asad blush, tuck their heads down a little, and use bashful lines instead of the usual "look at our cute photos" ones. The lines live in `LN.g.shy` and `LN.a.shy` (photos, nophotos, idle, swap). Add a line there to change what they say. They go back to normal as soon as you leave the page.
+
+## Resources (live from Notion)
+
+The **Resources** section at the bottom now builds itself from the main Notion page. Add a link under the "Resources" heading and it appears on the site within about a minute, with a small label for the kind of link (YouTube playlist, Google Doc, Google Sheet, Spotify and so on). It picks up pasted links, bookmarks, embeds and Notion page links, and stops at the next divider or heading. Notion-page links only show for VIPs, like everywhere else on the site. If Notion can't be reached, the built-in YouTube link is shown. The code is `resourceLinks` in `api/notion.js` and `renderResources` in `index.html`.

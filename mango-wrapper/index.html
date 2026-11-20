@@ -677,7 +677,13 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 .spine{writing-mode:vertical-rl;padding:16px 11px;border:2px solid var(--night);border-bottom:0;border-radius:5px 5px 0 0;font:800 16px var(--serif);color:#fff;text-decoration:none;transition:transform .25s var(--ease)}
 .spine:active{transform:scale(.97)}
 @media(hover:hover) and (pointer:fine){.spine:hover{transform:translateY(-14px) rotate(-3deg)}}
+.res{display:flex;flex-wrap:wrap;gap:14px}
 .res a{display:inline-block}
+.res a.reslink{display:flex;flex-direction:column;gap:2px;text-decoration:none;border:2px solid var(--rose);border-radius:14px;padding:10px 18px 11px;background:rgba(42,20,36,.6);color:var(--paper);max-width:100%;transition:background .16s var(--ease),transform .16s var(--ease)}
+.res a.reslink small{font:800 11px var(--sans);letter-spacing:.06em;color:var(--mute)}
+.res a.reslink b{font:700 17px/1.3 var(--sans);color:var(--rose);overflow-wrap:anywhere}
+.res a.reslink:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){.res a.reslink:hover{background:var(--plum2);transform:translateY(-2px)}}
 footer.foot{text-align:center;padding:70px 20px 40px;color:var(--mute);font-weight:500;position:relative;z-index:1}
 footer.foot button{background:none;border:0;color:var(--rose);text-decoration:underline}
 
@@ -930,7 +936,7 @@ body.ad #ad{display:block;animation:adin 1.4s ease both}
     <section class="chapter" id="arcade" aria-labelledby="h-arcade"></section>
     <section class="chapter" id="resources" aria-labelledby="h-resources">
       <div class="ch-head"><h2 id="h-resources">Resources</h2></div>
-      <div class="res"><a class="btn ghost" href="https://www.youtube.com/playlist?list=PLJsLTgbjEQyAYbuBPqzcxDx29xhlWKRh2" target="_blank" rel="noopener noreferrer">GSA &amp; AV Club: Reading List ↗</a></div>
+      <div class="res" id="resList"><a class="btn ghost" href="https://www.youtube.com/playlist?list=PLJsLTgbjEQyAYbuBPqzcxDx29xhlWKRh2" target="_blank" rel="noopener noreferrer">GSA &amp; AV Club: Reading List ↗</a></div>
     </section>
   </main>
   <footer class="foot">Made for Gaja &amp; Asad · <button id="replay" type="button">Back to the opening</button> · <button id="switchRole" type="button">Switch Guest / VIP</button></footer>
@@ -980,7 +986,7 @@ body.ad #ad{display:block;animation:adin 1.4s ease both}
 <script>
 /* ============ DEMO DATA (only used when /api/notion can't be reached) ============ */
 const iso=(d)=>{const t=new Date();t.setDate(t.getDate()+d);return t.toISOString().slice(0,10)};
-const DEMO={fetchedAt:new Date().toISOString(),errors:[],banner:null,
+const DEMO={fetchedAt:new Date().toISOString(),errors:[],banner:null,resources:[{label:'GSA & AV Club: Reading List',url:'https://www.youtube.com/playlist?list=PLJsLTgbjEQyAYbuBPqzcxDx29xhlWKRh2'}],
  dates:[{id:'d1',name:'Haunted house night',date:iso(4),tags:['Together']},{id:'d2',name:'Anime con (Gaja goes solo)',date:iso(11),tags:['Apart']},{id:'d3',name:'Sushi + Studio Ghibli',date:iso(16),tags:['Potential']},{id:'d4',name:'Pumpkin carving',date:iso(-3),tags:['Together']},{id:'d5',name:'Cabin weekend',date:iso(30),dateEnd:iso(32),tags:['Together']}],
  activities:[{id:'a1',name:'Escape room: haunted asylum',status:'Must Do',tags:['Public Activity'],cost:45},{id:'a2',name:'Cook mango sticky rice',status:'Might Do',tags:['Food','Personal Activity'],cost:20},{id:'a3',name:'Sticker-making night',status:'In progress',tags:['Personal Activity'],cost:15},{id:'a4',name:'Ramen crawl',status:'Done',tags:['Food'],cost:60,hasDebrief:true}],
  food:[{id:'f1',name:'Biryani House',status:'Tried It',cost:42,rateG:5,rateA:4},{id:'f2',name:'Tiny Ramen Bar',status:'Want to Try It',cost:25},{id:'f3',name:'Salem Seafood Shack',status:'Tried It',cost:55,rateG:3,rateA:5}],
@@ -1102,6 +1108,26 @@ const stampSvg=(n)=>{const rot=[-13,-9,-16][n%3];return `<span class="stampov" a
 <g fill="none" stroke="#d1304e" stroke-width="3.5" stroke-linecap="round"><path d="M44 205 H112" stroke-dasharray="2 9"/><path d="M188 205 H256" stroke-dasharray="2 9"/></g>
 <path fill="#d1304e" transform="translate(150 204) rotate(-8) scale(.62)" d="M-24 4 l30 -4 l-12 -22 l7 -2 l22 22 l22 -6 c5 -1 7 3 2 6 l-22 10 l-8 22 l-7 2 l2 -22 l-26 8 l-2 -6 z"/></g>
 <g filter="url(#stWob)"><g transform="translate(240 62) rotate(10) scale(.92)" fill="none" stroke="#fff6e0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle r="40"/><circle cx="-14" cy="-4" r="2.6" fill="#fff6e0"/><circle cx="14" cy="-4" r="2.6" fill="#fff6e0"/><path d="M-17 24 Q0 6 17 24"/><path d="M21 4 q8 12 0 17 q-8 -5 0 -17z" fill="#9ec5ff" stroke="#cfe3ff" stroke-width="3"/></g></g></svg></span>`};
+/* ---- Resources: whatever links sit under "Resources" in Notion ---- */
+function resKind(u){let x;try{x=new URL(u)}catch(e){return 'Link'}
+  const h=x.hostname.replace(/^www\./,''),pa=x.pathname;
+  if(/(^|\.)youtube\.com$|^youtu\.be$/.test(h))return /playlist/.test(pa)?'YouTube playlist':'YouTube';
+  if(h==='docs.google.com')return /\/document\//.test(pa)?'Google Doc':/\/spreadsheets\//.test(pa)?'Google Sheet':/\/presentation\//.test(pa)?'Google Slides':/\/forms\//.test(pa)?'Google Form':'Google Docs';
+  if(h==='drive.google.com')return 'Google Drive';
+  if(h==='open.spotify.com'||h==='spotify.com')return 'Spotify';
+  if(/(^|\.)(notion\.so|notion\.site|notion\.com)$/.test(h))return 'Notion';
+  if(/(^|\.)instagram\.com$/.test(h))return 'Instagram';
+  if(/(^|\.)letterboxd\.com$/.test(h))return 'Letterboxd';
+  if(/(^|\.)goodreads\.com$/.test(h))return 'Goodreads';
+  if(/(^|\.)(maps\.app\.goo\.gl|goo\.gl)$/.test(h)||(h==='google.com'&&/^\/maps/.test(pa)))return 'Google Maps';
+  return h}
+function resLabel(l){const t=(l.label||'').trim();if(t&&!/^https?:\/\//i.test(t))return t;
+  try{const x=new URL(l.url);return x.hostname.replace(/^www\./,'')+(x.pathname.length>1?x.pathname.replace(/\/$/,''):'')}catch(e){return l.url}}
+function renderResources(){
+  const box=$('#resList');if(!box||!DATA||!Array.isArray(DATA.resources))return; // no live list yet: keep the built-in link
+  const ok=DATA.resources.filter(l=>l&&/^https?:\/\//i.test(l.url||''));
+  box.innerHTML=ok.length?ok.map(l=>`<a class="reslink" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"><small>${esc(resKind(l.url))}</small><b>${esc(resLabel(l))} ↗</b></a>`).join(''):'<div class="empty panel" style="flex:1">Links you add under “Resources” in Notion will show up here.</div>';
+}
 function renderMemories(){
   const all=memPast(),past=all.filter(e=>MEMF==='all'||(e.tags||[]).includes(MEMF));
   const nT=all.filter(e=>(e.tags||[]).includes('Together')).length,nA=all.filter(isApart).length;
@@ -1394,7 +1420,7 @@ function petsInit(){
   decay();show();setInterval(()=>{if(!sleeping){decay();show()}},60000);
 }
 function render(){
-  renderTicket();renderDays();renderDates();renderMemories();renderActivities();renderFood();renderTravel();
+  renderTicket();renderDays();renderDates();renderMemories();renderActivities();renderFood();renderTravel();renderResources();
   renderShows();
   renderMovies();
   renderBooks();renderArcade();observe();settleThumbs(document);loadThumbs();
