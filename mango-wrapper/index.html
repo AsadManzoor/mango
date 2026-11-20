@@ -156,6 +156,12 @@ button,a,.chip{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,18
 @keyframes g-armd2{from{rotate:6deg}to{rotate:-6deg}}
 .gj.dance .rat{animation:g-ratd .62s ease-in-out infinite}
 @keyframes g-ratd{0%,100%{rotate:-5deg}50%{rotate:5deg;translate:0 -.6%}}
+/* shy mode: on NSFW pages the companion blushes and ducks her head a little */
+.gj .blush i{position:absolute;width:13%;height:5.4%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,86,128,.78),rgba(255,86,128,.38) 48%,rgba(255,86,128,0) 72%);opacity:0;transition:opacity .7s var(--ease)}
+.gj.g .blush i:nth-child(1){left:40%;top:45.5%}.gj.g .blush i:nth-child(2){left:68.8%;top:44.7%}
+.gj.a .blush i:nth-child(1){left:37.5%;top:44.3%}.gj.a .blush i:nth-child(2){left:78.8%;top:45.1%}
+body.ad #gaja .gj .blush i{opacity:1}
+body.ad #gaja .gj:not(.talking):not(.dance) .hd{translate:0 1.1%;rotate:-2.4deg;transition:translate .6s var(--ease),rotate .6s var(--ease)}
 /* walking after the cursor */
 .gj.walking .ll{animation:g-lla .46s ease-in-out infinite alternate}
 .gj.walking .lr{animation:g-llb .46s ease-in-out infinite alternate}
@@ -657,6 +663,15 @@ h1.mast .b{display:block;color:var(--blood);padding-left:.8em}
 @media(hover:hover) and (pointer:fine){.pol:hover,.pol:focus-visible{transform:perspective(900px) translateY(-14px) rotate(calc(var(--r,0deg)*.25)) scale(1.1) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));box-shadow:0 26px 36px rgba(0,0,0,.6)}}
 @media(max-width:640px){.pols{grid-template-columns:repeat(auto-fill,minmax(138px,1fr))}.pol{padding:8px 8px 0}.pol .cap{min-height:62px}}
 
+/* memory lane: Together / Apart filter + the long-distance stamp on Apart polaroids */
+.memf{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 6px}
+.memf .fl{font:800 12px var(--sans);letter-spacing:.08em;color:var(--mute);margin-right:4px}
+.memf .fcount{margin-left:auto;font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+.pol.apart .ph{filter:sepia(.12) contrast(.92) saturate(.7) brightness(.92)}
+.pol .stampov{position:absolute;inset:0;z-index:4;pointer-events:none}
+.pol .stampov svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pol.apart .nsfw{z-index:5}
+
 /* books (old) */
 .shelf{display:flex;align-items:flex-end;gap:7px;flex-wrap:wrap;padding:26px 20px 0;border-bottom:14px solid var(--line);background:linear-gradient(var(--plum),var(--plum2))}
 .spine{writing-mode:vertical-rl;padding:16px 11px;border:2px solid var(--night);border-bottom:0;border-radius:5px 5px 0 0;font:800 16px var(--serif);color:#fff;text-decoration:none;transition:transform .25s var(--ease)}
@@ -1077,12 +1092,28 @@ const hwHash=(str)=>{let h=7;for(const c of String(str))h=(h*31+c.charCodeAt(0))
 function hw(str){let sd=hwHash(str)||7;const r=()=>{sd=(sd*9301+49297)%233280;return sd/233280};
   return String(str).split(' ').map(w=>`<span style="white-space:nowrap">${[...w].map(c=>`<i style="transform:translateY(${(r()*3-1.5).toFixed(1)}px) rotate(${(r()*6-3).toFixed(1)}deg)">${esc(c)}</i>`).join('')}</span>`).join(' ')}
 const polDate=(e)=>{const d=parseD(e.date);return rng(e)+' ’'+String(d.getFullYear()).slice(2)};
+let MEMF='all';
+const isApart=(e)=>(e.tags||[]).includes('Apart');
+/* the stamp: big red ink, a chalk-white sad face (no brows) in the corner. Filters are defined once and shared. */
+const STAMP_DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="stInk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3 3.1" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter><filter id="stWob"><feTurbulence type="turbulence" baseFrequency=".035" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3.2"/></filter></defs></svg>';
+const stampSvg=(n)=>{const rot=[-13,-9,-16][n%3];return `<span class="stampov" aria-hidden="true"><svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice">
+<g transform="rotate(${rot} 150 150)" filter="url(#stInk)"><g fill="none" stroke="#d1304e" stroke-width="7"><rect x="18" y="38" width="264" height="224" rx="14"/><rect x="30" y="50" width="240" height="200" rx="8" stroke-width="2.5"/></g>
+<g fill="#e0344f" font-family="Zen Maru Gothic,Arial Black,sans-serif" font-weight="900" text-anchor="middle"><text x="150" y="119" font-size="54" letter-spacing="3">LONG</text><text x="150" y="174" font-size="43" letter-spacing="1">DISTANCE</text><text x="150" y="238" font-size="15" letter-spacing="6" font-weight="800">APART · MISSED</text></g>
+<g fill="none" stroke="#d1304e" stroke-width="3.5" stroke-linecap="round"><path d="M44 205 H112" stroke-dasharray="2 9"/><path d="M188 205 H256" stroke-dasharray="2 9"/></g>
+<path fill="#d1304e" transform="translate(150 204) rotate(-8) scale(.62)" d="M-24 4 l30 -4 l-12 -22 l7 -2 l22 22 l22 -6 c5 -1 7 3 2 6 l-22 10 l-8 22 l-7 2 l2 -22 l-26 8 l-2 -6 z"/></g>
+<g filter="url(#stWob)"><g transform="translate(240 62) rotate(10) scale(.92)" fill="none" stroke="#fff6e0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle r="40"/><circle cx="-14" cy="-4" r="2.6" fill="#fff6e0"/><circle cx="14" cy="-4" r="2.6" fill="#fff6e0"/><path d="M-17 24 Q0 6 17 24"/><path d="M21 4 q8 12 0 17 q-8 -5 0 -17z" fill="#9ec5ff" stroke="#cfe3ff" stroke-width="3"/></g></g></svg></span>`};
 function renderMemories(){
-  const past=memPast();
-  $('#memories').innerHTML=head('memories','Memory Lane','Every date we’ve already lived, oldest first. Open one for the photos and the story.')+
-   `<div class="pols reveal">${past.map((e,n)=>{const h=hue(e.name);
-     return `<a class="pol" href="${href(e)}" aria-label="${esc(e.name)}, ${esc(rng(e))}" style="--z:${n+1};--r:${(((n*47)%9)-4)*1.5}deg;--dy:${((n*29)%5)*4-8}px;--tr:${n%2?4:-5}deg"><span class="tape${n%3===1?' g':''}" aria-hidden="true"></span><div class="ph" style="background:linear-gradient(150deg,hsl(${h} 50% 42%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}${nsfwTag(e)}</div><div class="cap" aria-hidden="true"><span class="pt">${hw(e.name)}</span><span class="pd">${hw(polDate(e))}</span></div><span class="glare"></span></a>`}).join('')||'<div class="empty panel" style="grid-column:1/-1">Memories will gather here as your dates pass.</div>'}</div>`;
+  const all=memPast(),past=all.filter(e=>MEMF==='all'||(e.tags||[]).includes(MEMF));
+  const nT=all.filter(e=>(e.tags||[]).includes('Together')).length,nA=all.filter(isApart).length;
+  const chip=(k,l,c)=>`<button type="button" class="chip${MEMF===k?' on':''}" aria-pressed="${MEMF===k}" data-memf="${k}">${l}${c==null?'':` · ${c}`}</button>`;
+  const bar=(nT||nA)?`<div class="memf reveal" role="group" aria-label="Filter memories"><span class="fl">Show</span>${chip('all','All',all.length)}${chip('Together','Together',nT)}${chip('Apart','Apart',nA)}<span class="fcount" aria-live="polite">${past.length===all.length?`${all.length} memories`:`Showing ${past.length} of ${all.length}`}</span></div>`:'';
+  $('#memories').innerHTML=head('memories','Memory Lane','Every date we’ve already lived, oldest first. Open one for the photos and the story.')+STAMP_DEFS+bar+
+   `<div class="pols reveal">${past.map((e,n)=>{const h=hue(e.name),ap=isApart(e);
+     return `<a class="pol${ap?' apart':''}" href="${href(e)}" aria-label="${esc(e.name)}, ${esc(rng(e))}${ap?', apart':''}" style="--z:${n+1};--r:${(((n*47)%9)-4)*1.5}deg;--dy:${((n*29)%5)*4-8}px;--tr:${n%2?4:-5}deg"><span class="tape${n%3===1?' g':''}" aria-hidden="true"></span><div class="ph" style="background:linear-gradient(150deg,hsl(${h} 50% 42%),hsl(${(h+60)%360} 45% 16%))">${thumb(e)}${nsfwTag(e)}${ap?stampSvg(n):''}</div><div class="cap" aria-hidden="true"><span class="pt">${hw(e.name)}</span><span class="pd">${hw(polDate(e))}</span></div><span class="glare"></span></a>`}).join('')||`<div class="empty panel" style="grid-column:1/-1">${all.length?'Nothing in this filter yet. Tap “All” to see every memory.':'Memories will gather here as your dates pass.'}</div>`}</div>`;
 }
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-memf]');if(!b)return;
+  MEMF=b.dataset.memf;renderMemories();observe();settleThumbs($('#memories'));
+  const nb=$('#memories').querySelector(`[data-memf="${MEMF}"]`);if(nb)nb.focus({preventScroll:true})});
 /* ---- sort + show/hide chips for Activities, Shows, Movies and Books ---- */
 const VIEWS={};['activities','food','travel','shows','movies','books'].forEach(k=>VIEWS[k]={sort:'notion',hide:new Set()});
 const ORDER={activities:['Might Do','Must Do','In progress','Done'],food:['Want to Try It','Tried It'],travel:['Not Visited','Planning','Visited'],shows:['Not Watched','Watching','Watched'],movies:['Not Watched','Watching','Watched']};
@@ -1609,8 +1640,8 @@ function mountGaja(el,opt={}){
   el.classList.add('gj',w);if(opt.alt)el.classList.add('alt');if(opt.nodance)el.classList.add('nodance');
   const I=(n,c='')=>`<img class="q ${c}" src="${gsrc(d+n)}" alt="" width="800" height="1230" decoding="async" draggable="false">`;
   el.innerHTML=(w==='g'
-   ?`<div class="q rt"><div class="q lg lr">${I('02-leg-r')}</div><div class="q lg ll">${I('03-leg-l')}</div><div class="q tr"><div class="q hr">${I('01-hair')}</div>${I('04-body','bd')}<div class="q hd">${I('05-face','fc')}${I('09-lids','lids')}<div class="q rat">${I('08-rat')}</div></div><div class="q ap">${I('06-phone')}</div><div class="q al">${I('07-laptop')}</div></div></div>`
-   :`<div class="q rt"><div class="q lg lr">${I('01-leg-r')}</div><div class="q lg ll">${I('02-leg-l')}</div><div class="q tr">${I('03-torso','bd')}${I('04-jacket','bd')}<div class="q al">${I('05-cyl')}</div><div class="q hd">${I('06-head','fc')}${I('07-lids','lids')}<div class="q rat">${I('08-julie')}</div></div><div class="q ap">${I('09-phone')}</div></div></div>`)
+   ?`<div class="q rt"><div class="q lg lr">${I('02-leg-r')}</div><div class="q lg ll">${I('03-leg-l')}</div><div class="q tr"><div class="q hr">${I('01-hair')}</div>${I('04-body','bd')}<div class="q hd">${I('05-face','fc')}${I('09-lids','lids')}<div class="q blush"><i></i><i></i></div><div class="q rat">${I('08-rat')}</div></div><div class="q ap">${I('06-phone')}</div><div class="q al">${I('07-laptop')}</div></div></div>`
+   :`<div class="q rt"><div class="q lg lr">${I('01-leg-r')}</div><div class="q lg ll">${I('02-leg-l')}</div><div class="q tr">${I('03-torso','bd')}${I('04-jacket','bd')}<div class="q al">${I('05-cyl')}</div><div class="q hd">${I('06-head','fc')}${I('07-lids','lids')}<div class="q blush"><i></i><i></i></div><div class="q rat">${I('08-julie')}</div></div><div class="q ap">${I('09-phone')}</div></div></div>`)
    +(opt.zz?'<span class="zz" aria-hidden="true"><i>z</i><i>Z</i><i>z</i></span>':'');
   RIGS.push(el);if(musicOn&&!opt.nodance)el.classList.add('dance');
   return el;
@@ -1645,8 +1676,19 @@ const LN={
    travel:['Stamped places are ones we’ve been to. Let’s fill up the rest.','Planning is the fun part. Dreaming counts too.'],
    shows:['Open a show to see its notes.','Hover over a case and the disc slides out!'],
    movies:['Horror for Asad, romance for me. I’ll sit through every jump scare for him.','Hover over a tape and it slides out of its sleeve. Tap me, then the clapper, for a surprise movie pick.'],
-   books:['Tap a book to open the notes.','Everything here updates from Notion.'],arcade:['Welcome to the arcade! Everything here is made from our own dates and photos.','Try the gacha when we can’t decide what to do tonight.'],resources:['Extra goodies live down here.']}},
+   books:['Tap a book to open the notes.','Everything here updates from Notion.'],arcade:['Welcome to the arcade! Everything here is made from our own dates and photos.','Try the gacha when we can’t decide what to do tonight.'],resources:['Extra goodies live down here.']},
+  shy:{
+   photos:n=>n>3?`${n} photos. I’m looking through my fingers. Okay, a little less through my fingers.`:'Oh. Oh no. Okay, hi. I’m a little pink. Just look at the photo, not at me.',
+   nophotos:'Nothing to see here, and I’m weirdly relieved. Let’s keep this one just ours.',
+   idle:['Is it warm in here? It’s warm in here. It’s the lighting.','I’m not blushing. I’m just… vividly lit.','You’re still reading? Okay. Okay. I’m fine. Totally fine.','Pretend you didn’t see my face just now.','Yuki’s covering her eyes. Good rat.','I’m the brave one, remember? Give me a second and I’ll get there.'],
+   swap:['Hi! Don’t mind my face. It does this.','Oh! It’s my turn? In here? Okay, okay.','Asad’s hiding behind his beanie. I’ll take over.']}},
+
  a:{name:'Asad',
+  shy:{
+   photos:n=>n>3?`${n} photos. I’m very interested in the ceiling right now.`:'Oh. Um. This one’s a lot for me to look at. I’m going to be quiet and blush.',
+   nophotos:'Nothing here to see. I’m a little relieved, honestly.',
+   idle:['Julie’s hiding in my hair. She’s shy too.','Is it warm in here, or is it just us?','I get so bashful with these ones. Gaja doesn’t, which says a lot.','Thank you for being gentle with these pages. They mean a lot to us.','I’m fine. Totally fine. Just a bit pink under the beard.','I’ll look at the screen again in a minute. Take your time.'],
+   swap:['Hi. Don’t mind me, I’m a little pink.','Oh, it’s me now? Okay. Hi. Hello.','Gaja’s covering her face. I’ve got you.']},
   welcome:['Hi, welcome in. Tap me if you’d like some tricks.'],back:['Welcome back. I saved you a seat.','Hi again. I’m glad you’re here.'],
   photos:n=>n>3?`${n} photos. I love looking at these. Tap any to see it bigger.`:'Aw, look at this one. I could stare at it all day.',
   nophotos:'Nothing here yet. Maybe we can add some in Notion.',day:'Tap a date to open its photos and notes, whenever you’re ready.',
@@ -1669,7 +1711,7 @@ const LN={
    movies:['Horror’s my comfort food. Gaja lets me hold her hand through the scary parts.','Tap me, then the clapper, and I’ll find tonight’s movie.'],
    books:['Tap a book to read the notes.','It all updates from Notion on its own.'],arcade:['Welcome to the arcade. Everything here is made from our own memories.','Maybe the gacha can pick tonight’s plan for us.'],resources:['A few extras live down here.']}}
 };
-const T=(k,...a)=>{const v=LN[who][k];return typeof v==='function'?v(...a):Array.isArray(v)?pick(v):v};
+const T=(k,...a)=>{const sh=document.body.classList.contains('ad')&&LN[who].shy,v=(sh&&sh[k]!==undefined)?sh[k]:LN[who][k];return typeof v==='function'?v(...a):Array.isArray(v)?pick(v):v};
 function loadGaja(){return Promise.all(GL.map(n=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=gsrc(n)})))}
 
 /* ============ SPLASH ============ */

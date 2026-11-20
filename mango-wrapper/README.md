@@ -161,3 +161,11 @@ Drive links (`drive.google.com/file/d/…`, `open?id=…`, `uc?id=…`) in a vid
 ## After Dark (NSFW entry pages)
 
 Opening an NSFW entry (VIPs only) switches the page to the "Noir Rose" look: near-black page, blush text, a slow 7s heartbeat glow at the edges, hand-stitched lace that draws itself along the top (under the header) and bottom edges every 7s, a soft shimmer sweeping across the lace, and a very faint static floral veil at the top. Leaving the entry restores the normal theme. It's all in `index.html` (search "After Dark"); `prefers-reduced-motion` shows the lace fully drawn and still.
+
+## Memory Lane: Together / Apart
+
+Memory Lane has a **Show** filter (All / Together / Apart, with counts) above the polaroids. It reads each date's Notion `Tags`. Polaroids tagged **Apart** get a red "LONG DISTANCE" ink stamp across the photo (the photo is slightly dimmed) and a chalk-white sad face in the corner. Together polaroids are unchanged. The stamp is drawn in code (`stampSvg` in `index.html`), so there are no extra image files.
+
+## Shy mode (After Dark pages)
+
+On NSFW entry pages, the cursor-following Gaja and Asad blush, tuck their heads down a little, and use bashful lines instead of the usual "look at our cute photos" ones. The lines live in `LN.g.shy` and `LN.a.shy` (photos, nophotos, idle, swap). Add a line there to change what they say. They go back to normal as soon as you leave the page.
